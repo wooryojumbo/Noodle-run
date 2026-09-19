@@ -944,6 +944,14 @@
   </div>
 
   <script>
+    // 시차 오류 없이 YYYY-MM-DD 형식으로 변환하는 함수
+function getLocalDateKey(date) {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, '0');
+  const d = String(date.getDate()).padStart(2, '0');
+  return `${y}-${m}-${d}`;
+}
+    
     // D-Day 계산 (2027년 1월 15일)
     function updateDday() {
       const targetDate = new Date('2027-01-15T00:00:00');
@@ -1304,7 +1312,7 @@
         const dateFormatted = `${d.getMonth()+1}/${d.getDate()}(${dayNames[i]})`;
         headerTr.innerHTML += `<th>${dateFormatted}</th>`;
 
-        const dateKey = d.toISOString().split('T')[0];
+        const dateKey = getLocalDateKey(d);
         const savedJournal = localStorage.getItem(`journal_${dateKey}`) || '';
         const savedSat = parseInt(localStorage.getItem(`sat_${dateKey}`) || '0');
 
@@ -1392,7 +1400,7 @@
 
       for (let day = 1; day <= lastDay.getDate(); day++) {
         const dateObj = new Date(year, month, day);
-        const dateKey = dateObj.toISOString().split('T')[0];
+        const dateKey = getLocalDateKey(dateObj);
 
         const sec = parseInt(localStorage.getItem(`study_time_${dateKey}`) || '0');
         const hrs = Math.floor(sec / 3600);
