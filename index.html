@@ -1426,12 +1426,12 @@ function getLocalDateKey(date) {
         let timeBadgeHTML = (sec > 0) ? `<div class="cal-study-time-badge">⏱️ ${hrs}시간 ${mins}분</div>` : '';
 
         grid.innerHTML += `
-          <div class="cal-cell ${heatClass}" onclick="openPlannerModal('${dateKey}')">
-            <div class="cal-date-num">${day}</div>
-            ${timeBadgeHTML}
-            <ul class="cal-todo-list" onclick="event.stopPropagation()">${todoHTML}</ul>
-          </div>
-        `;
+  <div class="cal-cell ${heatClass}" onclick="openPlannerModal('${dateKey}')">
+    <div class="cal-date-num">${day}</div>
+    ${timeBadgeHTML}
+    <ul class="cal-todo-list" style="pointer-events: none;">${todoHTML}</ul>
+  </div>
+`;
       }
     }
 
