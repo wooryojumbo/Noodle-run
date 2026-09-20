@@ -141,7 +141,16 @@
     .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
     .card-front, .card-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box; font-size: 18px; font-weight: bold; border-radius: 10px; }
     .card-back { background-color: #fff9f9; color: #d63031; transform: rotateY(180deg); }
-    .star-badge { position: absolute; top: 12px; left: 15px; font-size: 24px; cursor: pointer; z-index: 10; }
+    /* 기존 스타일을 아래와 같이 수정 */
+.star-badge { 
+  position: absolute; 
+  top: 12px; 
+  left: 15px; 
+  font-size: 24px; 
+  cursor: pointer; 
+  z-index: 20; /* 터치 존(z-index: 5)보다 높은 값 부여 */
+  pointer-events: auto; /* 클릭 이벤트 보장 */
+}
 
     .touch-zone-left, .touch-zone-right { position: absolute; top: 0; bottom: 0; width: 25%; z-index: 5; }
     .touch-zone-left { left: 0; }
@@ -246,6 +255,7 @@
         <div class="flashcard-inner">
           <div class="card-front">
             <!-- 변경 전: onclick="cycleStar(event)" 로 제대로 전달되는지 확인 -->
+<!-- 카드의 star-badge 부분 -->
 <span class="star-badge" id="card-star" onclick="cycleStar(event)">❤️</span>
             <div id="card-q">질문이 표시됩니다.</div>
             <div style="position:absolute; bottom:8px; font-size:11px; color:#aaa; font-weight:normal;">👈 왼쪽 25%: 이전 | 중앙: 뒤집기 | 오른쪽 25%: 다음 👉</div>
@@ -510,20 +520,23 @@
     }
 
     function handleCardTouch(evt, el) {
-      if (evt.target.classList.contains('star-badge')) return;
-      
-      const rect = el.getBoundingClientRect();
-      const clickX = evt.clientX - rect.left;
-      const width = rect.width;
+  // 클릭한 타겟이 star-badge이거나 그 자식일 경우 터치 동작 중단
+  if (evt.target.classList.contains('star-badge') || evt.target.closest('.star-badge')) {
+    return;
+  }
+  
+  const rect = el.getBoundingClientRect();
+  const clickX = evt.clientX - rect.left;
+  const width = rect.width;
 
-      if (clickX < width * 0.25) {
-        prevCard();
-      } else if (clickX > width * 0.75) {
-        nextCard();
-      } else {
-        el.classList.toggle('flipped');
-      }
-    }
+  if (clickX < width * 0.25) {
+    prevCard();
+  } else if (clickX > width * 0.75) {
+    nextCard();
+  } else {
+    el.classList.toggle('flipped');
+  }
+}
 
     // 1. 카드에 중요도(하트) 표시 업데이트
 function updateCard() {
