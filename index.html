@@ -156,7 +156,8 @@
   transform: translateZ(1px); /* 카드 입체 레이어보다 3D 공간상 앞으로 끌어올림 */
 }
 
-    .touch-zone-left, .touch-zone-right { position: absolute; top: 0; bottom: 0; width: 25%; z-index: 5; }
+   /* 수정 후 (복사해서 교체) */
+.touch-zone-left, .touch-zone-right { position: absolute; top: 0; bottom: 0; width: 25%; z-index: 5; pointer-events: none; }
     .touch-zone-left { left: 0; }
     .touch-zone-right { right: 0; }
 
@@ -493,7 +494,9 @@
     }
 
     function toggleTodo(dateKey, idx, evt) {
-      if (evt) evt.stopPropagation();
+      if (evt) {
+        evt.stopPropagation(); // 부모(cal-cell)로 클릭 이벤트가 퍼지는 것을 즉시 차단
+      }
       const todos = JSON.parse(localStorage.getItem(`todos_v2_${dateKey}`)) || [];
       todos[idx].done = !todos[idx].done;
       syncSave(`todos_v2_${dateKey}`, todos);
