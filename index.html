@@ -524,31 +524,53 @@
       }
     }
 
-    function updateCard() {
-      if (filteredCards.length === 0) {
-        document.getElementById('card-q').innerText = "해당 카드가 없습니다.";
-        document.getElementById('card-a').innerText = "새 카드를 추가해보세요.";
-        document.getElementById('card-indicator').innerText = "0 / 0";
-        return;
-      }
-      const c = filteredCards[cardIdx];
-      document.getElementById('card-q').innerText = c.q;
-      document.getElementById('card-a').innerText = c.a;
-      document.getElementById('card-star').innerText = c.star || "❤️";
-      document.getElementById('card-indicator').innerText = `${cardIdx + 1} / ${filteredCards.length}`;
-      document.getElementById('main-flashcard').classList.remove('flipped');
-    }
+    // 1. 카드에 중요도(하트) 표시 업데이트
+function updateCard() {
+  if (filteredCards.length === 0) {
+    document.getElementById('card-q').innerText = "해당 카드가 없습니다.";
+    document.getElementById('card-a').innerText = "새 카드를 추가해보세요.";
+    document.getElementById('card-indicator').innerText = "0 / 0";
+    return;
+  }
+  const c = filteredCards[cardIdx];
+  document.getElementById('card-q').innerText = c.q;
+  document.getElementById('card-a').innerText = c.a;
+  
+  // 하트 모양 및 중요도 업데이트
+  const starEl = document.getElementById('card-star');
+  if (starEl) {
+    starEl.innerText = c.star || "❤️";
+  }
 
-    function cycleStar(evt) {
-      evt.stopPropagation();
-      if (filteredCards.length === 0) return;
-      const c = filteredCards[cardIdx];
-      let currentIdx = starList.indexOf(c.star);
-      c.star = starList[(currentIdx + 1) % starList.length];
-      syncSave('quizlet_cards_v5', cards);
-      updateCard();
-    }
+  document.getElementById('card-indicator').innerText = `${cardIdx + 1} / ${filteredCards.length}`;
+  document.getElementById('main-flashcard').classList.remove('flipped');
+}
 
+    // 2. 하트 클릭 시 중요도 변경 (❤️ -> 💙 -> 💛 -> 🤍 순환)
+function cycleStar(evt) {
+  // 이벤트 전파 중지 (하트를 누를 때 카드가 뒤집히거나 넘어가지 않도록 예외 처리)
+  if (evt) evt.stopPropagation();
+
+  if (filteredCards.length === 0) return;
+
+  const currentCard = filteredCards[cardIdx];
+  
+  // 원본 cards 배열에서 현재 카드의 실제 인덱스 찾기
+  const originalIdx = cards.findIndex(c => c === currentCard);
+  if (originalIdx === -1) return;
+
+  // 다음 중요도로 변경 (❤️ -> 💙 -> 💛 -> 🤍 -> ❤️)
+  const currentStarIdx = starList.indexOf(currentCard.star || '❤️');
+  const nextStar = starList[(currentStarIdx + 1) % starList.length];
+
+  // 데이터 업데이트 및 저장
+  cards[originalIdx].star = nextStar;
+  syncSave('quizlet_cards_v5', cards);
+
+  // 화면 즉시 반영
+  updateCard();
+  renderCardTable(); // 편집 목록의 드롭다운 선택값도 함께 갱신
+}
     function prevCard() { if (cardIdx > 0) { cardIdx--; updateCard(); } }
     function nextCard() { if (cardIdx < filteredCards.length - 1) { cardIdx++; updateCard(); } }
 
