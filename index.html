@@ -124,6 +124,10 @@
     .cal-cell { background: #ffffff; min-height: 100px; padding: 4px; display: flex; flex-direction: column; cursor: pointer; }
     .cal-cell.other-month { background: #fafafa; opacity: 0.4; cursor: default; }
 
+/* 오늘 날짜 및 완수 날짜 배경색 스타일 추가 */
+    .cal-cell.is-today { background-color: #e3f2ce !important; }
+    .cal-cell.all-completed { background-color: #f1ddc0 !important; }
+
     .cal-cell.study-level-1 { background-color: #fffde7 !important; }
     .cal-cell.study-level-2 { background-color: #fff9c4 !important; }
     .cal-cell.study-level-3 { background-color: #fff59d !important; }
@@ -141,15 +145,15 @@
     .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
     .card-front, .card-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box; font-size: 18px; font-weight: bold; border-radius: 10px; }
     .card-back { background-color: #fff9f9; color: #d63031; transform: rotateY(180deg); }
-    /* 기존 스타일을 아래와 같이 수정 */
-.star-badge { 
+  .star-badge { 
   position: absolute; 
   top: 12px; 
   left: 15px; 
   font-size: 24px; 
   cursor: pointer; 
-  z-index: 20; /* 터치 존(z-index: 5)보다 높은 값 부여 */
-  pointer-events: auto; /* 클릭 이벤트 보장 */
+  z-index: 20;
+  pointer-events: auto;
+  transform: translateZ(1px); /* 카드 입체 레이어보다 3D 공간상 앞으로 끌어올림 */
 }
 
     .touch-zone-left, .touch-zone-right { position: absolute; top: 0; bottom: 0; width: 25%; z-index: 5; }
@@ -403,6 +407,9 @@
       const grid = document.getElementById('cal-cells-grid');
       grid.innerHTML = '';
 
+      // ① 오늘 날짜 Key 구하기 (비교용)
+      const todayKey = getLocalDateKey(new Date());
+
       for (let i = 0; i < startDay; i++) {
         grid.innerHTML += `<div class="cal-cell other-month"></div>`;
       }
@@ -412,6 +419,20 @@
         const dateKey = getLocalDateKey(dateObj);
 
         const todos = JSON.parse(localStorage.getItem(`todos_v2_${dateKey}`)) || [];
+        
+        // ② 오늘 날짜 여부 및 체크박스 전수 완수 여부 조건 계산
+        const isToday = (dateKey === todayKey);
+        const hasTodos = todos.length > 0;
+        const allDone = hasTodos && todos.every(t => t.done);
+
+        // ③ 배경색 클래스 부여 (할 일 완수가 우선 적용됨)
+        let bgClass = '';
+        if (allDone) {
+          bgClass = 'all-completed'; // #f1ddc0 (베이지)
+        } else if (isToday) {
+          bgClass = 'is-today';      // #e3f2ce (연두)
+        }
+
         let todoHTML = todos.map((t, idx) => `
           <li class="cal-todo-item">
             <input type="checkbox" ${t.done ? 'checked' : ''} style="pointer-events: auto;" onchange="toggleTodo('${dateKey}', ${idx}, event)">
@@ -419,8 +440,9 @@
           </li>
         `).join('');
 
+        // ④ cal-cell 태그에 bgClass 변수 적용
         grid.innerHTML += `
-          <div class="cal-cell" onclick="openPlannerModal('${dateKey}')">
+          <div class="cal-cell ${bgClass}" onclick="openPlannerModal('${dateKey}')">
             <div class="cal-date-num">${day}</div>
             <ul class="cal-todo-list">${todoHTML}</ul>
           </div>
