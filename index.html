@@ -627,6 +627,32 @@
       initCategoryOptions();
       renderCalendar();
       filterQuizlet();
+
+      // 👇 [여기서부터 추가] PC 키보드 단축키 이벤트 리스너
+  document.addEventListener('keydown', function(event) {
+    // 퀴즐렛 탭(tab2)이 활성화되어 있을 때만 키보드 작동
+    const quizletTab = document.getElementById('tab2');
+    if (!quizletTab || !quizletTab.classList.contains('active')) return;
+
+    // 텍스트 입력창(input, textarea, select)에 입력 중일 때는 키보드 이동 방지
+    const activeEl = document.activeElement;
+    if (activeEl && (activeEl.tagName === 'INPUT' || activeEl.tagName === 'TEXTAREA' || activeEl.tagName === 'SELECT')) {
+      return;
+    }
+
+    // 좌측 방향키: 이전 카드
+    if (event.key === 'ArrowLeft') {
+      event.preventDefault();
+      prevCard();
+    } 
+    // 우측 방향키 또는 스페이스바: 다음 카드
+    else if (event.key === 'ArrowRight' || event.key === ' ') {
+      event.preventDefault(); // 스페이스바 누를 때 스크롤 내려가는 현상 방지
+      nextCard();
+    }
+  });
+};
+    
     };
   </script>
 </body>
