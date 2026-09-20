@@ -13,7 +13,7 @@
   <!-- 나눔스퀘어 웹폰트 로드 -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css">
   
-  <!-- Firebase SDK (실시간 멀티 디바이스 연동용) -->
+  <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
 
@@ -65,17 +65,6 @@
     .top-right-actions { display: flex; align-items: center; gap: 12px; }
     .dday-badge { background: #ffffff; color: #d63031; padding: 6px 14px; border-radius: 20px; font-weight: bold; font-size: 13px; }
 
-    .quizlet-btn {
-      background-color: var(--accent-color);
-      color: #ffffff;
-      border: none;
-      padding: 8px 18px;
-      border-radius: 20px;
-      cursor: pointer;
-      font-weight: bold;
-      font-family: 'NanumSquare', sans-serif;
-    }
-
     /* 상단 인덱스 탭 */
     nav {
       background-color: #ffffff;
@@ -89,8 +78,8 @@
       background: none;
       border: none;
       color: #777;
-      padding: 14px 22px;
-      font-size: 15px;
+      padding: 14px 28px;
+      font-size: 16px;
       cursor: pointer;
       white-space: nowrap;
       border-bottom: 3px solid transparent;
@@ -104,9 +93,7 @@
       font-weight: bold;
     }
 
-    main { max-width: 1400px; margin: 25px auto; padding: 0 15px; }
-    .layout-container { display: flex; gap: 25px; align-items: flex-start; }
-    .main-content-area { flex: 1; min-width: 0; }
+    main { max-width: 1200px; margin: 25px auto; padding: 0 15px; }
 
     .page-content {
       display: none;
@@ -118,83 +105,16 @@
     }
     .page-content.active { display: block; }
 
-    /* 열품타 스타일 과목별 스톱워치 카드 */
-    .stopwatch-card {
-      background: linear-gradient(135deg, #fff5f5, #ffe6e6);
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      padding: 20px;
-      margin-bottom: 25px;
-    }
-
-    .stopwatch-main-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 15px;
-    }
-
-    .timer-display { font-size: 36px; font-weight: bold; color: var(--primary-text); font-family: monospace; }
-    .timer-btn-group { display: flex; gap: 8px; flex-wrap: wrap; }
-
     .btn-timer {
-      background: #ffffff;
+      padding: 8px 14px;
       border: 1px solid var(--accent-color);
-      color: var(--primary-text);
-      padding: 8px 16px;
+      background: #ffffff;
       border-radius: 8px;
       cursor: pointer;
       font-weight: bold;
       font-family: 'NanumSquare', sans-serif;
     }
-
-    .btn-timer:hover { background: var(--accent-color); color: white; }
-
-    .subject-timer-list {
-      margin-top: 15px;
-      padding-top: 15px;
-      border-top: 1px dashed var(--border-color);
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-      gap: 10px;
-    }
-
-    .subject-time-item {
-      background: #ffffff;
-      padding: 8px 12px;
-      border-radius: 8px;
-      border: 1px solid #f2cece;
-      font-size: 12px;
-      display: flex;
-      justify-content: space-between;
-    }
-
-    /* 출석부 및 가로 일기 */
-    .attendance-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-    .att-table { width: 100%; border-collapse: collapse; text-align: center; margin-bottom: 25px; overflow-x: auto; display: block; }
-    .att-table th, .att-table td { border: 1px solid var(--border-color); padding: 8px 4px; min-width: 70px; }
-    .att-table th { background-color: #fff0f0; color: var(--primary-text); }
-    .stage-label { text-align: left; font-size: 12px; background-color: #fafafa; font-weight: bold; min-width: 140px !important; }
-    .cell-check { cursor: pointer; font-size: 16px; user-select: none; }
-    .cell-check.checked { background-color: #ffe6e6; color: #e74c3c; font-weight: bold; }
-
-    .daily-journals-container {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 8px;
-      margin-top: 15px;
-      margin-bottom: 30px;
-    }
-
-    @media (max-width: 900px) {
-      .daily-journals-container { grid-template-columns: repeat(2, 1fr); }
-    }
-
-    .daily-journal-card { border: 1px solid var(--border-color); border-radius: 8px; background: #fffdfd; padding: 8px; display: flex; flex-direction: column; gap: 6px; }
-    .daily-journal-card header { font-size: 12px; font-weight: bold; color: var(--primary-text); text-align: center; background: #ffe8e8; padding: 4px; border-radius: 4px; }
-    .satisfaction-select { font-size: 12px; padding: 4px; border: 1px solid var(--border-color); border-radius: 4px; width: 100%; background: #ffffff; font-family: 'NanumSquare', sans-serif; }
-    .daily-journal-card textarea { width: 100%; height: 80px; border: 1px solid #f2cfcf; border-radius: 4px; resize: none; padding: 6px; font-size: 11px; outline: none; font-family: 'NanumSquare', sans-serif; }
+    .btn-timer:hover { background: #fff0f0; }
 
     /* 월별 캘린더 */
     .calendar-container { border: 1px solid var(--border-color); border-radius: 12px; padding: 15px; background: #ffffff; }
@@ -215,32 +135,38 @@
     .cal-todo-list { list-style: none; padding: 0; margin: 0; flex: 1; overflow-y: auto; }
     .cal-todo-item { font-size: 10px; display: flex; align-items: center; gap: 2px; margin-bottom: 2px; }
 
-    /* 에디터 & 서식 */
-    .sub-tabs { display: flex; gap: 8px; margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; overflow-x: auto; }
-    .sub-tabs button { background: #fff0f0; border: 1px solid var(--border-color); padding: 8px 16px; border-radius: 20px; cursor: pointer; font-size: 14px; color: #666; font-family: 'NanumSquare', sans-serif; }
-    .sub-tabs button.active { background: var(--accent-color); color: white; font-weight: bold; border-color: var(--accent-color); }
-    .sub-content { display: none; }
-    .sub-content.active { display: block; }
+    /* 스마트 암기 카드 (퀴즐렛) */
+    .flashcard { position: relative; width: 100%; height: 280px; perspective: 1000px; cursor: pointer; margin: 15px 0; user-select: none; }
+    .flashcard-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.5s; transform-style: preserve-3d; box-shadow: 0 4px 15px rgba(248, 175, 175, 0.3); border-radius: 12px; border: 2px solid var(--accent-color); }
+    .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+    .card-front, .card-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box; font-size: 18px; font-weight: bold; border-radius: 10px; }
+    .card-back { background-color: #fff9f9; color: #d63031; transform: rotateY(180deg); }
+    .star-badge { position: absolute; top: 12px; left: 15px; font-size: 24px; cursor: pointer; z-index: 10; }
 
-    .hwp-toolbar { background: #fff5f5; padding: 8px; border: 1px solid var(--border-color); border-bottom: none; border-radius: 8px 8px 0 0; display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
-    .hwp-toolbar button, .hwp-toolbar select { padding: 4px 8px; background: white; border: 1px solid #ecc0c0; border-radius: 4px; cursor: pointer; font-size: 12px; font-family: 'NanumSquare', sans-serif; }
-    .hwp-editor { border: 1px solid var(--border-color); min-height: 500px; padding: 25px; background-color: #ffffff; outline: none; line-height: 1.8; font-family: 'NanumSquare', sans-serif; font-size: 10pt; border-radius: 0 0 8px 8px; }
+    .touch-zone-left, .touch-zone-right { position: absolute; top: 0; bottom: 0; width: 25%; z-index: 5; }
+    .touch-zone-left { left: 0; }
+    .touch-zone-right { right: 0; }
 
-    /* 모달 및 퀴즐렛 스마트폰 풀스크린 지원 */
+    .btn-pink { background-color: var(--accent-color) !important; color: white !important; border: none !important; font-weight: bold; cursor: pointer; }
+    .close-btn { position: absolute; right: 15px; top: 15px; border: none; background: none; font-size: 22px; cursor: pointer; z-index: 20; }
+
+    .quizlet-table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 12px; }
+    .quizlet-table th, .quizlet-table td { border: 1px solid var(--border-color); padding: 6px; text-align: left; }
+    .quizlet-table th { background: #fff0f0; }
+
+    /* 모달 레이아웃 */
     .modal {
       display: none;
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
       background: rgba(0,0,0,0.5);
-      z-index: 2000;
+      z-index: 2500;
       justify-content: center;
       align-items: center;
-      font-family: 'NanumSquare', sans-serif !important;
     }
-
     .modal-content {
       background: white;
-      width: 750px;
+      width: 520px;
       max-width: 95%;
       max-height: 90vh;
       padding: 25px;
@@ -248,67 +174,7 @@
       position: relative;
       border: 2px solid var(--accent-color);
       overflow-y: auto;
-      font-family: 'NanumSquare', sans-serif !important;
     }
-
-    /* 모바일 기기에서의 퀴즐렛 전체화면 모드 */
-    @media (max-width: 768px) {
-      #quizlet-modal .modal-content {
-        width: 100vw !important;
-        height: 100vh !important;
-        max-width: 100vw !important;
-        max-height: 100vh !important;
-        border-radius: 0 !important;
-        border: none !important;
-        padding: 15px !important;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-      }
-      
-      .flashcard { flex: 1; height: auto !important; min-height: 250px; }
-    }
-
-    /* 터치 분할 영역 스마트 암기 카드 */
-    .flashcard { position: relative; width: 100%; height: 260px; perspective: 1000px; cursor: pointer; margin: 15px 0; user-select: none; }
-    .flashcard-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.5s; transform-style: preserve-3d; box-shadow: 0 4px 15px rgba(248, 175, 175, 0.3); border-radius: 12px; border: 2px solid var(--accent-color); }
-    .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
-    .card-front, .card-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box; font-size: 18px; font-weight: bold; border-radius: 10px; }
-    .card-back { background-color: #fff9f9; color: #d63031; transform: rotateY(180deg); }
-    .star-badge { position: absolute; top: 12px; left: 15px; font-size: 24px; cursor: pointer; z-index: 10; }
-
-    /* 스마트폰 좌/우 가상 터치 구역 안내 영역 */
-    .touch-zone-left, .touch-zone-right {
-      position: absolute;
-      top: 0; bottom: 0;
-      width: 25%;
-      z-index: 5;
-    }
-    .touch-zone-left { left: 0; }
-    .touch-zone-right { right: 0; }
-
-    .btn-pink { background-color: var(--accent-color) !important; color: white !important; border: none !important; font-weight: bold; }
-    .close-btn { position: absolute; right: 15px; top: 15px; border: none; background: none; font-size: 22px; cursor: pointer; z-index: 20; }
-
-    .quizlet-table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 12px; }
-    .quizlet-table th, .quizlet-table td { border: 1px solid var(--border-color); padding: 6px; text-align: left; }
-    .quizlet-table th { background: #fff0f0; }
-
-    .fullscreen-timer-modal {
-      display: none;
-      position: fixed;
-      top: 0; left: 0; width: 100vw; height: 100vh;
-      background: #1a1a1a;
-      color: #ffffff;
-      z-index: 4000;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      font-family: 'NanumSquare', sans-serif !important;
-    }
-    .fullscreen-timer-modal .fs-time { font-size: 90px; font-family: monospace; margin: 20px 0; letter-spacing: 4px; }
-    .fullscreen-timer-modal .fs-dday { font-size: 28px; color: var(--accent-color); font-weight: bold; }
-    .fullscreen-timer-modal .fs-close { position: absolute; top: 20px; right: 25px; background: none; border: none; color: #fff; font-size: 32px; cursor: pointer; }
   </style>
 </head>
 <body>
@@ -322,202 +188,105 @@
     </div>
     <div class="top-center-title"><b>한의사 국가고시 러닝 메이트</b></div>
     <div class="top-right-actions">
-      <div class="dday-badge" id="dday-display">국시 D-118</div>
-      <button class="quizlet-btn" onclick="toggleQuizlet(true)">⭐ 나의 퀴즐렛</button>
+      <div class="dday-badge" id="dday-display">국시 D-Day</div>
     </div>
   </div>
 
-  <!-- 상단 인덱스 탭 -->
+  <!-- 상단 인덱스 탭 (순서 및 이름 수정) -->
   <header>
     <nav>
-      <button class="tab-btn active" onclick="openTab(event, 'tab1')"><b>1. 출석부</b></button>
-      <button class="tab-btn" onclick="openTab(event, 'tab2')"><b>2. 내과학 Ⅰ</b></button>
-      <button class="tab-btn" onclick="openTab(event, 'tab3')"><b>3. 내과학 Ⅱ / 침구 / 법규</b></button>
-      <button class="tab-btn" onclick="openTab(event, 'tab4')"><b>4. 외과 / 신경 / 안이비 / 부인</b></button>
-      <button class="tab-btn" onclick="openTab(event, 'tab5')"><b>5. 소아 / 예방 / 한생 / 본초</b></button>
+      <button class="tab-btn active" onclick="openTab(event, 'tab1')"><b>나의 플래너</b></button>
+      <button class="tab-btn" onclick="openTab(event, 'tab2')"><b>나의 퀴즐렛</b></button>
     </nav>
   </header>
 
   <main>
-    <div class="layout-container">
-      <div class="main-content-area">
-        <!-- 1페이지: 출석부 & 캘린더 & 열품타 과목 타이머 -->
-        <div id="tab1" class="page-content active">
-          
-          <!-- 열품타 스타일 과목별 스톱워치 영역 -->
-          <div class="stopwatch-card">
-            <div class="stopwatch-main-row">
-              <div>
-                <div style="font-size:12px; color:#666; margin-bottom:4px;">⏱️ 공부 과목 선택 및 타이머</div>
-                <select id="timer-subject-select" style="padding:6px; border:1px solid var(--accent-color); border-radius:6px; font-weight:bold; font-family:'NanumSquare', sans-serif;">
-                  <optgroup label="내과학 Ⅰ">
-                    <option value="간계내과">간계내과</option>
-                    <option value="심계내과">심계내과</option>
-                    <option value="비계내과">비계내과</option>
-                    <option value="폐계내과">폐계내과</option>
-                    <option value="신계내과">신계내과</option>
-                  </optgroup>
-                  <optgroup label="내과학 Ⅱ / 침구 / 법규">
-                    <option value="상한론">상한론</option>
-                    <option value="사상의학">사상의학</option>
-                    <option value="침구학">침구학</option>
-                    <option value="의료법규">의료법규</option>
-                  </optgroup>
-                  <optgroup label="외과 / 신경 / 안이비 / 부인">
-                    <option value="한방외과">한방외과</option>
-                    <option value="신경정신과">신경정신과</option>
-                    <option value="안이비인후과">안이비인후과</option>
-                    <option value="한방부인과">한방부인과</option>
-                  </optgroup>
-                  <optgroup label="소아 / 예방 / 한생 / 본초">
-                    <option value="한방소아과">한방소아과</option>
-                    <option value="예방의학">예방의학</option>
-                    <option value="한방생리학">한방생리학</option>
-                    <option value="본초학">본초학</option>
-                  </optgroup>
-                </select>
-                <div class="timer-display" id="timer-text" style="margin-top:4px;">00:00:00</div>
-              </div>
-              <div class="timer-btn-group">
-                <button class="btn-timer" onclick="startTimer()">▶ 시작</button>
-                <button class="btn-timer" onclick="pauseTimer()">⏸️ 일시정지</button>
-                <button class="btn-timer" onclick="resetTimer()">🔄 리셋</button>
-                <button class="btn-timer" onclick="openFullscreenTimer()" style="background:var(--accent-color); color:white;">🖥️ 전체화면</button>
-              </div>
-            </div>
-
-            <!-- 과목별 누적 공부시간 리스트 -->
-            <div class="subject-timer-list" id="subject-timer-list">
-              <!-- 과목별 시간 동적 삽입 -->
-            </div>
+    <!-- 1페이지: 나의 플래너 (캘린더) -->
+    <div id="tab1" class="page-content active">
+      <div class="calendar-container">
+        <div class="calendar-header">
+          <button class="btn-timer" onclick="changeMonth(-1)">◀ 이전 달</button>
+          <div style="display:flex; align-items:center; gap:12px;">
+            <h3 id="cal-month-title" style="margin:0; color:var(--primary-text); font-size:18px;">2026년 9월</h3>
           </div>
+          <button class="btn-timer" onclick="changeMonth(1)">다음 달 ▶</button>
+        </div>
+        <div class="calendar-grid">
+          <div class="cal-day-header">월</div><div class="cal-day-header">화</div><div class="cal-day-header">수</div><div class="cal-day-header">목</div><div class="cal-day-header">금</div><div class="cal-day-header">토</div><div class="cal-day-header">일</div>
+        </div>
+        <div class="calendar-grid" id="cal-cells-grid" style="border-top:none;"></div>
+      </div>
+    </div>
 
-          <div class="attendance-header">
-            <button onclick="changeWeek(-1)">◀ 이전 주</button>
-            <h2 id="week-title" style="margin:0; border:none; color:var(--primary-text); font-size:18px;">2026년 주차 출석부</h2>
-            <button onclick="changeWeek(1)">다음 주 ▶</button>
+    <!-- 2페이지: 나의 퀴즐렛 -->
+    <div id="tab2" class="page-content">
+      <h2 style="font-size:20px; margin-top:0; color:var(--primary-text);">⭐ 국가고시 스마트 퀴즐렛</h2>
+      
+      <div class="quizlet-filter-bar" style="display:flex; gap:8px; flex-wrap:wrap; background:#fff0f0; padding:10px; border-radius:8px; margin-bottom:15px;">
+        <select id="filter-category" onchange="filterQuizlet()" style="flex:2; padding:6px; border-radius:6px; border:1px solid var(--border-color);"></select>
+        <select id="filter-star" onchange="filterQuizlet()" style="flex:1; padding:6px; border-radius:6px; border:1px solid var(--border-color);">
+          <option value="ALL">전체 중요도</option>
+          <option value="❤️">❤️ (상)</option>
+          <option value="💙">💙 (중)</option>
+          <option value="💛">💛 (하)</option>
+          <option value="🤍">🤍 (기본)</option>
+        </select>
+        <select id="sort-star" onchange="filterQuizlet()" style="flex:1; padding:6px; border-radius:6px; border:1px solid var(--border-color);">
+          <option value="NONE">정렬 기준</option>
+          <option value="DESC">높은순 (❤️▶🤍)</option>
+          <option value="ASC">낮은순 (🤍▶❤️)</option>
+        </select>
+        <button onclick="toggleShuffle()" id="shuffle-btn" class="btn-timer" style="padding:6px 12px;">🔀 셔플: OFF</button>
+      </div>
+
+      <!-- 암기 카드 영역 -->
+      <div class="flashcard" id="main-flashcard" onclick="handleCardTouch(event, this)">
+        <div class="touch-zone-left" title="이전 카드"></div>
+        <div class="touch-zone-right" title="다음 카드"></div>
+        <div class="flashcard-inner">
+          <div class="card-front">
+            <span class="star-badge" id="card-star" onclick="cycleStar(event)">❤️</span>
+            <div id="card-q">질문이 표시됩니다.</div>
+            <div style="position:absolute; bottom:8px; font-size:11px; color:#aaa; font-weight:normal;">👈 왼쪽 25%: 이전 | 중앙: 뒤집기 | 오른쪽 25%: 다음 👉</div>
           </div>
-
-          <table class="att-table">
-            <thead>
-              <tr id="att-date-header"><th>단계 / 날짜</th></tr>
-            </thead>
-            <tbody id="att-body"></tbody>
-          </table>
-
-          <h3 style="color:var(--primary-text); font-size:16px;">📝 주간 회고 & 하루 만족도 일지</h3>
-          <div class="daily-journals-container" id="daily-journals"></div>
-
-          <!-- 월별 캘린더 -->
-          <div class="calendar-container">
-            <div class="calendar-header">
-              <button onclick="changeMonth(-1)">◀ 이전 달</button>
-              <div style="display:flex; align-items:center; gap:12px;">
-                <h3 id="cal-month-title" style="margin:0; color:var(--primary-text); font-size:16px;">2026년 9월</h3>
-                <button onclick="toggleTimerHeatmap()" id="heatmap-btn" style="padding:4px 8px; border-radius:6px; border:1px solid var(--accent-color); background:white; font-size:11px; cursor:pointer; font-family:'NanumSquare', sans-serif;">⏱️ 타이머 공부기록: ON</button>
-              </div>
-              <button onclick="changeMonth(1)">다음 달 ▶</button>
-            </div>
-            <div class="calendar-grid">
-              <div class="cal-day-header">월</div><div class="cal-day-header">화</div><div class="cal-day-header">수</div><div class="cal-day-header">목</div><div class="cal-day-header">금</div><div class="cal-day-header">토</div><div class="cal-day-header">일</div>
-            </div>
-            <div class="calendar-grid" id="cal-cells-grid" style="border-top:none;"></div>
+          <div class="card-back">
+            <div id="card-a">정답이 표시됩니다.</div>
           </div>
         </div>
+      </div>
 
-        <!-- 2페이지: 내과학 Ⅰ -->
-        <div id="tab2" class="page-content">
-          <h2>내과학 Ⅰ 러닝 노트</h2>
-          <div class="sub-tabs">
-            <button class="sub-btn active" onclick="openSubTab(event, 'sub2-gan')">간계내과</button>
-            <button class="sub-btn" onclick="openSubTab(event, 'sub2-sim')">심계내과</button>
-            <button class="sub-btn" onclick="openSubTab(event, 'sub2-bi')">비계내과</button>
-            <button class="sub-btn" onclick="openSubTab(event, 'sub2-pye')">폐계내과</button>
-            <button class="sub-btn" onclick="openSubTab(event, 'sub2-sin')">신계내과</button>
-          </div>
-          <div id="sub2-gan" class="sub-content active"><div class="editor-wrapper" data-id="ed-gan"></div></div>
-          <div id="sub2-sim" class="sub-content"><div class="editor-wrapper" data-id="ed-sim"></div></div>
-          <div id="sub2-bi" class="sub-content"><div class="editor-wrapper" data-id="ed-bi"></div></div>
-          <div id="sub2-pye" class="sub-content"><div class="editor-wrapper" data-id="ed-pye"></div></div>
-          <div id="sub2-sin" class="sub-content"><div class="editor-wrapper" data-id="ed-sin"></div></div>
-        </div>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px;">
+        <button class="btn-timer" onclick="prevCard()">◀ 이전</button>
+        <span id="card-indicator" style="font-weight:bold; font-size:14px; color:var(--primary-text);">0 / 0</span>
+        <button class="btn-timer" onclick="nextCard()">다음 ▶</button>
+      </div>
 
-        <!-- 3페이지: 내과학 Ⅱ / 침구 / 법규 -->
-        <div id="tab3" class="page-content">
-          <h2>내과학 Ⅱ / 침구 / 법규 러닝 노트</h2>
-          <div class="sub-tabs">
-            <button class="sub-btn active" onclick="openSubTab(event, 'sub3-sanghan')">상한론</button>
-            <button class="sub-btn" onclick="openSubTab(event, 'sub3-sasang')">사상의학</button>
-            <button class="sub-btn" onclick="openSubTab(event, 'sub3-chimgu')">침구학</button>
-            <button class="sub-btn" onclick="openSubTab(event, 'sub3-law')">의료법규</button>
-          </div>
-          <div id="sub3-sanghan" class="sub-content active"><div class="editor-wrapper" data-id="ed-sanghan"></div></div>
-          <div id="sub3-sasang" class="sub-content"><div class="editor-wrapper" data-id="ed-sasang"></div></div>
-          <div id="sub3-chimgu" class="sub-content"><div class="editor-wrapper" data-id="ed-chimgu"></div></div>
-          <div id="sub3-law" class="sub-content"><div class="editor-wrapper" data-id="ed-law"></div></div>
-        </div>
+      <div style="display:flex; justify-content:space-between; margin-top:20px;">
+        <button class="btn-pink" onclick="openCardAddModal()" style="padding:8px 16px; border-radius:6px;">➕ 새 카드 추가</button>
+        <button onclick="toggleCardListView()" style="background:#f1f2f6; border:1px solid #ccc; padding:8px 16px; border-radius:6px; cursor:pointer; font-weight:bold;">📋 편집 및 카드목록 관리</button>
+      </div>
 
-        <!-- 4페이지: 외과 / 신경정신 / 안이비 / 부인 -->
-        <div id="tab4" class="page-content">
-          <h2>외과 / 신경 / 안이비 / 부인 러닝 노트</h2>
-          <div class="sub-tabs">
-            <button class="sub-btn active" onclick="openSubTab(event, 'sub4-oega')">한방외과</button>
-            <button class="sub-btn" onclick="openSubTab(event, 'sub4-singyeong')">신경정신과</button>
-            <button class="sub-btn" onclick="openSubTab(event, 'sub4-anibi')">안이비인후과</button>
-            <button class="sub-btn" onclick="openSubTab(event, 'sub4-buin')">한방부인과</button>
-          </div>
-          <div id="sub4-oega" class="sub-content active"><div class="editor-wrapper" data-id="ed-oega"></div></div>
-          <div id="sub4-singyeong" class="sub-content"><div class="editor-wrapper" data-id="ed-singyeong"></div></div>
-          <div id="sub4-anibi" class="sub-content"><div class="editor-wrapper" data-id="ed-anibi"></div></div>
-          <div id="sub4-buin" class="sub-content"><div class="editor-wrapper" data-id="ed-buin"></div></div>
-        </div>
-
-        <!-- 5페이지: 소아 / 예방 / 한생 / 본초 -->
-        <div id="tab5" class="page-content">
-          <h2>소아 / 예방 / 한생 / 본초 러닝 노트</h2>
-          <div class="sub-tabs">
-            <button class="sub-btn active" onclick="openSubTab(event, 'sub5-soa')">한방소아과</button>
-            <button class="sub-btn" onclick="openSubTab(event, 'sub5-yebang')">예방의학</button>
-            <button class="sub-btn" onclick="openSubTab(event, 'sub5-saengri')">한방생리학</button>
-            <button class="sub-btn" onclick="openSubTab(event, 'sub5-boncho')">본초학</button>
-          </div>
-          <div id="sub5-soa" class="sub-content active"><div class="editor-wrapper" data-id="ed-soa"></div></div>
-          <div id="sub5-yebang" class="sub-content"><div class="editor-wrapper" data-id="ed-yebang"></div></div>
-          <div id="sub5-saengri" class="sub-content"><div class="editor-wrapper" data-id="ed-saengri"></div></div>
-          <div id="sub5-boncho" class="sub-content"><div class="editor-wrapper" data-id="ed-boncho"></div></div>
-        </div>
+      <div id="quizlet-list-view" style="display:none; margin-top:20px;">
+        <h3 style="font-size:15px; color:var(--primary-text); margin-bottom:8px;">카드 목록 편집</h3>
+        <table class="quizlet-table">
+          <thead>
+            <tr>
+              <th style="width:80px;">중요도</th>
+              <th style="width:130px;">과목</th>
+              <th>문제 (앞면)</th>
+              <th>정답 (뒷면)</th>
+              <th style="width:50px;">삭제</th>
+            </tr>
+          </thead>
+          <tbody id="quizlet-table-body"></tbody>
+        </table>
       </div>
     </div>
   </main>
 
-  <!-- 캘린더 체크리스트 모달 -->
-  <div id="planner-modal" class="modal" style="z-index: 2500;">
-    <div class="modal-content" style="width: 520px;">
-      <button class="close-btn" onclick="closePlannerModal()">✕</button>
-      <h3 style="color:var(--primary-text); margin-top:0;" id="planner-modal-date">📅 체크리스트</h3>
-      <p style="font-size:12px; color:#666; margin-bottom:10px;"><code>[]</code> 입력 후 <b>Space 키</b>를 누르면 체크박스가 자동 생성됩니다.</p>
-      <textarea id="planner-bulk-textarea" style="width:100%; height:200px; padding:10px; border:1px solid var(--border-color); border-radius:8px; font-size:13px; resize:vertical; outline:none; font-family:'NanumSquare', sans-serif;" onkeyup="handleCheckboxShortcut(event)"></textarea>
-      <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:12px;">
-        <button onclick="closePlannerModal()" style="padding:6px 14px; border:1px solid #ccc; background:#fff; border-radius:6px;">취소</button>
-        <button class="btn-pink" onclick="savePlannerBulkItems()" style="padding:6px 18px; border-radius:6px;">💾 저장</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- 풀스크린 타이머 -->
-  <div class="fullscreen-timer-modal" id="fs-timer-modal">
-    <button class="fs-close" onclick="closeFullscreenTimer()">✕</button>
-    <div class="fs-dday" id="fs-dday-text">국시 D-118</div>
-    <div class="fs-time" id="fs-time-display">00:00:00</div>
-    <div style="display:flex; gap:15px;">
-      <button class="btn-timer" onclick="startTimer()" style="font-size: 18px; padding: 10px 20px;">▶ 시작</button>
-      <button class="btn-timer" onclick="pauseTimer()" style="font-size: 18px; padding: 10px 20px;">⏸️ 일시정지</button>
-    </div>
-  </div>
-
-  <!-- 퀴즐렛 새 카드 모달 -->
+  <!-- 모달: 새 암기카드 추가 -->
   <div id="card-add-modal" class="modal">
-    <div class="modal-content" style="width:480px;">
+    <div class="modal-content">
       <button class="close-btn" onclick="closeCardAddModal()">✕</button>
       <h3 style="color:var(--primary-text); margin-top:0;">➕ 새 암기카드 추가</h3>
       <div style="margin-bottom:10px;">
@@ -527,72 +296,40 @@
       <div style="margin-bottom:10px;">
         <label style="font-size:12px; font-weight:bold;">중요도 선택</label>
         <select id="modal-new-star" style="width:100%; padding:6px; border:1px solid var(--border-color); border-radius:6px; margin-top:4px;">
-          <option value="❤️">❤️ (상)</option><option value="💙">💙 (중)</option><option value="💛">💛 (하)</option><option value="🤍">🤍 (기본)</option>
+          <option value="❤️">❤️ (상)</option>
+          <option value="💙">💙 (중)</option>
+          <option value="💛">💛 (하)</option>
+          <option value="🤍">🤍 (기본)</option>
         </select>
       </div>
-      <div style="margin-bottom:10px;"><label style="font-size:12px; font-weight:bold;">문제 (앞면)</label><textarea id="modal-new-q" style="width:100%; height:80px; padding:6px; border:1px solid var(--border-color); border-radius:6px; resize:vertical; margin-top:4px;"></textarea></div>
-      <div style="margin-bottom:14px;"><label style="font-size:12px; font-weight:bold;">정답 (뒷면)</label><textarea id="modal-new-a" style="width:100%; height:80px; padding:6px; border:1px solid var(--border-color); border-radius:6px; resize:vertical; margin-top:4px;"></textarea></div>
+      <div style="margin-bottom:10px;">
+        <label style="font-size:12px; font-weight:bold;">문제 (앞면)</label>
+        <textarea id="modal-new-q" style="width:100%; height:80px; padding:6px; border:1px solid var(--border-color); border-radius:6px; resize:vertical; margin-top:4px;"></textarea>
+      </div>
+      <div style="margin-bottom:14px;">
+        <label style="font-size:12px; font-weight:bold;">정답 (뒷면)</label>
+        <textarea id="modal-new-a" style="width:100%; height:80px; padding:6px; border:1px solid var(--border-color); border-radius:6px; resize:vertical; margin-top:4px;"></textarea>
+      </div>
       <button class="btn-pink" onclick="submitNewCardModal()" style="width:100%; padding:10px; border-radius:6px;">카드 저장하기</button>
     </div>
   </div>
 
-  <!-- 모바일 호환 스마트 퀴즐렛 모달 -->
-  <div id="quizlet-modal" class="modal">
+  <!-- 모달: 캘린더 체크리스트 -->
+  <div id="planner-modal" class="modal">
     <div class="modal-content">
-      <button class="close-btn" onclick="toggleQuizlet(false)">✕</button>
-      <h2 style="font-size:18px; margin-top:0;">⭐ 국가고시 스마트 퀴즐렛</h2>
-      
-      <div class="quizlet-filter-bar" style="display:flex; gap:6px; flex-wrap:wrap; background:#fff0f0; padding:8px; border-radius:6px;">
-        <select id="filter-category" onchange="filterQuizlet()" style="flex:2; padding:4px;"></select>
-        <select id="filter-star" onchange="filterQuizlet()" style="flex:1; padding:4px;">
-          <option value="ALL">전체 중요도</option><option value="❤️">❤️ (상)</option><option value="💙">💙 (중)</option><option value="💛">💛 (하)</option><option value="🤍">🤍 (기본)</option>
-        </select>
-        <select id="sort-star" onchange="filterQuizlet()" style="flex:1; padding:4px;">
-          <option value="NONE">정렬 기준</option><option value="DESC">높은순 (❤️▶🤍)</option><option value="ASC">낮은순 (🤍▶❤️)</option>
-        </select>
-        <button onclick="toggleShuffle()" id="shuffle-btn" style="padding:4px 8px;">🔀 셔플: OFF</button>
-      </div>
-
-      <!-- 터치 구역 적용 암기 카드 -->
-      <div class="flashcard" id="main-flashcard" onclick="handleCardTouch(event, this)">
-        <div class="touch-zone-left" title="이전 카드"></div>
-        <div class="touch-zone-right" title="다음 카드"></div>
-        <div class="flashcard-inner">
-          <div class="card-front">
-            <span class="star-badge" id="card-star" onclick="cycleStar(event)">❤️</span>
-            <div id="card-q">질문이 표시됩니다.</div>
-            <div style="position:absolute; bottom:8px; font-size:10px; color:#aaa; font-weight:normal;">👈 왼쪽 터치: 이전 | 중앙: 뒤집기 | 오른쪽 터치: 다음 👉</div>
-          </div>
-          <div class="card-back">
-            <div id="card-a">정답이 표시됩니다.</div>
-          </div>
-        </div>
-      </div>
-
-      <div style="display:flex; justify-content:space-between; align-items:center;">
-        <button onclick="prevCard()">◀ 이전</button>
-        <span id="card-indicator" style="font-weight:bold; font-size:13px;">0 / 0</span>
-        <button onclick="nextCard()">다음 ▶</button>
-      </div>
-
-      <div style="display:flex; justify-content:space-between; margin-top:10px;">
-        <button class="btn-pink" onclick="openCardAddModal()" style="padding:6px 12px; border-radius:6px;">➕ 새 카드</button>
-        <button onclick="toggleCardListView()" style="background:#f1f2f6; border:1px solid #ccc; padding:6px 12px; border-radius:6px;">📋 편집 관리</button>
-      </div>
-
-      <div id="quizlet-list-view" style="display:none; margin-top:15px;">
-        <table class="quizlet-table">
-          <thead>
-            <tr><th style="width:50px;">중요도</th><th style="width:110px;">과목</th><th>문제 (앞면)</th><th>정답 (뒷면)</th><th style="width:50px;">삭제</th></tr>
-          </thead>
-          <tbody id="quizlet-table-body"></tbody>
-        </table>
+      <button class="close-btn" onclick="closePlannerModal()">✕</button>
+      <h3 style="color:var(--primary-text); margin-top:0;" id="planner-modal-date">📅 체크리스트</h3>
+      <p style="font-size:12px; color:#666; margin-bottom:10px;"><code>[]</code> 입력 후 <b>Space 키</b>를 누르면 체크박스가 자동 생성됩니다.</p>
+      <textarea id="planner-bulk-textarea" style="width:100%; height:200px; padding:10px; border:1px solid var(--border-color); border-radius:8px; font-size:13px; resize:vertical; outline:none; font-family:'NanumSquare', sans-serif;" onkeyup="handleCheckboxShortcut(event)"></textarea>
+      <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:12px;">
+        <button onclick="closePlannerModal()" style="padding:6px 14px; border:1px solid #ccc; background:#fff; border-radius:6px; cursor:pointer;">취소</button>
+        <button class="btn-pink" onclick="savePlannerBulkItems()" style="padding:6px 18px; border-radius:6px;">💾 저장</button>
       </div>
     </div>
   </div>
 
   <script>
-    // Firebase Cloud 연동 설정 (실시간 모바일 데이터 연동)
+    // Firebase 연동 설정
     const firebaseConfig = {
       databaseURL: "https://kuksi-run-default-rtdb.firebaseio.com/"
     };
@@ -617,213 +354,29 @@
       const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
       const ddayStr = `국시 D-${diffDays > 0 ? diffDays : 'Day'}`;
       document.getElementById('dday-display').innerText = ddayStr;
-      document.getElementById('fs-dday-text').innerText = `한의사 국가고시 ${ddayStr}`;
     }
 
-    // 과목별 타이머 기능
-    let timerInterval = null;
-    let timerSeconds = 0;
-    let activeSubject = "간계내과";
-
-    const subjectList = [
-      '간계내과', '심계내과', '비계내과', '폐계내과', '신계내과',
-      '상한론', '사상의학', '침구학', '의료법규',
-      '한방외과', '신경정신과', '안이비인후과', '한방부인과',
-      '한방소아과', '예방의학', '한방생리학', '본초학'
-    ];
-
-    document.getElementById('timer-subject-select').addEventListener('change', (e) => {
-      activeSubject = e.target.value;
-    });
-
-    function startTimer() {
-      if (timerInterval) return;
-      timerInterval = setInterval(() => {
-        timerSeconds++;
-        const todayStr = getLocalDateKey(new Date());
-        
-        // 과목별 누적 공부시간 동시 기록 (열품타 방식)
-        let subjectTimes = JSON.parse(localStorage.getItem(`subj_time_${todayStr}`)) || {};
-        subjectTimes[activeSubject] = (subjectTimes[activeSubject] || 0) + 1;
-        
-        syncSave(`study_time_${todayStr}`, timerSeconds);
-        syncSave(`subj_time_${todayStr}`, subjectTimes);
-
-        renderTimer();
-      }, 1000);
-    }
-
-    function pauseTimer() { clearInterval(timerInterval); timerInterval = null; }
-    function resetTimer() { pauseTimer(); timerSeconds = 0; renderTimer(); }
-
-    function renderTimer() {
-      const hrs = String(Math.floor(timerSeconds / 3600)).padStart(2, '0');
-      const mins = String(Math.floor((timerSeconds % 3600) / 60)).padStart(2, '0');
-      const secs = String(timerSeconds % 60).padStart(2, '0');
-      const timeStr = `${hrs}:${mins}:${secs}`;
-      
-      document.getElementById('timer-text').innerText = timeStr;
-      document.getElementById('fs-time-display').innerText = timeStr;
-
-      renderSubjectTimerList();
-      renderCalendar();
-    }
-
-    function renderSubjectTimerList() {
-      const todayStr = getLocalDateKey(new Date());
-      const subjectTimes = JSON.parse(localStorage.getItem(`subj_time_${todayStr}`)) || {};
-      const container = document.getElementById('subject-timer-list');
-      container.innerHTML = '';
-
-      subjectList.forEach(subj => {
-        const sec = subjectTimes[subj] || 0;
-        if (sec > 0) {
-          const h = Math.floor(sec / 3600);
-          const m = Math.floor((sec % 3600) / 60);
-          const s = sec % 60;
-          container.innerHTML += `
-            <div class="subject-time-item">
-              <span><b>${subj}</b></span>
-              <span style="color:#d84315; font-weight:bold;">${h}h ${m}m ${s}s</span>
-            </div>
-          `;
-        }
-      });
-    }
-
-    function openFullscreenTimer() { document.getElementById('fs-timer-modal').style.display = 'flex'; }
-    function closeFullscreenTimer() { document.getElementById('fs-timer-modal').style.display = 'none'; }
-
-    // 에디터 서식 생성
-    const editorTemplate = (id) => `
-      <div class="hwp-toolbar">
-        <select onchange="setFontSize('${id}', this.value)">
-          <option value="1">8pt</option><option value="2">10pt</option><option value="3">12pt</option><option value="4">14pt</option><option value="5">18pt</option>
-        </select>
-        <button onclick="execCmd('bold')"><b>B</b></button>
-        <button onclick="execCmd('underline')"><u>U</u></button>
-        <button onclick="execCmd('foreColor', '#e74c3c')">🔴</button>
-        <button onclick="execCmd('foreColor', '#2980b9')">🔵</button>
-        <button onclick="applyHighlight('#ffefa0')">🟨 형광펜</button>
-        <button onclick="saveHwpNote('${id}')">💾 저장</button>
-      </div>
-      <div id="${id}" class="hwp-editor" contenteditable="true"><h3>[러닝 노트 정리]</h3></div>
-    `;
-
-    document.querySelectorAll('.editor-wrapper').forEach(wrapper => {
-      const edId = wrapper.getAttribute('data-id');
-      wrapper.innerHTML = editorTemplate(edId);
-    });
-
-    let lastHighlightColor = '#ffefa0';
-    function execCmd(cmd, value = null) { document.execCommand(cmd, false, value); }
-    function applyHighlight(color) { lastHighlightColor = color; execCmd('hiliteColor', color); }
-    function setFontSize(editorId, size) { document.execCommand('fontSize', false, size); }
-    function saveHwpNote(id) {
-      syncSave(id, document.getElementById(id).innerHTML);
-      alert('러닝 노트가 클라우드에 성공적으로 저장되었습니다.');
-    }
-
+    // 탭 전환
     function openTab(evt, tabId) {
-      document.querySelectorAll('.page-content').forEach(c => c.classList.remove('active'));
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      const contents = document.getElementsByClassName('page-content');
+      for (let c of contents) { c.classList.remove('active'); }
+      const btns = document.querySelectorAll('nav button');
+      for (let b of btns) { b.classList.remove('active'); }
+
       document.getElementById(tabId).classList.add('active');
       evt.currentTarget.classList.add('active');
     }
 
-    function openSubTab(evt, subId) {
-      const parent = evt.currentTarget.closest('.page-content');
-      parent.querySelectorAll('.sub-content').forEach(s => s.classList.remove('active'));
-      parent.querySelectorAll('.sub-btn').forEach(b => b.classList.remove('active'));
-      document.getElementById(subId).classList.add('active');
-      evt.currentTarget.classList.add('active');
-    }
-
-    // 출석부 및 캘린더
-    let currentDate = new Date();
-    let currentCalDate = new Date();
-    let showHeatmap = true;
-
-    const stages = [
-      "1단계: 책상에 앉기", "2단계: 오전 공부 하기", "3단계: 오후 공부하기",
-      "4단계: 오전 + 오후 공부하기", "5단계: 오전 + 오후 + 저녁 공부하기", "6단계: 오늘 진짜 만족스러웠음"
+    // 과목 리스트
+    const subjectList = [
+      "간계내과", "심계내과", "비계내과", "폐계내과", "신계내과",
+      "상한론", "사상의학", "침구학", "의료법규", "한방외과",
+      "신경정신과", "안이비인후과", "한방부인과", "한방소아과",
+      "예방의학", "한방생리학", "본초학"
     ];
 
-    const satisfactionLevels = ["⭐ ", "⭐⭐ ", "⭐⭐⭐ ", "⭐⭐⭐⭐ ", "⭐⭐⭐⭐⭐ "];
-
-    function getMonday(d) {
-      d = new Date(d);
-      const day = d.getDay();
-      const diff = d.getDate() - day + (day === 0 ? -6 : 1);
-      return new Date(d.setDate(diff));
-    }
-
-    function renderAttendance() {
-      const monday = getMonday(currentDate);
-      const weekDates = [];
-      const dayNames = ['월', '화', '수', '목', '금', '토', '일'];
-
-      const headerTr = document.getElementById('att-date-header');
-      headerTr.innerHTML = '<th>단계 / 날짜</th>';
-      const journalsContainer = document.getElementById('daily-journals');
-      journalsContainer.innerHTML = '';
-
-      for (let i = 0; i < 7; i++) {
-        const d = new Date(monday);
-        d.setDate(monday.getDate() + i);
-        weekDates.push(d);
-
-        const dateFormatted = `${d.getMonth()+1}/${d.getDate()}(${dayNames[i]})`;
-        headerTr.innerHTML += `<th>${dateFormatted}</th>`;
-
-        const dateKey = getLocalDateKey(d);
-        const savedJournal = localStorage.getItem(`journal_${dateKey}`) || '';
-        const savedSat = parseInt(localStorage.getItem(`sat_${dateKey}`) || '0');
-
-        let satOptionsHTML = satisfactionLevels.map((s, idx) => `<option value="${idx}" ${savedSat === idx ? 'selected' : ''}>${s}</option>`).join('');
-
-        journalsContainer.innerHTML += `
-          <div class="daily-journal-card">
-            <header>${dateFormatted}</header>
-            <select class="satisfaction-select" onchange="saveSatisfaction('${dateKey}', this.value)">${satOptionsHTML}</select>
-            <textarea placeholder="오늘의 회고..." oninput="saveDailyJournal('${dateKey}', this.value)">${savedJournal}</textarea>
-          </div>
-        `;
-      }
-
-      document.getElementById('week-title').innerText = `${monday.getFullYear()}년 ${monday.getMonth()+1}월 ${monday.getDate()}일 주차 출석부`;
-
-      const tbody = document.getElementById('att-body');
-      tbody.innerHTML = '';
-
-      stages.forEach((stage, stIdx) => {
-        let tr = `<tr><td class="stage-label">${stage}</td>`;
-        weekDates.forEach((d) => {
-          const key = `att_${getLocalDateKey(d)}_${stIdx}`;
-          const checked = localStorage.getItem(key) === 'true' ? 'checked' : '';
-          tr += `<td class="cell-check ${checked}" onclick="toggleCheck('${key}')">${checked ? 'V' : '-'}</td>`;
-        });
-        tr += '</tr>';
-        tbody.innerHTML += tr;
-      });
-
-      renderCalendar();
-    }
-
-    function toggleCheck(key) {
-      const current = localStorage.getItem(key) === 'true';
-      syncSave(key, !current);
-      renderAttendance();
-    }
-
-    function changeWeek(offset) { currentDate.setDate(currentDate.getDate() + (offset * 7)); renderAttendance(); }
-    function saveDailyJournal(dateKey, text) { syncSave(`journal_${dateKey}`, text); }
-    function saveSatisfaction(dateKey, val) { syncSave(`sat_${dateKey}`, val); }
-    function toggleTimerHeatmap() {
-      showHeatmap = !showHeatmap;
-      document.getElementById('heatmap-btn').innerText = `⏱️ 타이머 공부기록: ${showHeatmap ? 'ON' : 'OFF'}`;
-      renderCalendar();
-    }
+    // 캘린더 관련
+    let currentCalDate = new Date();
 
     function renderCalendar() {
       const year = currentCalDate.getFullYear();
@@ -847,19 +400,6 @@
         const dateObj = new Date(year, month, day);
         const dateKey = getLocalDateKey(dateObj);
 
-        const sec = parseInt(localStorage.getItem(`study_time_${dateKey}`) || '0');
-        const hrs = Math.floor(sec / 3600);
-        const mins = Math.floor((sec % 3600) / 60);
-
-        let heatClass = '';
-        if (showHeatmap && sec > 0) {
-          if (hrs >= 12) heatClass = 'study-level-5';
-          else if (hrs >= 9) heatClass = 'study-level-4';
-          else if (hrs >= 6) heatClass = 'study-level-3';
-          else if (hrs >= 3) heatClass = 'study-level-2';
-          else heatClass = 'study-level-1';
-        }
-
         const todos = JSON.parse(localStorage.getItem(`todos_v2_${dateKey}`)) || [];
         let todoHTML = todos.map((t, idx) => `
           <li class="cal-todo-item">
@@ -868,12 +408,9 @@
           </li>
         `).join('');
 
-        let timeBadgeHTML = (sec > 0) ? `<div class="cal-study-time-badge">⏱️ ${hrs}h ${mins}m</div>` : '';
-
         grid.innerHTML += `
-          <div class="cal-cell ${heatClass}" onclick="openPlannerModal('${dateKey}')">
+          <div class="cal-cell" onclick="openPlannerModal('${dateKey}')">
             <div class="cal-date-num">${day}</div>
-            ${timeBadgeHTML}
             <ul class="cal-todo-list">${todoHTML}</ul>
           </div>
         `;
@@ -882,7 +419,7 @@
 
     function changeMonth(offset) { currentCalDate.setMonth(currentCalDate.getMonth() + offset); renderCalendar(); }
 
-    // 날짜 플래너 모달
+    // 체크리스트 모달
     let activePlannerDateKey = '';
     function openPlannerModal(dateKey) {
       activePlannerDateKey = dateKey;
@@ -930,7 +467,7 @@
       renderCalendar();
     }
 
-    // 터치 스마트 퀴즐렛 모듈
+    // 스마트 퀴즐렛 엔진
     const starList = ['❤️', '💙', '💛', '🤍'];
     const starWeights = { '❤️': 4, '💙': 3, '💛': 2, '🤍': 1 };
 
@@ -942,16 +479,10 @@
     let cardIdx = 0;
     let isShuffle = false;
 
-    // 드롭다운 과목 옵션 동적 생성
     function initCategoryOptions() {
       const opts = subjectList.map(s => `<option value="${s}">${s}</option>`).join('');
       document.getElementById('modal-new-cat').innerHTML = opts;
       document.getElementById('filter-category').innerHTML = `<option value="ALL">전체 과목 보기</option>` + opts;
-    }
-
-    function toggleQuizlet(show) {
-      document.getElementById('quizlet-modal').style.display = show ? 'flex' : 'none';
-      if(show) filterQuizlet();
     }
 
     function filterQuizlet() {
@@ -977,7 +508,6 @@
       filterQuizlet();
     }
 
-    // 스마트폰 터치 영역 제어 (왼쪽: 이전 / 오른쪽: 다음 / 중앙: 뒤집기)
     function handleCardTouch(evt, el) {
       if (evt.target.classList.contains('star-badge')) return;
       
@@ -986,11 +516,11 @@
       const width = rect.width;
 
       if (clickX < width * 0.25) {
-        prevCard(); // 왼쪽 25% 지점 터치 시 이전 카드
+        prevCard();
       } else if (clickX > width * 0.75) {
-        nextCard(); // 오른쪽 25% 지점 터치 시 다음 카드
+        nextCard();
       } else {
-        el.classList.toggle('flipped'); // 중앙 터치 시 뒤집기
+        el.classList.toggle('flipped');
       }
     }
 
@@ -1035,6 +565,8 @@
         cards.push({ cat, star, q, a });
         syncSave('quizlet_cards_v5', cards);
         closeCardAddModal();
+        document.getElementById('modal-new-q').value = '';
+        document.getElementById('modal-new-a').value = '';
         filterQuizlet();
       }
     }
@@ -1044,17 +576,33 @@
       v.style.display = v.style.display === 'block' ? 'none' : 'block';
     }
 
+    // 카드 목록 편집 내 드롭다운(Select) 변경 처리
     function renderCardTable() {
       const tbody = document.getElementById('quizlet-table-body');
       tbody.innerHTML = '';
+      
       cards.forEach((c, idx) => {
+        // 중요도 선택용 select 생성
+        const starSelectHTML = `
+          <select onchange="updateCardField(${idx}, 'star', this.value)" style="padding:4px; border-radius:4px; border:1px solid var(--border-color);">
+            ${starList.map(s => `<option value="${s}" ${c.star === s ? 'selected' : ''}>${s}</option>`).join('')}
+          </select>
+        `;
+
+        // 과목 선택용 select 생성
+        const catSelectHTML = `
+          <select onchange="updateCardField(${idx}, 'cat', this.value)" style="padding:4px; border-radius:4px; border:1px solid var(--border-color); width:100%;">
+            ${subjectList.map(sub => `<option value="${sub}" ${c.cat === sub ? 'selected' : ''}>${sub}</option>`).join('')}
+          </select>
+        `;
+
         tbody.innerHTML += `
           <tr>
-            <td>${c.star}</td>
-            <td>${c.cat}</td>
-            <td><textarea onchange="updateCardField(${idx}, 'q', this.value)" style="width:100%; height:40px;">${c.q}</textarea></td>
-            <td><textarea onchange="updateCardField(${idx}, 'a', this.value)" style="width:100%; height:40px;">${c.a}</textarea></td>
-            <td><button onclick="deleteCard(${idx})" style="background:#e74c3c; color:white; border:none; padding:2px 6px; border-radius:4px;">✕</button></td>
+            <td style="text-align:center;">${starSelectHTML}</td>
+            <td>${catSelectHTML}</td>
+            <td><textarea onchange="updateCardField(${idx}, 'q', this.value)" style="width:100%; height:40px; font-family:'NanumSquare', sans-serif;">${c.q}</textarea></td>
+            <td><textarea onchange="updateCardField(${idx}, 'a', this.value)" style="width:100%; height:40px; font-family:'NanumSquare', sans-serif;">${c.a}</textarea></td>
+            <td style="text-align:center;"><button onclick="deleteCard(${idx})" style="background:#e74c3c; color:white; border:none; padding:4px 8px; border-radius:4px; cursor:pointer;">✕</button></td>
           </tr>
         `;
       });
@@ -1067,7 +615,7 @@
     }
 
     function deleteCard(idx) {
-      if (confirm('삭제하시겠습니까?')) {
+      if (confirm('이 암기 카드를 삭제하시겠습니까?')) {
         cards.splice(idx, 1);
         syncSave('quizlet_cards_v5', cards);
         filterQuizlet();
@@ -1077,11 +625,8 @@
     window.onload = function() {
       updateDday();
       initCategoryOptions();
-      renderAttendance();
-
-      const todayStr = getLocalDateKey(new Date());
-      timerSeconds = parseInt(localStorage.getItem(`study_time_${todayStr}`) || '0');
-      renderTimer();
+      renderCalendar();
+      filterQuizlet();
     };
   </script>
 </body>
