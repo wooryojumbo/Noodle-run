@@ -5,15 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>국시런 (KuksiRun) - 한의사 국가고시 러닝 메이트</title>
   
-  <!-- 웹 브라우저 탭 & 스마트폰 홈 화면 추가 아이콘 -->
   <link rel="icon" href="icon.png" type="image/png">
   <link rel="apple-touch-icon" href="icon.png">
   <link rel="shortcut icon" href="icon.png">
 
-  <!-- 나눔스퀘어 웹폰트 로드 -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css">
   
-  <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
 
@@ -38,7 +35,6 @@
       color: #333;
     }
 
-    /* 최상단 스티키 배너 */
     .top-bar {
       background-color: var(--primary-color);
       color: var(--primary-text);
@@ -54,14 +50,14 @@
 
     .brand-logo { display: flex; align-items: center; gap: 8px; }
     .brand-icon-img {
-  width: 38px;
-  height: 38px;
-  object-fit: contain;
-  background-color: #ffffff;  /* 흰색 배경 */
-  border-radius: 10px;        /* 모서리 곡선 (숫자가 클수록 더 둥글어집니다) */
-  padding: 0px;              /* 여백 */
-  vertical-align: middle;
-}
+      width: 38px;
+      height: 38px;
+      object-fit: contain;
+      background-color: #ffffff;
+      border-radius: 10px;
+      padding: 0px;
+      vertical-align: middle;
+    }
     .brand-title { font-weight: bold; font-size: 18px; color: var(--primary-text); }
     .brand-subtitle { font-size: 10pt; color: #c4bebe; margin-left: 4px; }
     .top-center-title { font-weight: bold; font-size: 17px; position: absolute; left: 50%; transform: translateX(-50%); }
@@ -73,7 +69,6 @@
     .top-right-actions { display: flex; align-items: center; gap: 12px; }
     .dday-badge { background: #ffffff; color: #d63031; padding: 6px 14px; border-radius: 20px; font-weight: bold; font-size: 13px; }
 
-    /* 상단 인덱스 탭 */
     nav {
       background-color: #ffffff;
       border-bottom: 2px solid var(--border-color);
@@ -124,7 +119,6 @@
     }
     .btn-timer:hover { background: #fff0f0; }
 
-    /* 월별 캘린더 */
     .calendar-container { border: 1px solid var(--border-color); border-radius: 12px; padding: 15px; background: #ffffff; }
     .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
     .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 1px; background: var(--border-color); border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; }
@@ -132,40 +126,30 @@
     .cal-cell { background: #ffffff; min-height: 100px; padding: 4px; display: flex; flex-direction: column; cursor: pointer; }
     .cal-cell.other-month { background: #fafafa; opacity: 0.4; cursor: default; }
 
-/* 오늘 날짜 및 완수 날짜 배경색 스타일 추가 */
     .cal-cell.is-today { background-color: #e3f2ce !important; }
     .cal-cell.all-completed { background-color: #f1ddc0 !important; }
 
-    .cal-cell.study-level-1 { background-color: #fffde7 !important; }
-    .cal-cell.study-level-2 { background-color: #fff9c4 !important; }
-    .cal-cell.study-level-3 { background-color: #fff59d !important; }
-    .cal-cell.study-level-4 { background-color: #ffee58 !important; }
-    .cal-cell.study-level-5 { background-color: #fdd835 !important; }
-
     .cal-date-num { font-size: 11px; font-weight: bold; margin-bottom: 2px; }
-    .cal-study-time-badge { font-size: 10px; font-weight: bold; color: #d84315; margin-bottom: 2px; }
     .cal-todo-list { list-style: none; padding: 0; margin: 0; flex: 1; overflow-y: auto; }
     .cal-todo-item { font-size: 10px; display: flex; align-items: center; gap: 2px; margin-bottom: 2px; }
 
-    /* 스마트 암기 카드 (퀴즐렛) */
     .flashcard { position: relative; width: 100%; height: 280px; perspective: 1000px; cursor: pointer; margin: 15px 0; user-select: none; }
     .flashcard-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.5s; transform-style: preserve-3d; box-shadow: 0 4px 15px rgba(248, 175, 175, 0.3); border-radius: 12px; border: 2px solid var(--accent-color); }
     .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
     .card-front, .card-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box; font-size: 18px; font-weight: bold; border-radius: 10px; }
     .card-back { background-color: #fff9f9; color: #d63031; transform: rotateY(180deg); }
-  .star-badge { 
-  position: absolute; 
-  top: 12px; 
-  left: 15px; 
-  font-size: 24px; 
-  cursor: pointer; 
-  z-index: 20;
-  pointer-events: auto;
-  transform: translateZ(1px); /* 카드 입체 레이어보다 3D 공간상 앞으로 끌어올림 */
-}
+    .star-badge { 
+      position: absolute; 
+      top: 12px; 
+      left: 15px; 
+      font-size: 24px; 
+      cursor: pointer; 
+      z-index: 20;
+      pointer-events: auto;
+      transform: translateZ(1px);
+    }
 
-   /* 수정 후 (복사해서 교체) */
-.touch-zone-left, .touch-zone-right { position: absolute; top: 0; bottom: 0; width: 25%; z-index: 5; pointer-events: none; }
+    .touch-zone-left, .touch-zone-right { position: absolute; top: 0; bottom: 0; width: 25%; z-index: 5; pointer-events: none; }
     .touch-zone-left { left: 0; }
     .touch-zone-right { right: 0; }
 
@@ -176,7 +160,6 @@
     .quizlet-table th, .quizlet-table td { border: 1px solid var(--border-color); padding: 6px; text-align: left; }
     .quizlet-table th { background: #fff0f0; }
 
-    /* 모달 레이아웃 */
     .modal {
       display: none;
       position: fixed;
@@ -201,20 +184,18 @@
 </head>
 <body>
 
-  <!-- 최상단 배너 -->
   <div class="top-bar">
     <div class="brand-logo">
-  <img src="icon.png" alt="로고" class="brand-icon-img">
-  <span class="brand-title">국시런</span>
-  <span class="brand-subtitle">for noonso</span>
-</div>
+      <img src="icon.png" alt="로고" class="brand-icon-img">
+      <span class="brand-title">국시런</span>
+      <span class="brand-subtitle">for noonso</span>
+    </div>
     <div class="top-center-title"><b>한의사 국가고시 러닝 메이트</b></div>
     <div class="top-right-actions">
       <div class="dday-badge" id="dday-display">국시 D-Day</div>
     </div>
   </div>
 
-  <!-- 상단 인덱스 탭 (순서 및 이름 수정) -->
   <header>
     <nav>
       <button class="tab-btn active" onclick="openTab(event, 'tab1')"><b>나의 플래너</b></button>
@@ -233,8 +214,15 @@
           </div>
           <button class="btn-timer" onclick="changeMonth(1)">다음 달 ▶</button>
         </div>
+        <!-- 수정된 캘린더 그리드 구조 -->
         <div class="calendar-grid">
-          <div class="cal-day-header">월</div><div class="cal-day-header">화</div><div class="cal-day-header">수</div><div class="cal-day-header">목</div><div class="cal-day-header">금</div><div class="cal-day-header">토</div><div class="cal-day-header">일</div>
+          <div class="cal-day-header">월</div>
+          <div class="cal-day-header">화</div>
+          <div class="cal-day-header">수</div>
+          <div class="cal-day-header">목</div>
+          <div class="cal-day-header">금</div>
+          <div class="cal-day-header">토</div>
+          <div class="cal-day-header">일</div>
         </div>
         <div class="calendar-grid" id="cal-cells-grid" style="border-top:none;"></div>
       </div>
@@ -261,15 +249,12 @@
         <button onclick="toggleShuffle()" id="shuffle-btn" class="btn-timer" style="padding:6px 12px;">🔀 셔플: OFF</button>
       </div>
 
-      <!-- 암기 카드 영역 -->
       <div class="flashcard" id="main-flashcard" onclick="handleCardTouch(event, this)">
         <div class="touch-zone-left" title="이전 카드"></div>
         <div class="touch-zone-right" title="다음 카드"></div>
         <div class="flashcard-inner">
           <div class="card-front">
-            <!-- 변경 전: onclick="cycleStar(event)" 로 제대로 전달되는지 확인 -->
-<!-- 카드의 star-badge 부분 -->
-<span class="star-badge" id="card-star" onclick="cycleStar(event)">❤️</span>
+            <span class="star-badge" id="card-star" onclick="cycleStar(event)">❤️</span>
             <div id="card-q">질문이 표시됩니다.</div>
             <div style="position:absolute; bottom:8px; font-size:11px; color:#aaa; font-weight:normal;">👈 왼쪽 25%: 이전 | 중앙: 뒤집기 | 오른쪽 25%: 다음 👉</div>
           </div>
@@ -308,7 +293,6 @@
     </div>
   </main>
 
-  <!-- 모달: 새 암기카드 추가 -->
   <div id="card-add-modal" class="modal">
     <div class="modal-content">
       <button class="close-btn" onclick="closeCardAddModal()">✕</button>
@@ -338,7 +322,6 @@
     </div>
   </div>
 
-  <!-- 모달: 캘린더 체크리스트 -->
   <div id="planner-modal" class="modal">
     <div class="modal-content">
       <button class="close-btn" onclick="closePlannerModal()">✕</button>
@@ -353,7 +336,6 @@
   </div>
 
   <script>
-    // Firebase 연동 설정
     const firebaseConfig = {
       databaseURL: "https://kuksi-run-default-rtdb.firebaseio.com/"
     };
@@ -380,7 +362,6 @@
       document.getElementById('dday-display').innerText = ddayStr;
     }
 
-    // 탭 전환
     function openTab(evt, tabId) {
       const contents = document.getElementsByClassName('page-content');
       for (let c of contents) { c.classList.remove('active'); }
@@ -391,7 +372,6 @@
       evt.currentTarget.classList.add('active');
     }
 
-    // 과목 리스트
     const subjectList = [
       "간계내과", "심계내과", "비계내과", "폐계내과", "신계내과",
       "상한론", "사상의학", "침구학", "의료법규", "한방외과",
@@ -399,7 +379,6 @@
       "예방의학", "한방생리학", "본초학"
     ];
 
-    // 캘린더 관련
     let currentCalDate = new Date();
 
     function renderCalendar() {
@@ -414,9 +393,9 @@
       if (startDay === -1) startDay = 6;
 
       const grid = document.getElementById('cal-cells-grid');
+      if (!grid) return;
       grid.innerHTML = '';
 
-      // ① 오늘 날짜 Key 구하기 (비교용)
       const todayKey = getLocalDateKey(new Date());
 
       for (let i = 0; i < startDay; i++) {
@@ -429,17 +408,15 @@
 
         const todos = JSON.parse(localStorage.getItem(`todos_v2_${dateKey}`)) || [];
         
-        // ② 오늘 날짜 여부 및 체크박스 전수 완수 여부 조건 계산
         const isToday = (dateKey === todayKey);
         const hasTodos = todos.length > 0;
         const allDone = hasTodos && todos.every(t => t.done);
 
-        // ③ 배경색 클래스 부여 (할 일 완수가 우선 적용됨)
         let bgClass = '';
         if (allDone) {
-          bgClass = 'all-completed'; // #f1ddc0 (베이지)
+          bgClass = 'all-completed';
         } else if (isToday) {
-          bgClass = 'is-today';      // #e3f2ce (연두)
+          bgClass = 'is-today';
         }
 
         let todoHTML = todos.map((t, idx) => `
@@ -449,7 +426,6 @@
           </li>
         `).join('');
 
-        // ④ cal-cell 태그에 bgClass 변수 적용
         grid.innerHTML += `
           <div class="cal-cell ${bgClass}" onclick="openPlannerModal('${dateKey}')">
             <div class="cal-date-num">${day}</div>
@@ -459,9 +435,11 @@
       }
     }
 
-    function changeMonth(offset) { currentCalDate.setMonth(currentCalDate.getMonth() + offset); renderCalendar(); }
+    function changeMonth(offset) {
+      currentCalDate.setMonth(currentCalDate.getMonth() + offset, 1);
+      renderCalendar();
+    }
 
-    // 체크리스트 모달
     let activePlannerDateKey = '';
     function openPlannerModal(dateKey) {
       activePlannerDateKey = dateKey;
@@ -503,7 +481,7 @@
 
     function toggleTodo(dateKey, idx, evt) {
       if (evt) {
-        evt.stopPropagation(); // 부모(cal-cell)로 클릭 이벤트가 퍼지는 것을 즉시 차단
+        evt.stopPropagation();
       }
       const todos = JSON.parse(localStorage.getItem(`todos_v2_${dateKey}`)) || [];
       todos[idx].done = !todos[idx].done;
@@ -511,7 +489,6 @@
       renderCalendar();
     }
 
-    // 스마트 퀴즐렛 엔진
     const starList = ['❤️', '💙', '💛', '🤍'];
     const starWeights = { '❤️': 4, '💙': 3, '💛': 2, '🤍': 1 };
 
@@ -553,81 +530,71 @@
     }
 
     function handleCardTouch(evt, el) {
-  // 클릭한 타겟이 star-badge이거나 그 자식일 경우 터치 동작 중단
-  if (evt.target.classList.contains('star-badge') || evt.target.closest('.star-badge')) {
-    return;
-  }
-  
-  const rect = el.getBoundingClientRect();
-  const clickX = evt.clientX - rect.left;
-  const width = rect.width;
+      if (evt.target.classList.contains('star-badge') || evt.target.closest('.star-badge')) {
+        return;
+      }
+      
+      const rect = el.getBoundingClientRect();
+      const clickX = evt.clientX - rect.left;
+      const width = rect.width;
 
-  if (clickX < width * 0.25) {
-    prevCard();
-  } else if (clickX > width * 0.75) {
-    nextCard();
-  } else {
-    el.classList.toggle('flipped');
-  }
-}
+      if (clickX < width * 0.25) {
+        prevCard();
+      } else if (clickX > width * 0.75) {
+        nextCard();
+      } else {
+        el.classList.toggle('flipped');
+      }
+    }
 
-    // 1. 카드에 중요도(하트) 표시 업데이트
-function updateCard() {
-  if (filteredCards.length === 0) {
-    document.getElementById('card-q').innerText = "해당 카드가 없습니다.";
-    document.getElementById('card-a').innerText = "새 카드를 추가해보세요.";
-    document.getElementById('card-indicator').innerText = "0 / 0";
-    return;
-  }
-  const c = filteredCards[cardIdx];
-  document.getElementById('card-q').innerText = c.q;
-  document.getElementById('card-a').innerText = c.a;
-  
-  // 하트 모양 및 중요도 업데이트
-  const starEl = document.getElementById('card-star');
-  if (starEl) {
-    starEl.innerText = c.star || "❤️";
-  }
+    function updateCard() {
+      if (filteredCards.length === 0) {
+        document.getElementById('card-q').innerText = "해당 카드가 없습니다.";
+        document.getElementById('card-a').innerText = "새 카드를 추가해보세요.";
+        document.getElementById('card-indicator').innerText = "0 / 0";
+        return;
+      }
+      const c = filteredCards[cardIdx];
+      document.getElementById('card-q').innerText = c.q;
+      document.getElementById('card-a').innerText = c.a;
+      
+      const starEl = document.getElementById('card-star');
+      if (starEl) {
+        starEl.innerText = c.star || "❤️";
+      }
 
-  document.getElementById('card-indicator').innerText = `${cardIdx + 1} / ${filteredCards.length}`;
-  document.getElementById('main-flashcard').classList.remove('flipped');
-}
+      document.getElementById('card-indicator').innerText = `${cardIdx + 1} / ${filteredCards.length}`;
+      document.getElementById('main-flashcard').classList.remove('flipped');
+    }
 
-    // 2. 하트 클릭 시 중요도 변경 (❤️ -> 💙 -> 💛 -> 🤍 순환)
-function cycleStar(evt) {
-  // 카드 뒤집힘이나 다른 이벤트 방지
-  if (evt) {
-    evt.stopPropagation();
-    evt.preventDefault();
-  }
+    function cycleStar(evt) {
+      if (evt) {
+        evt.stopPropagation();
+        evt.preventDefault();
+      }
 
-  if (!filteredCards || filteredCards.length === 0) return;
+      if (!filteredCards || filteredCards.length === 0) return;
 
-  const currentCard = filteredCards[cardIdx];
-  if (!currentCard) return;
+      const currentCard = filteredCards[cardIdx];
+      if (!currentCard) return;
 
-  // 질문(q)과 답변(a)이 일치하는 원본 카드의 인덱스를 찾아옵니다.
-  const originalIdx = cards.findIndex(c => c.q === currentCard.q && c.a === currentCard.a);
-  if (originalIdx === -1) return;
+      const originalIdx = cards.findIndex(c => c.q === currentCard.q && c.a === currentCard.a);
+      if (originalIdx === -1) return;
 
-  // 다음 중요도로 순환 (❤️ -> 💙 -> 💛 -> 🤍 -> ❤️)
-  const currentStar = cards[originalIdx].star || '❤️';
-  const currentStarIdx = starList.indexOf(currentStar);
-  const nextStar = starList[(currentStarIdx + 1) % starList.length];
+      const currentStar = cards[originalIdx].star || '❤️';
+      const currentStarIdx = starList.indexOf(currentStar);
+      const nextStar = starList[(currentStarIdx + 1) % starList.length];
 
-  // 원본 데이터 및 현재 필터링된 데이터 업데이트
-  cards[originalIdx].star = nextStar;
-  currentCard.star = nextStar;
+      cards[originalIdx].star = nextStar;
+      currentCard.star = nextStar;
 
-  // 저장 및 화면 갱신
-  syncSave('quizlet_cards_v5', cards);
-  updateCard();
-  if (typeof renderCardTable === 'function') {
-    renderCardTable();
-  }
-}
+      syncSave('quizlet_cards_v5', cards);
+      updateCard();
+      if (typeof renderCardTable === 'function') {
+        renderCardTable();
+      }
+    }
 
-  
     function prevCard() { if (cardIdx > 0) { cardIdx--; updateCard(); } }
     function nextCard() { if (cardIdx < filteredCards.length - 1) { cardIdx++; updateCard(); } }
 
@@ -655,20 +622,18 @@ function cycleStar(evt) {
       v.style.display = v.style.display === 'block' ? 'none' : 'block';
     }
 
-    // 카드 목록 편집 내 드롭다운(Select) 변경 처리
     function renderCardTable() {
       const tbody = document.getElementById('quizlet-table-body');
+      if (!tbody) return;
       tbody.innerHTML = '';
       
       cards.forEach((c, idx) => {
-        // 중요도 선택용 select 생성
         const starSelectHTML = `
           <select onchange="updateCardField(${idx}, 'star', this.value)" style="padding:4px; border-radius:4px; border:1px solid var(--border-color);">
             ${starList.map(s => `<option value="${s}" ${c.star === s ? 'selected' : ''}>${s}</option>`).join('')}
           </select>
         `;
 
-        // 과목 선택용 select 생성
         const catSelectHTML = `
           <select onchange="updateCardField(${idx}, 'cat', this.value)" style="padding:4px; border-radius:4px; border:1px solid var(--border-color); width:100%;">
             ${subjectList.map(sub => `<option value="${sub}" ${c.cat === sub ? 'selected' : ''}>${sub}</option>`).join('')}
@@ -704,8 +669,8 @@ function cycleStar(evt) {
     window.onload = function() {
       updateDday();
       initCategoryOptions();
+      renderCalendar();
 
-      // 1. Firebase에서 퀴즐렛 카드 실시간 동기화
       db.ref('quizlet_cards_v5').on('value', (snapshot) => {
         const val = snapshot.val();
         if (val) {
@@ -715,7 +680,6 @@ function cycleStar(evt) {
         filterQuizlet();
       });
 
-      // 2. Firebase에서 플래너(체크리스트) 전체 실시간 동기화
       db.ref().on('value', (snapshot) => {
         const data = snapshot.val();
         if (data) {
@@ -728,7 +692,6 @@ function cycleStar(evt) {
         renderCalendar();
       });
 
-      // 3. PC 키보드 단축키 이벤트 리스너
       document.addEventListener('keydown', function(event) {
         const quizletTab = document.getElementById('tab2');
         if (!quizletTab || !quizletTab.classList.contains('active')) return;
@@ -747,8 +710,6 @@ function cycleStar(evt) {
         }
       });
     };
-
-    
   </script>
 </body>
 </html>
