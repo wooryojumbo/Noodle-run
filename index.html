@@ -753,19 +753,6 @@ function cycleStar(evt) {
   });
 };
 
-    // 좌측 방향키: 이전 카드
-    if (event.key === 'ArrowLeft') {
-      event.preventDefault();
-      prevCard();
-    } 
-    // 우측 방향키 또는 스페이스바: 다음 카드
-    else if (event.key === 'ArrowRight' || event.key === ' ') {
-      event.preventDefault(); // 스페이스바 누를 때 스크롤 내려가는 현상 방지
-      nextCard();
-    }
-  });
-};
-    
     
   </script>
 </body>
