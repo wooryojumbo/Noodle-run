@@ -245,7 +245,8 @@
         <div class="touch-zone-right" title="다음 카드"></div>
         <div class="flashcard-inner">
           <div class="card-front">
-            <span class="star-badge" id="card-star" onclick="cycleStar(event)">❤️</span>
+            <!-- 변경 전: onclick="cycleStar(event)" 로 제대로 전달되는지 확인 -->
+<span class="star-badge" id="card-star" onclick="cycleStar(event)">❤️</span>
             <div id="card-q">질문이 표시됩니다.</div>
             <div style="position:absolute; bottom:8px; font-size:11px; color:#aaa; font-weight:normal;">👈 왼쪽 25%: 이전 | 중앙: 뒤집기 | 오른쪽 25%: 다음 👉</div>
           </div>
@@ -548,29 +549,39 @@ function updateCard() {
 
     // 2. 하트 클릭 시 중요도 변경 (❤️ -> 💙 -> 💛 -> 🤍 순환)
 function cycleStar(evt) {
-  // 이벤트 전파 중지 (하트를 누를 때 카드가 뒤집히거나 넘어가지 않도록 예외 처리)
-  if (evt) evt.stopPropagation();
+  // 카드 뒤집힘이나 다른 이벤트 방지
+  if (evt) {
+    evt.stopPropagation();
+    evt.preventDefault();
+  }
 
-  if (filteredCards.length === 0) return;
+  if (!filteredCards || filteredCards.length === 0) return;
 
   const currentCard = filteredCards[cardIdx];
-  
-  // 원본 cards 배열에서 현재 카드의 실제 인덱스 찾기
-  const originalIdx = cards.findIndex(c => c === currentCard);
+  if (!currentCard) return;
+
+  // 질문(q)과 답변(a)이 일치하는 원본 카드의 인덱스를 찾아옵니다.
+  const originalIdx = cards.findIndex(c => c.q === currentCard.q && c.a === currentCard.a);
   if (originalIdx === -1) return;
 
-  // 다음 중요도로 변경 (❤️ -> 💙 -> 💛 -> 🤍 -> ❤️)
-  const currentStarIdx = starList.indexOf(currentCard.star || '❤️');
+  // 다음 중요도로 순환 (❤️ -> 💙 -> 💛 -> 🤍 -> ❤️)
+  const currentStar = cards[originalIdx].star || '❤️';
+  const currentStarIdx = starList.indexOf(currentStar);
   const nextStar = starList[(currentStarIdx + 1) % starList.length];
 
-  // 데이터 업데이트 및 저장
+  // 원본 데이터 및 현재 필터링된 데이터 업데이트
   cards[originalIdx].star = nextStar;
-  syncSave('quizlet_cards_v5', cards);
+  currentCard.star = nextStar;
 
-  // 화면 즉시 반영
+  // 저장 및 화면 갱신
+  syncSave('quizlet_cards_v5', cards);
   updateCard();
-  renderCardTable(); // 편집 목록의 드롭다운 선택값도 함께 갱신
+  if (typeof renderCardTable === 'function') {
+    renderCardTable();
+  }
 }
+
+  
     function prevCard() { if (cardIdx > 0) { cardIdx--; updateCard(); } }
     function nextCard() { if (cardIdx < filteredCards.length - 1) { cardIdx++; updateCard(); } }
 
