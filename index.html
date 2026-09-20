@@ -702,56 +702,51 @@ function cycleStar(evt) {
     }
 
     window.onload = function() {
-  updateDday();
-  initCategoryOptions();
+      updateDday();
+      initCategoryOptions();
 
-  // 1. Firebase에서 퀴즐렛 카드 실시간 동기화
-  db.ref('quizlet_cards_v5').on('value', (snapshot) => {
-    const val = snapshot.val();
-    if (val) {
-      cards = val;
-      localStorage.setItem('quizlet_cards_v5', JSON.stringify(val));
-      filterQuizlet();
-    } else {
-      // 서버에 데이터가 없으면 로컬 데이터 세팅
-      filterQuizlet();
-    }
-  });
+      // 1. Firebase에서 퀴즐렛 카드 실시간 동기화
+      db.ref('quizlet_cards_v5').on('value', (snapshot) => {
+        const val = snapshot.val();
+        if (val) {
+          cards = val;
+          localStorage.setItem('quizlet_cards_v5', JSON.stringify(val));
+        }
+        filterQuizlet();
+      });
 
-  // 2. Firebase에서 플래너(체크리스트) 전체 실시간 동기화
-  db.ref().on('value', (snapshot) => {
-    const data = snapshot.val();
-    if (data) {
-      Object.keys(data).forEach(key => {
-        if (key.startsWith('todos_v2_')) {
-          localStorage.setItem(key, JSON.stringify(data[key]));
+      // 2. Firebase에서 플래너(체크리스트) 전체 실시간 동기화
+      db.ref().on('value', (snapshot) => {
+        const data = snapshot.val();
+        if (data) {
+          Object.keys(data).forEach(key => {
+            if (key.startsWith('todos_v2_')) {
+              localStorage.setItem(key, JSON.stringify(data[key]));
+            }
+          });
+        }
+        renderCalendar();
+      });
+
+      // 3. PC 키보드 단축키 이벤트 리스너
+      document.addEventListener('keydown', function(event) {
+        const quizletTab = document.getElementById('tab2');
+        if (!quizletTab || !quizletTab.classList.contains('active')) return;
+
+        const activeEl = document.activeElement;
+        if (activeEl && (activeEl.tagName === 'INPUT' || activeEl.tagName === 'TEXTAREA' || activeEl.tagName === 'SELECT')) {
+          return;
+        }
+
+        if (event.key === 'ArrowLeft') {
+          event.preventDefault();
+          prevCard();
+        } else if (event.key === 'ArrowRight' || event.key === ' ') {
+          event.preventDefault();
+          nextCard();
         }
       });
-      renderCalendar();
-    } else {
-      renderCalendar();
-    }
-  });
-
-  // 3. PC 키보드 단축키 이벤트 리스너
-  document.addEventListener('keydown', function(event) {
-    const quizletTab = document.getElementById('tab2');
-    if (!quizletTab || !quizletTab.classList.contains('active')) return;
-
-    const activeEl = document.activeElement;
-    if (activeEl && (activeEl.tagName === 'INPUT' || activeEl.tagName === 'TEXTAREA' || activeEl.tagName === 'SELECT')) {
-      return;
-    }
-
-    if (event.key === 'ArrowLeft') {
-      event.preventDefault();
-      prevCard();
-    } else if (event.key === 'ArrowRight' || event.key === ' ') {
-      event.preventDefault();
-      nextCard();
-    }
-  });
-};
+    };
 
     
   </script>
