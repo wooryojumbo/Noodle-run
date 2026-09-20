@@ -382,57 +382,69 @@
     let currentCalDate = new Date();
 
     function renderCalendar() {
-      const year = currentCalDate.getFullYear();
-      const month = currentCalDate.getMonth();
-      document.getElementById('cal-month-title').innerText = `${year}년 ${month + 1}월`;
+  const year = currentCalDate.getFullYear();
+  const month = currentCalDate.getMonth();
+  document.getElementById('cal-month-title').innerText = `${year}년 ${month + 1}월`;
 
-      const firstDay = new Date(year, month, 1);
-      const lastDay = new Date(year, month + 1, 0);
+  const firstDay = new Date(year, month, 1);
+  const lastDay = new Date(year, month + 1, 0);
 
-      let startDay = firstDay.getDay() - 1;
-      if (startDay === -1) startDay = 6;
+  let startDay = firstDay.getDay() - 1;
+  if (startDay === -1) startDay = 6;
 
-      const grid = document.getElementById('cal-cells-grid');
-      if (!grid) return;
-      grid.innerHTML = '';
+  const grid = document.getElementById('cal-cells-grid');
+  if (!grid) return;
+  grid.innerHTML = '';
 
-      const todayKey = getLocalDateKey(new Date());
+  const todayKey = getLocalDateKey(new Date());
 
-      for (let i = 0; i < startDay; i++) {
-        grid.innerHTML += `<div class="cal-cell other-month"></div>`;
-      }
+  for (let i = 0; i < startDay; i++) {
+    grid.innerHTML += `<div class="cal-cell other-month"></div>`;
+  }
 
-      for (let day = 1; day <= lastDay.getDate(); day++) {
-        const dateObj = new Date(year, month, day);
-        const dateKey = getLocalDateKey(dateObj);
+  for (let day = 1; day <= lastDay.getDate(); day++) {
+    const dateObj = new Date(year, month, day);
+    const dateKey = getLocalDateKey(dateObj);
 
-        const todos = JSON.parse(localStorage.getItem(`todos_v2_${dateKey}`)) || [];
-        
-        const isToday = (dateKey === todayKey);
-        const hasTodos = todos.length > 0;
-        const allDone = hasTodos && todos.every(t => t.done);
+    const todos = JSON.parse(localStorage.getItem(`todos_v2_${dateKey}`)) || [];
+    
+    const isToday = (dateKey === todayKey);
+    const hasTodos = todos.length > 0;
+    const allDone = hasTodos && todos.every(t => t.done);
 
-        let bgClass = '';
-        if (allDone) {
-          bgClass = 'all-completed';
-        } else if (isToday) {
-          bgClass = 'is-today';
-        }
+    let bgClass = '';
+    if (allDone) {
+      bgClass = 'all-completed';
+    } else if (isToday) {
+      bgClass = 'is-today';
+    }
 
-        let todoHTML = todos.map((t, idx) => `
-          <li class="cal-todo-item">
-            <input type="checkbox" ${t.done ? 'checked' : ''} style="pointer-events: auto;" onchange="toggleTodo('${dateKey}', ${idx}, event)">
-            <span style="${t.done ? 'text-decoration:line-through; color:#aaa;' : ''}">${t.text}</span>
-          </li>
-        `).join('');
+    // 체크박스 및 텍스트 클릭 시 부모의 openPlannerModal 이벤트로 넘어가지 않게 stopPropagation 처리
+    let todoHTML = todos.map((t, idx) => `
+      <li class="cal-todo-item" onclick="event.stopPropagation();">
+        <input type="checkbox" ${t.done ? 'checked' : ''} style="pointer-events: auto; cursor: pointer;" onchange="toggleTodo('${dateKey}', ${idx}, event)">
+        <span onclick="toggleTodo('${dateKey}', ${idx}, event)" style="cursor: pointer; ${t.done ? 'text-decoration:line-through; color:#aaa;' : ''}">${t.text}</span>
+      </li>
+    `).join('');
 
-        grid.innerHTML += `
-          <div class="cal-cell ${bgClass}" onclick="openPlannerModal('${dateKey}')">
-            <div class="cal-date-num">${day}</div>
-            <ul class="cal-todo-list">${todoHTML}</ul>
-          </div>
-        `;
-      }
+    grid.innerHTML += `
+      <div class="cal-cell ${bgClass}" onclick="openPlannerModal('${dateKey}')">
+        <div class="cal-date-num">${day}</div>
+        <ul class="cal-todo-list">${todoHTML}</ul>
+      </div>
+    `;
+  }
+}
+
+        function toggleTodo(dateKey, idx, evt) {
+  if (evt) {
+    evt.stopPropagation(); // 모달 창이 뜨는 부모 클릭 이벤트 차단
+  }
+  const todos = JSON.parse(localStorage.getItem(`todos_v2_${dateKey}`)) || [];
+  todos[idx].done = !todos[idx].done;
+  syncSave(`todos_v2_${dateKey}`, todos);
+  renderCalendar();
+}
     }
 
     function changeMonth(offset) {
