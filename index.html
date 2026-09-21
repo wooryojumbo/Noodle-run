@@ -309,7 +309,7 @@
       </div>
     </div>
 
-    <!-- 3페이지: 오늘의 일정 메모장 -->
+    <!-- 3페이지: 오늘의 일정 -->
     <div id="tab3" class="page-content">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
         <h2 style="font-size:20px; margin:0; color:var(--primary-text);">📝 오늘의 자유 일정 노트</h2>
@@ -515,8 +515,8 @@
       renderCalendar();
     }
 
-    /* ---------------- 3페이지 메모장 기능 로직 ---------------- */
-    function handleMemoKeydown(e) {
+   /* ---------------- 3페이지 메모장 기능 로직 ---------------- */
+function handleMemoKeydown(e) {
   const textarea = e.target;
   const start = textarea.selectionStart;
   const end = textarea.selectionEnd;
@@ -540,14 +540,13 @@
   }
   // 3. Enter키 누를 때 줄바꿈 + 자동 체크박스/들여쓰기 연속 생성
   else if (e.key === 'Enter') {
-    // 커서가 위치한 이전 라인의 텍스트 추출
     const lastNewlineIdx = val.lastIndexOf('\n', start - 1);
     const currentLine = val.substring(lastNewlineIdx + 1, start);
 
-    // 공백(들여쓰기) + 체크박스 패턴 매칭 (예: "    ☐ ", "    [ ] ", "    [x] ")
+    // 공백(들여쓰기) + 체크박스 패턴 매칭
     const checkboxMatch = currentLine.match(/^(\s*)(☐|\[\s*\]|\[[xX]\])\s*/);
     
-    // 만약 이전 줄이 체크박스 단독으로만 채워져 있고 내용이 없다면, Enter 누를 때 체크박스 삭제 (노션 스타일)
+    // 이전 줄에 내용 없이 체크박스만 있는 경우: Enter 누르면 체크박스 삭제 (노션 방식)
     if (checkboxMatch && currentLine.trim() === checkboxMatch[2]) {
       e.preventDefault();
       textarea.value = val.substring(0, lastNewlineIdx + 1) + val.substring(end);
@@ -556,18 +555,18 @@
       return;
     }
 
-    // 이전 줄에 체크박스가 포함되어 있는 경우 아랫줄에도 생성
+    // 이전 줄에 체크박스가 포함되어 있는 경우 다음 줄에도 동일 형태 생성
     if (checkboxMatch) {
       e.preventDefault();
-      const indent = checkboxMatch[1]; // 기존 들여쓰기 유지
-      const symbol = checkboxMatch[2].includes('[') ? '[ ] ' : '☐ '; // 형식 통일
+      const indent = checkboxMatch[1];
+      const symbol = checkboxMatch[2].includes('[') ? '[ ] ' : '☐ ';
       const insertText = '\n' + indent + symbol;
 
       textarea.value = val.substring(0, start) + insertText + val.substring(end);
       textarea.selectionStart = textarea.selectionEnd = start + insertText.length;
       saveTodayMemo();
     } 
-    // 체크박스는 없지만 들여쓰기가 있는 경우 들여쓰기 유지
+    // 들여쓰기만 있는 경우 들여쓰기 유지
     else {
       const indentMatch = currentLine.match(/^(\s+)/);
       if (indentMatch) {
@@ -581,18 +580,20 @@
   }
 }
 
-    function saveTodayMemo() {
-      const val = document.getElementById('today-memo-editor').value;
-      syncSave('today_schedule_memo', val);
-    }
+function saveTodayMemo() {
+  const editor = document.getElementById('today-memo-editor');
+  if (editor) {
+    syncSave('today_schedule_memo', editor.value);
+  }
+}
 
-    function loadTodayMemo() {
-      const savedMemo = localStorage.getItem('today_schedule_memo') || '';
-      const editor = document.getElementById('today-memo-editor');
-      if (editor) {
-        editor.value = savedMemo;
-      }
-    }
+function loadTodayMemo() {
+  const savedMemo = localStorage.getItem('today_schedule_memo') || '';
+  const editor = document.getElementById('today-memo-editor');
+  if (editor) {
+    editor.value = savedMemo;
+  }
+}
 
     /* ---------------- 퀴즐렛 로직 ---------------- */
     const starList = ['❤️', '💙', '💛', '🤍'];
