@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -180,6 +181,22 @@
       border: 2px solid var(--accent-color);
       overflow-y: auto;
     }
+
+    /* 3페이지 메모장 전용 스타일 */
+    .memo-editor {
+      width: 100%;
+      min-height: 400px;
+      padding: 15px;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      font-size: 15px;
+      line-height: 1.6;
+      resize: vertical;
+      outline: none;
+      font-family: 'NanumSquare', sans-serif;
+      background: #ffffff;
+      white-space: pre-wrap;
+    }
   </style>
 </head>
 <body>
@@ -200,6 +217,7 @@
     <nav>
       <button class="tab-btn active" onclick="openTab(event, 'tab1')"><b>나의 플래너</b></button>
       <button class="tab-btn" onclick="openTab(event, 'tab2')"><b>나의 퀴즐렛</b></button>
+      <button class="tab-btn" onclick="openTab(event, 'tab3')"><b>오늘의 일정</b></button>
     </nav>
   </header>
 
@@ -214,7 +232,6 @@
           </div>
           <button class="btn-timer" onclick="changeMonth(1)">다음 달 ▶</button>
         </div>
-        <!-- 수정된 캘린더 그리드 구조 -->
         <div class="calendar-grid">
           <div class="cal-day-header">월</div>
           <div class="cal-day-header">화</div>
@@ -290,6 +307,15 @@
           <tbody id="quizlet-table-body"></tbody>
         </table>
       </div>
+    </div>
+
+    <!-- 3페이지: 오늘의 일정 메모장 -->
+    <div id="tab3" class="page-content">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+        <h2 style="font-size:20px; margin:0; color:var(--primary-text);">📝 오늘의 자유 일정 노트</h2>
+        <span style="font-size:12px; color:#888;">💡 <code>[]</code> + Space : 체크박스 생성 | <code>Tab</code> : 들여쓰기</span>
+      </div>
+      <textarea id="today-memo-editor" class="memo-editor" placeholder="여기에 오늘의 자유 일정을 작성해보세요.&#10;&#10;예시)&#10;9/22&#10;[] 기상&#10;    [] 양치&#10;[] 오전&#10;    [] 안이비 1강&#10;    [] 안이비 2강" onkeydown="handleMemoKeydown(event)" oninput="saveTodayMemo()"></textarea>
     </div>
   </main>
 
@@ -375,76 +401,64 @@
     const subjectList = [
       "간계내과", "심계내과", "비계내과", "폐계내과", "신계내과",
       "상한론", "사상의학", "침구학", "의료법규", "한방외과",
-      "신경정신과", "안이비인후과", "한방부인과", "한방소아과",
+      "신경정신과", "안이비인후과", "한방소아과",
       "예방의학", "한방생리학", "본초학"
     ];
 
     let currentCalDate = new Date();
 
     function renderCalendar() {
-  const year = currentCalDate.getFullYear();
-  const month = currentCalDate.getMonth();
-  document.getElementById('cal-month-title').innerText = `${year}년 ${month + 1}월`;
+      const year = currentCalDate.getFullYear();
+      const month = currentCalDate.getMonth();
+      document.getElementById('cal-month-title').innerText = `${year}년 ${month + 1}월`;
 
-  const firstDay = new Date(year, month, 1);
-  const lastDay = new Date(year, month + 1, 0);
+      const firstDay = new Date(year, month, 1);
+      const lastDay = new Date(year, month + 1, 0);
 
-  let startDay = firstDay.getDay() - 1;
-  if (startDay === -1) startDay = 6;
+      let startDay = firstDay.getDay() - 1;
+      if (startDay === -1) startDay = 6;
 
-  const grid = document.getElementById('cal-cells-grid');
-  if (!grid) return;
-  grid.innerHTML = '';
+      const grid = document.getElementById('cal-cells-grid');
+      if (!grid) return;
+      grid.innerHTML = '';
 
-  const todayKey = getLocalDateKey(new Date());
+      const todayKey = getLocalDateKey(new Date());
 
-  for (let i = 0; i < startDay; i++) {
-    grid.innerHTML += `<div class="cal-cell other-month"></div>`;
-  }
+      for (let i = 0; i < startDay; i++) {
+        grid.innerHTML += `<div class="cal-cell other-month"></div>`;
+      }
 
-  for (let day = 1; day <= lastDay.getDate(); day++) {
-    const dateObj = new Date(year, month, day);
-    const dateKey = getLocalDateKey(dateObj);
+      for (let day = 1; day <= lastDay.getDate(); day++) {
+        const dateObj = new Date(year, month, day);
+        const dateKey = getLocalDateKey(dateObj);
 
-    const todos = JSON.parse(localStorage.getItem(`todos_v2_${dateKey}`)) || [];
-    
-    const isToday = (dateKey === todayKey);
-    const hasTodos = todos.length > 0;
-    const allDone = hasTodos && todos.every(t => t.done);
+        const todos = JSON.parse(localStorage.getItem(`todos_v2_${dateKey}`)) || [];
+        
+        const isToday = (dateKey === todayKey);
+        const hasTodos = todos.length > 0;
+        const allDone = hasTodos && todos.every(t => t.done);
 
-    let bgClass = '';
-    if (allDone) {
-      bgClass = 'all-completed';
-    } else if (isToday) {
-      bgClass = 'is-today';
-    }
+        let bgClass = '';
+        if (allDone) {
+          bgClass = 'all-completed';
+        } else if (isToday) {
+          bgClass = 'is-today';
+        }
 
-    // 체크박스 및 텍스트 클릭 시 부모의 openPlannerModal 이벤트로 넘어가지 않게 stopPropagation 처리
-    let todoHTML = todos.map((t, idx) => `
-      <li class="cal-todo-item" onclick="event.stopPropagation();">
-        <input type="checkbox" ${t.done ? 'checked' : ''} style="pointer-events: auto; cursor: pointer;" onchange="toggleTodo('${dateKey}', ${idx}, event)">
-        <span onclick="toggleTodo('${dateKey}', ${idx}, event)" style="cursor: pointer; ${t.done ? 'text-decoration:line-through; color:#aaa;' : ''}">${t.text}</span>
-      </li>
-    `).join('');
+        let todoHTML = todos.map((t, idx) => `
+          <li class="cal-todo-item" onclick="event.stopPropagation();">
+            <input type="checkbox" ${t.done ? 'checked' : ''} style="pointer-events: auto; cursor: pointer;" onchange="toggleTodo('${dateKey}', ${idx}, event)">
+            <span onclick="toggleTodo('${dateKey}', ${idx}, event)" style="cursor: pointer; ${t.done ? 'text-decoration:line-through; color:#aaa;' : ''}">${t.text}</span>
+          </li>
+        `).join('');
 
-    grid.innerHTML += `
-      <div class="cal-cell ${bgClass}" onclick="openPlannerModal('${dateKey}')">
-        <div class="cal-date-num">${day}</div>
-        <ul class="cal-todo-list">${todoHTML}</ul>
-      </div>
-    `;
-  }
-}
-
-        function toggleTodo(dateKey, idx, evt) {
-  if (evt) {
-    evt.stopPropagation(); // 모달 창이 뜨는 부모 클릭 이벤트 차단
-  }
-  const todos = JSON.parse(localStorage.getItem(`todos_v2_${dateKey}`)) || [];
-  todos[idx].done = !todos[idx].done;
-  syncSave(`todos_v2_${dateKey}`, todos);
-  renderCalendar();
-
+        grid.innerHTML += `
+          <div class="cal-cell ${bgClass}" onclick="openPlannerModal('${dateKey}')">
+            <div class="cal-date-num">${day}</div>
+            <ul class="cal-todo-list">${todoHTML}</ul>
+          </div>
+        `;
+      }
     }
 
     function changeMonth(offset) {
@@ -501,6 +515,86 @@
       renderCalendar();
     }
 
+    /* ---------------- 3페이지 메모장 기능 로직 ---------------- */
+    function handleMemoKeydown(e) {
+  const textarea = e.target;
+  const start = textarea.selectionStart;
+  const end = textarea.selectionEnd;
+  const val = textarea.value;
+
+  // 1. Tab키 누르면 들여쓰기 (스페이스 4칸)
+  if (e.key === 'Tab') {
+    e.preventDefault();
+    textarea.value = val.substring(0, start) + '    ' + val.substring(end);
+    textarea.selectionStart = textarea.selectionEnd = start + 4;
+    saveTodayMemo();
+  }
+  // 2. Space키 누를 때 [] 단축키 -> ☐ 체크박스 단축 전환
+  else if (e.key === ' ') {
+    if (start >= 2 && val.substring(start - 2, start) === '[]') {
+      e.preventDefault();
+      textarea.value = val.substring(0, start - 2) + '☐ ' + val.substring(end);
+      textarea.selectionStart = textarea.selectionEnd = start;
+      saveTodayMemo();
+    }
+  }
+  // 3. Enter키 누를 때 줄바꿈 + 자동 체크박스/들여쓰기 연속 생성
+  else if (e.key === 'Enter') {
+    // 커서가 위치한 이전 라인의 텍스트 추출
+    const lastNewlineIdx = val.lastIndexOf('\n', start - 1);
+    const currentLine = val.substring(lastNewlineIdx + 1, start);
+
+    // 공백(들여쓰기) + 체크박스 패턴 매칭 (예: "    ☐ ", "    [ ] ", "    [x] ")
+    const checkboxMatch = currentLine.match(/^(\s*)(☐|\[\s*\]|\[[xX]\])\s*/);
+    
+    // 만약 이전 줄이 체크박스 단독으로만 채워져 있고 내용이 없다면, Enter 누를 때 체크박스 삭제 (노션 스타일)
+    if (checkboxMatch && currentLine.trim() === checkboxMatch[2]) {
+      e.preventDefault();
+      textarea.value = val.substring(0, lastNewlineIdx + 1) + val.substring(end);
+      textarea.selectionStart = textarea.selectionEnd = lastNewlineIdx + 1;
+      saveTodayMemo();
+      return;
+    }
+
+    // 이전 줄에 체크박스가 포함되어 있는 경우 아랫줄에도 생성
+    if (checkboxMatch) {
+      e.preventDefault();
+      const indent = checkboxMatch[1]; // 기존 들여쓰기 유지
+      const symbol = checkboxMatch[2].includes('[') ? '[ ] ' : '☐ '; // 형식 통일
+      const insertText = '\n' + indent + symbol;
+
+      textarea.value = val.substring(0, start) + insertText + val.substring(end);
+      textarea.selectionStart = textarea.selectionEnd = start + insertText.length;
+      saveTodayMemo();
+    } 
+    // 체크박스는 없지만 들여쓰기가 있는 경우 들여쓰기 유지
+    else {
+      const indentMatch = currentLine.match(/^(\s+)/);
+      if (indentMatch) {
+        e.preventDefault();
+        const insertText = '\n' + indentMatch[1];
+        textarea.value = val.substring(0, start) + insertText + val.substring(end);
+        textarea.selectionStart = textarea.selectionEnd = start + insertText.length;
+        saveTodayMemo();
+      }
+    }
+  }
+}
+
+    function saveTodayMemo() {
+      const val = document.getElementById('today-memo-editor').value;
+      syncSave('today_schedule_memo', val);
+    }
+
+    function loadTodayMemo() {
+      const savedMemo = localStorage.getItem('today_schedule_memo') || '';
+      const editor = document.getElementById('today-memo-editor');
+      if (editor) {
+        editor.value = savedMemo;
+      }
+    }
+
+    /* ---------------- 퀴즐렛 로직 ---------------- */
     const starList = ['❤️', '💙', '💛', '🤍'];
     const starWeights = { '❤️': 4, '💙': 3, '💛': 2, '🤍': 1 };
 
@@ -682,6 +776,19 @@
       updateDday();
       initCategoryOptions();
       renderCalendar();
+      loadTodayMemo();
+
+      // 파이어베이스에서 실시간으로 메모장 및 데이터 불러오기
+      db.ref('today_schedule_memo').on('value', (snapshot) => {
+        const val = snapshot.val();
+        if (val !== null) {
+          localStorage.setItem('today_schedule_memo', val);
+          const editor = document.getElementById('today-memo-editor');
+          if (editor && document.activeElement !== editor) {
+            editor.value = val;
+          }
+        }
+      });
 
       db.ref('quizlet_cards_v5').on('value', (snapshot) => {
         const val = snapshot.val();
