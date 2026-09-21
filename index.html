@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -107,7 +106,7 @@
       box-shadow: 0 4px 15px rgba(248, 175, 175, 0.15);
       border: 1px solid var(--border-color);
     }
-    .page-content.active { display: block; }
+    .page-content.active { display: block !important; }
 
     .btn-timer {
       padding: 8px 14px;
@@ -180,22 +179,6 @@
       position: relative;
       border: 2px solid var(--accent-color);
       overflow-y: auto;
-    }
-
-    /* 3페이지 메모장 전용 스타일 */
-    .memo-editor {
-      width: 100%;
-      min-height: 400px;
-      padding: 15px;
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      font-size: 15px;
-      line-height: 1.6;
-      resize: vertical;
-      outline: none;
-      font-family: 'NanumSquare', sans-serif;
-      background: #ffffff;
-      white-space: pre-wrap;
     }
   </style>
 </head>
@@ -309,14 +292,15 @@
       </div>
     </div>
 
-    <!-- 3페이지: 오늘의 일정 -->
-    <div id="tab3" class="page-content">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-        <h2 style="font-size:20px; margin:0; color:var(--primary-text);">📝 오늘의 자유 일정 노트</h2>
-        <span style="font-size:12px; color:#888;">💡 <code>[]</code> + Space : 체크박스 생성 | <code>Tab</code> : 들여쓰기</span>
-      </div>
-      <textarea id="today-memo-editor" class="memo-editor" placeholder="여기에 오늘의 자유 일정을 작성해보세요.&#10;&#10;예시)&#10;9/22&#10;[] 기상&#10;    [] 양치&#10;[] 오전&#10;    [] 안이비 1강&#10;    [] 안이비 2강" onkeydown="handleMemoKeydown(event)" oninput="saveTodayMemo()"></textarea>
-    </div>
+    <!-- 3페이지: 학습 노트 (추가 페이지) -->
+   <div id="tab3" class="page-content">
+  <h2 style="font-size:20px; margin-top:0; color:var(--primary-text);">📅 오늘의 세부 일정</h2>
+  <p style="color:#666; font-size:14px;"><code>[]</code> 입력 후 Space 키를 누르면 <code>[ ] </code> 체크박스로 변환되며, Enter 입력 시 자동 연장됩니다. (Tab 입력 시 4공백 들여쓰기)</p>
+  <textarea id="study-note-area" style="width:100%; height:350px; padding:12px; border:1px solid var(--border-color); border-radius:8px; font-size:14px; resize:vertical; font-family:'NanumSquare', sans-serif;" placeholder="일정을 기록하세요..." onkeydown="handleNoteShortcuts(event)"></textarea>
+  <div style="display:flex; justify-content:flex-end; margin-top:10px;">
+    <button class="btn-pink" onclick="saveNote()" style="padding:8px 20px; border-radius:6px;">💾 일정 저장</button>
+  </div>
+</div>
   </main>
 
   <div id="card-add-modal" class="modal">
@@ -353,7 +337,7 @@
       <button class="close-btn" onclick="closePlannerModal()">✕</button>
       <h3 style="color:var(--primary-text); margin-top:0;" id="planner-modal-date">📅 체크리스트</h3>
       <p style="font-size:12px; color:#666; margin-bottom:10px;"><code>[]</code> 입력 후 <b>Space 키</b>를 누르면 체크박스가 자동 생성됩니다.</p>
-      <textarea id="planner-bulk-textarea" style="width:100%; height:200px; padding:10px; border:1px solid var(--border-color); border-radius:8px; font-size:13px; resize:vertical; outline:none; font-family:'NanumSquare', sans-serif;" onkeyup="handleCheckboxShortcut(event)"></textarea>
+      <textarea id="planner-bulk-textarea" style="width:100%; height:200px; padding:10px; border:1px solid var(--border-color); border-radius:8px; font-size:13px; resize:vertical; outline:none; font-family:'NanumSquare', sans-serif;" onkeydown="handleCheckboxShortcut(event)"></textarea>
       <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:12px;">
         <button onclick="closePlannerModal()" style="padding:6px 14px; border:1px solid #ccc; background:#fff; border-radius:6px; cursor:pointer;">취소</button>
         <button class="btn-pink" onclick="savePlannerBulkItems()" style="padding:6px 18px; border-radius:6px;">💾 저장</button>
@@ -390,18 +374,30 @@
 
     function openTab(evt, tabId) {
       const contents = document.getElementsByClassName('page-content');
-      for (let c of contents) { c.classList.remove('active'); }
+      for (let i = 0; i < contents.length; i++) {
+        contents[i].classList.remove('active');
+        contents[i].style.display = 'none';
+      }
+      
       const btns = document.querySelectorAll('nav button');
-      for (let b of btns) { b.classList.remove('active'); }
+      for (let i = 0; i < btns.length; i++) {
+        btns[i].classList.remove('active');
+      }
 
-      document.getElementById(tabId).classList.add('active');
-      evt.currentTarget.classList.add('active');
+      const target = document.getElementById(tabId);
+      if (target) {
+        target.classList.add('active');
+        target.style.display = 'block';
+      }
+      if (evt && evt.currentTarget) {
+        evt.currentTarget.classList.add('active');
+      }
     }
 
     const subjectList = [
       "간계내과", "심계내과", "비계내과", "폐계내과", "신계내과",
       "상한론", "사상의학", "침구학", "의료법규", "한방외과",
-      "신경정신과", "안이비인후과", "한방소아과",
+      "신경정신과", "안이비인후과", "한방부인과", "한방소아과",
       "예방의학", "한방생리학", "본초학"
     ];
 
@@ -461,6 +457,16 @@
       }
     }
 
+    function toggleTodo(dateKey, idx, evt) {
+      if (evt) {
+        evt.stopPropagation();
+      }
+      const todos = JSON.parse(localStorage.getItem(`todos_v2_${dateKey}`)) || [];
+      todos[idx].done = !todos[idx].done;
+      syncSave(`todos_v2_${dateKey}`, todos);
+      renderCalendar();
+    }
+
     function changeMonth(offset) {
       currentCalDate.setMonth(currentCalDate.getMonth() + offset, 1);
       renderCalendar();
@@ -478,16 +484,48 @@
     function closePlannerModal() { document.getElementById('planner-modal').style.display = 'none'; renderCalendar(); }
 
     function handleCheckboxShortcut(e) {
-      if (e.key === ' ') {
-        const textarea = e.target;
-        const val = textarea.value;
-        const pos = textarea.selectionStart;
-        if (pos >= 2 && val.substring(pos - 2, pos) === '[]') {
-          textarea.value = val.substring(0, pos - 2) + '[ ] ' + val.substring(pos);
-          textarea.selectionStart = textarea.selectionEnd = pos + 2;
-        }
-      }
+  const textarea = e.target;
+  const start = textarea.selectionStart;
+  const end = textarea.selectionEnd;
+  const val = textarea.value;
+
+  if (e.key === ' ') {
+    if (start >= 2 && val.substring(start - 2, start) === '[]') {
+      e.preventDefault();
+      textarea.value = val.substring(0, start - 2) + '[ ] ' + val.substring(end);
+      textarea.selectionStart = textarea.selectionEnd = start + 2;
+      return;
     }
+  }
+
+  if (e.key === 'Tab') {
+    e.preventDefault();
+    textarea.value = val.substring(0, start) + '    ' + val.substring(end);
+    textarea.selectionStart = textarea.selectionEnd = start + 4;
+    return;
+  }
+
+  if (e.key === 'Enter') {
+    const lineStart = val.lastIndexOf('\n', start - 1) + 1;
+    const currentLine = val.substring(lineStart, start);
+    const match = currentLine.match(/^(\s*)(\[\s*\]|\[[xX]\])\s*/);
+
+    if (match) {
+      e.preventDefault();
+      const indent = match[1];
+      const nextBox = '\n' + indent + '[ ] ';
+
+      if (currentLine.trim() === '[ ]' || currentLine.trim() === '[x]' || currentLine.trim() === '[X]') {
+        textarea.value = val.substring(0, lineStart) + val.substring(start);
+        textarea.selectionStart = textarea.selectionEnd = lineStart;
+        return;
+      }
+
+      textarea.value = val.substring(0, start) + nextBox + val.substring(end);
+      textarea.selectionStart = textarea.selectionEnd = start + nextBox.length;
+    }
+  }
+}
 
     function savePlannerBulkItems() {
       const lines = document.getElementById('planner-bulk-textarea').value.split('\n');
@@ -505,97 +543,6 @@
       closePlannerModal();
     }
 
-    function toggleTodo(dateKey, idx, evt) {
-      if (evt) {
-        evt.stopPropagation();
-      }
-      const todos = JSON.parse(localStorage.getItem(`todos_v2_${dateKey}`)) || [];
-      todos[idx].done = !todos[idx].done;
-      syncSave(`todos_v2_${dateKey}`, todos);
-      renderCalendar();
-    }
-
-   /* ---------------- 3페이지 메모장 기능 로직 ---------------- */
-function handleMemoKeydown(e) {
-  const textarea = e.target;
-  const start = textarea.selectionStart;
-  const end = textarea.selectionEnd;
-  const val = textarea.value;
-
-  // 1. Tab키 누르면 들여쓰기 (스페이스 4칸)
-  if (e.key === 'Tab') {
-    e.preventDefault();
-    textarea.value = val.substring(0, start) + '    ' + val.substring(end);
-    textarea.selectionStart = textarea.selectionEnd = start + 4;
-    saveTodayMemo();
-  }
-  // 2. Space키 누를 때 [] 단축키 -> ☐ 체크박스 단축 전환
-  else if (e.key === ' ') {
-    if (start >= 2 && val.substring(start - 2, start) === '[]') {
-      e.preventDefault();
-      textarea.value = val.substring(0, start - 2) + '☐ ' + val.substring(end);
-      textarea.selectionStart = textarea.selectionEnd = start;
-      saveTodayMemo();
-    }
-  }
-  // 3. Enter키 누를 때 줄바꿈 + 자동 체크박스/들여쓰기 연속 생성
-  else if (e.key === 'Enter') {
-    const lastNewlineIdx = val.lastIndexOf('\n', start - 1);
-    const currentLine = val.substring(lastNewlineIdx + 1, start);
-
-    // 공백(들여쓰기) + 체크박스 패턴 매칭
-    const checkboxMatch = currentLine.match(/^(\s*)(☐|\[\s*\]|\[[xX]\])\s*/);
-    
-    // 이전 줄에 내용 없이 체크박스만 있는 경우: Enter 누르면 체크박스 삭제 (노션 방식)
-    if (checkboxMatch && currentLine.trim() === checkboxMatch[2]) {
-      e.preventDefault();
-      textarea.value = val.substring(0, lastNewlineIdx + 1) + val.substring(end);
-      textarea.selectionStart = textarea.selectionEnd = lastNewlineIdx + 1;
-      saveTodayMemo();
-      return;
-    }
-
-    // 이전 줄에 체크박스가 포함되어 있는 경우 다음 줄에도 동일 형태 생성
-    if (checkboxMatch) {
-      e.preventDefault();
-      const indent = checkboxMatch[1];
-      const symbol = checkboxMatch[2].includes('[') ? '[ ] ' : '☐ ';
-      const insertText = '\n' + indent + symbol;
-
-      textarea.value = val.substring(0, start) + insertText + val.substring(end);
-      textarea.selectionStart = textarea.selectionEnd = start + insertText.length;
-      saveTodayMemo();
-    } 
-    // 들여쓰기만 있는 경우 들여쓰기 유지
-    else {
-      const indentMatch = currentLine.match(/^(\s+)/);
-      if (indentMatch) {
-        e.preventDefault();
-        const insertText = '\n' + indentMatch[1];
-        textarea.value = val.substring(0, start) + insertText + val.substring(end);
-        textarea.selectionStart = textarea.selectionEnd = start + insertText.length;
-        saveTodayMemo();
-      }
-    }
-  }
-}
-
-function saveTodayMemo() {
-  const editor = document.getElementById('today-memo-editor');
-  if (editor) {
-    syncSave('today_schedule_memo', editor.value);
-  }
-}
-
-function loadTodayMemo() {
-  const savedMemo = localStorage.getItem('today_schedule_memo') || '';
-  const editor = document.getElementById('today-memo-editor');
-  if (editor) {
-    editor.value = savedMemo;
-  }
-}
-
-    /* ---------------- 퀴즐렛 로직 ---------------- */
     const starList = ['❤️', '💙', '💛', '🤍'];
     const starWeights = { '❤️': 4, '💙': 3, '💛': 2, '🤍': 1 };
 
@@ -772,24 +719,70 @@ function loadTodayMemo() {
         filterQuizlet();
       }
     }
+function handleNoteShortcuts(e) {
+  const textarea = e.target;
+  const start = textarea.selectionStart;
+  const end = textarea.selectionEnd;
+  const val = textarea.value;
+
+  // 1. [] + Space -> [ ] 체크박스로 변환
+  if (e.key === ' ') {
+    if (start >= 2 && val.substring(start - 2, start) === '[]') {
+      e.preventDefault();
+      textarea.value = val.substring(0, start - 2) + '[ ] ' + val.substring(end);
+      textarea.selectionStart = textarea.selectionEnd = start + 2;
+      return;
+    }
+  }
+
+  // 2. Tab 키 -> 스페이스바 4칸 들여쓰기
+  if (e.key === 'Tab') {
+    e.preventDefault();
+    const tabIndent = '    '; // 스페이스바 4번
+    textarea.value = val.substring(0, start) + tabIndent + val.substring(end);
+    textarea.selectionStart = textarea.selectionEnd = start + 4;
+    return;
+  }
+
+  // 3. Enter 키 -> 다음 줄에 체크박스 유지를 자동 적용
+  if (e.key === 'Enter') {
+    // 현재 줄의 시작 지점 찾기
+    const lineStart = val.lastIndexOf('\n', start - 1) + 1;
+    const currentLine = val.substring(lineStart, start);
+
+    // [ ] 또는 [x] / [X] 로 시작하는지 확인 (앞쪽 공백 포함)
+    const match = currentLine.match(/^(\s*)(\[\s*\]|\[[xX]\])\s*/);
+
+    if (match) {
+      e.preventDefault();
+      const indent = match[1]; // 들여쓰기 공백 보존
+      const nextBox = '\n' + indent + '[ ] ';
+
+      // 내용이 없는 빈 체크박스 줄에서 Enter를 누르면 체크박스 제거 후 줄바꿈
+      if (currentLine.trim() === '[ ]' || currentLine.trim() === '[x]' || currentLine.trim() === '[X]') {
+        textarea.value = val.substring(0, lineStart) + val.substring(start);
+        textarea.selectionStart = textarea.selectionEnd = lineStart;
+        return;
+      }
+
+      textarea.value = val.substring(0, start) + nextBox + val.substring(end);
+      textarea.selectionStart = textarea.selectionEnd = start + nextBox.length;
+    }
+  }
+}
+    function saveNote() {
+      const noteContent = document.getElementById('study-note-area').value;
+      syncSave('kuksi_study_note', noteContent);
+      alert('메모가 저장되었습니다!');
+    }
 
     window.onload = function() {
       updateDday();
       initCategoryOptions();
       renderCalendar();
-      loadTodayMemo();
 
-      // 파이어베이스에서 실시간으로 메모장 및 데이터 불러오기
-      db.ref('today_schedule_memo').on('value', (snapshot) => {
-        const val = snapshot.val();
-        if (val !== null) {
-          localStorage.setItem('today_schedule_memo', val);
-          const editor = document.getElementById('today-memo-editor');
-          if (editor && document.activeElement !== editor) {
-            editor.value = val;
-          }
-        }
-      });
+      const savedNote = localStorage.getItem('kuksi_study_note') || '';
+      document.getElementById('study-note-area').value = savedNote;
 
       db.ref('quizlet_cards_v5').on('value', (snapshot) => {
         const val = snapshot.val();
