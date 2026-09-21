@@ -128,12 +128,10 @@
 
     .cal-cell.is-today { background-color: #e3f2ce !important; }
     .cal-cell.all-completed { background-color: #f1ddc0 !important; }
-    /* 모의고사 및 국시 날짜 배경색 */
     .cal-cell.exam-day { background-color: #fbfbb5 !important; }
 
     .cal-date-header { display: flex; align-items: center; gap: 4px; margin-bottom: 2px; }
     .cal-date-num { font-size: 11px; font-weight: bold; }
-    /* 시험 명칭 텍스트 색상 (국시 D-Day 색상 지정) */
     .cal-exam-label { font-size: 11px; font-weight: bold; color: #d63031; }
 
     .cal-todo-list { list-style: none; padding: 0; margin: 0; flex: 1; overflow-y: auto; }
@@ -208,6 +206,134 @@
       color: var(--primary-text);
       outline: none;
       background: #ffffff;
+    }
+
+    /* 3페이지 세부 일정 전용 스타일 */
+    .todo-input-container {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    .todo-input {
+      flex: 1;
+      padding: 12px 15px;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      font-size: 15px;
+      font-family: 'NanumSquare', sans-serif;
+      outline: none;
+    }
+    .todo-input:focus {
+      border-color: var(--accent-color);
+    }
+    .todo-list-box {
+      min-height: 320px;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 10px;
+      background: #ffffff;
+      list-style: none;
+      margin: 0;
+    }
+    .todo-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between; /* 좌측(체크박스/항목) - 우측(색깔/드래그/삭제) 분리 */
+      padding: 10px;
+      margin-bottom: 6px;
+      background: #fff;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      font-size: 15px;
+      gap: 12px;
+      transition: background 0.2s, box-shadow 0.2s, opacity 0.2s;
+    }
+    .todo-item.dragging {
+      opacity: 0.4;
+      background: #fff0f0;
+      border-style: dashed;
+      border-color: var(--accent-color);
+    }
+
+    /* 좌측 영역: 체크박스 + 항목 */
+    .todo-item-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+    }
+
+    /* 우측 영역: 색깔 + 드래그 + 삭제버튼 */
+    .todo-item-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .todo-checkbox {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+      accent-color: var(--accent-color);
+    }
+    .color-picker-btn {
+      cursor: pointer;
+      font-size: 14px;
+      user-select: none;
+      padding: 2px 4px;
+      border-radius: 4px;
+      background: #f7f7f7;
+    }
+    .color-picker-btn:hover {
+      background: #eee;
+    }
+    .drag-handle {
+      cursor: grab;
+      color: #aaa;
+      font-size: 16px;
+      padding: 0 4px;
+      user-select: none;
+    }
+    .drag-handle:active {
+      cursor: grabbing;
+    }
+    .todo-text {
+      cursor: pointer;
+      user-select: none;
+      flex: 1;
+      padding: 2px 4px;
+      border-radius: 4px;
+    }
+    .todo-text:hover {
+      background: #fff0f0;
+    }
+    .todo-text.completed {
+      text-decoration: line-through;
+      opacity: 0.5;
+    }
+    .todo-text-input {
+      flex: 1;
+      font-size: 15px;
+      font-family: 'NanumSquare', sans-serif;
+      padding: 4px 8px;
+      border: 1px solid var(--accent-color);
+      border-radius: 4px;
+      outline: none;
+    }
+    .todo-delete-btn {
+      background: none;
+      border: none;
+      color: #e74c3c;
+      font-weight: bold;
+      cursor: pointer;
+      padding: 2px 6px;
+      font-size: 16px;
+    }
+    .empty-todo-msg {
+      text-align: center;
+      color: #999;
+      padding: 40px 0;
+      font-size: 14px;
     }
   </style>
 </head>
@@ -335,12 +461,14 @@
         <button class="btn-timer" onclick="shiftDetailDate(1)">내일 ▶</button>
       </div>
 
-      <p style="color:#666; font-size:13px; margin-top:4px; margin-bottom:12px;">
-        <code>[]</code> 입력 후 Space 키를 누르면 <code>☐ </code> 네모 체크박스로 변환되며, Enter 입력 시 자동 연장됩니다. (Tab 키: 체크박스 포함 들여쓰기)
-      </p>
+      <!-- 새 할 일 입력 -->
+      <div class="todo-input-container">
+        <input type="text" id="new-todo-input" class="todo-input" placeholder="오늘 세울 자유 일정을 입력하세요..." onkeydown="if(event.key==='Enter') addDetailTodo()">
+        <button class="btn-pink" onclick="addDetailTodo()" style="padding:0 20px; border-radius:8px; font-size:15px;">추가</button>
+      </div>
 
-      <!-- oninput="autoSaveNote()" 추가로 타이핑 시 실시간 저장 -->
-      <textarea id="study-note-area" style="width:100%; height:380px; padding:20px; border:1px solid var(--border-color); border-radius:8px; font-size:16px; resize:vertical; font-family:'NanumSquare', sans-serif; line-height:1.6;" placeholder="선택한 날짜의 세부 일정을 입력하세요..." onkeydown="handleNoteShortcuts(event)" oninput="autoSaveNote()"></textarea>
+      <!-- 세부 일정 체크리스트 목록 -->
+      <ul id="detail-todo-list" class="todo-list-box"></ul>
     </div>
   </main>
 
@@ -395,7 +523,6 @@
     if (!firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
     const db = firebase.database();
 
-    // 모의고사 및 국가고시 날짜 데이터 매핑
     const examSchedule = {
       "2026-09-19": "1차",
       "2026-10-10": "2차",
@@ -453,7 +580,7 @@
     const subjectList = [
       "간계내과", "심계내과", "비계내과", "폐계내과", "신계내과",
       "상한론", "사상의학", "침구학", "의료법규", "한방외과",
-      "신경정신과", "안이비인후과", "한방부인과", "한방소아과",
+      "신경정신과", "안이비인후과", "한방소아과",
       "예방의학", "한방생리학", "본초학"
     ];
 
@@ -500,12 +627,14 @@
           bgClass = 'is-today';
         }
 
-        let todoHTML = todos.map((t, idx) => `
+        let todoHTML = todos.map((t, idx) => {
+          let textColor = t.color === 'red' ? '#e74c3c' : (t.color === 'blue' ? '#2980b9' : '#333333');
+          return `
           <li class="cal-todo-item" onclick="event.stopPropagation();">
             <input type="checkbox" ${t.done ? 'checked' : ''} style="pointer-events: auto; cursor: pointer;" onchange="toggleTodo('${dateKey}', ${idx}, event)">
-            <span onclick="toggleTodo('${dateKey}', ${idx}, event)" style="cursor: pointer; ${t.done ? 'text-decoration:line-through; color:#aaa;' : ''}">${t.text}</span>
+            <span onclick="toggleTodo('${dateKey}', ${idx}, event)" style="cursor: pointer; color:${textColor}; ${t.done ? 'text-decoration:line-through; opacity:0.5;' : ''}">${t.text}</span>
           </li>
-        `).join('');
+        `}).join('');
 
         const examLabelHTML = examLabel ? `<span class="cal-exam-label">${examLabel}</span>` : '';
 
@@ -526,9 +655,11 @@
         evt.stopPropagation();
       }
       const todos = JSON.parse(localStorage.getItem(`todos_v2_${dateKey}`)) || [];
-      todos[idx].done = !todos[idx].done;
-      syncSave(`todos_v2_${dateKey}`, todos);
-      renderCalendar();
+      if (todos[idx]) {
+        todos[idx].done = !todos[idx].done;
+        syncSave(`todos_v2_${dateKey}`, todos);
+        renderCalendar();
+      }
     }
 
     function changeMonth(offset) {
@@ -606,9 +737,9 @@
         const trimmed = line.trim();
         if (!trimmed) return;
         if (trimmed.startsWith('☑') || trimmed.startsWith('[x]') || trimmed.startsWith('[X]')) {
-          todos.push({ text: trimmed.replace(/^(☑|\[[xX]\])\s*/, ''), done: true });
+          todos.push({ text: trimmed.replace(/^(☑|\[[xX]\])\s*/, ''), done: true, color: 'black' });
         } else {
-          todos.push({ text: trimmed.replace(/^(☐|\[\s*\])\s*/, ''), done: false });
+          todos.push({ text: trimmed.replace(/^(☐|\[\s*\])\s*/, ''), done: false, color: 'black' });
         }
       });
       syncSave(`todos_v2_${activePlannerDateKey}`, todos);
@@ -792,26 +923,24 @@
       }
     }
 
-    /* --- 3페이지 오늘의 일정 날짜 제어 및 체크박스 로직 --- */
+    /* --- 3페이지 독립형 세부 일정 모듈 --- */
     let currentDetailDateStr = getLocalDateKey(new Date());
+    let editingTodoIdx = -1;
+    let draggedIdx = null;
 
     function initScheduleDatePicker() {
       const picker = document.getElementById('schedule-date-picker');
       if (picker) {
         picker.value = currentDetailDateStr;
       }
-      loadNoteForDate(currentDetailDateStr);
-    }
-
-    function loadNoteForDate(dateStr) {
-      currentDetailDateStr = dateStr;
-      const savedNote = localStorage.getItem(`kuksi_study_note_${dateStr}`) || '';
-      document.getElementById('study-note-area').value = savedNote;
+      renderDetailTodoList();
     }
 
     function onDetailDateChange(newDateStr) {
       if (!newDateStr) return;
-      loadNoteForDate(newDateStr);
+      currentDetailDateStr = newDateStr;
+      editingTodoIdx = -1;
+      renderDetailTodoList();
     }
 
     function shiftDetailDate(offsetDays) {
@@ -819,72 +948,166 @@
       const targetDate = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
       targetDate.setDate(targetDate.getDate() + offsetDays);
 
-      const newDateStr = getLocalDateKey(targetDate);
-      document.getElementById('schedule-date-picker').value = newDateStr;
-      loadNoteForDate(newDateStr);
+      currentDetailDateStr = getLocalDateKey(targetDate);
+      document.getElementById('schedule-date-picker').value = currentDetailDateStr;
+      editingTodoIdx = -1;
+      renderDetailTodoList();
     }
 
-    function handleNoteShortcuts(e) {
-      const textarea = e.target;
-      const start = textarea.selectionStart;
-      const end = textarea.selectionEnd;
-      const val = textarea.value;
+    /* 레이아웃 변경: [체크박스][항목] (좌측) | [색깔][드래그앤드롭][삭제버튼] (우측) */
+    function renderDetailTodoList() {
+      const listEl = document.getElementById('detail-todo-list');
+      if (!listEl) return;
 
-      if (e.key === ' ') {
-        if (start >= 2 && val.substring(start - 2, start) === '[]') {
-          e.preventDefault();
-          textarea.value = val.substring(0, start - 2) + '☐ ' + val.substring(end);
-          textarea.selectionStart = textarea.selectionEnd = start;
-          autoSaveNote();
-          return;
-        }
-      }
+      const todos = JSON.parse(localStorage.getItem(`daily_detail_${currentDetailDateStr}`)) || [];
+      listEl.innerHTML = '';
 
-      if (e.key === 'Tab') {
-        e.preventDefault();
-        const lineStart = val.lastIndexOf('\n', start - 1) + 1;
-        
-        if (e.shiftKey) {
-          if (val.substring(lineStart, lineStart + 4) === '    ') {
-            textarea.value = val.substring(0, lineStart) + val.substring(lineStart + 4);
-            textarea.selectionStart = textarea.selectionEnd = Math.max(lineStart, start - 4);
-          }
-        } else {
-          textarea.value = val.substring(0, lineStart) + '    ' + val.substring(lineStart);
-          textarea.selectionStart = textarea.selectionEnd = start + 4;
-        }
-        autoSaveNote();
+      if (todos.length === 0) {
+        listEl.innerHTML = `<li class="empty-todo-msg">등록된 세부 일정이 없습니다. 위 입력창에 오늘의 계획을 자유롭게 추가해보세요!</li>`;
         return;
       }
 
-      if (e.key === 'Enter') {
-        const lineStart = val.lastIndexOf('\n', start - 1) + 1;
-        const currentLine = val.substring(lineStart, start);
-        const match = currentLine.match(/^(\s*)(☐|☑|\[\s*\]|\[[xX]\])\s*/);
+      todos.forEach((t, idx) => {
+        const itemColor = t.color || 'black';
+        let colorIcon = '🖤';
+        let textColor = '#333333';
 
-        if (match) {
-          e.preventDefault();
-          const indent = match[1];
-          const nextBox = '\n' + indent + '☐ ';
-
-          if (currentLine.trim() === '☐' || currentLine.trim() === '☑' || currentLine.trim() === '[ ]' || currentLine.trim() === '[x]') {
-            textarea.value = val.substring(0, lineStart) + val.substring(start);
-            textarea.selectionStart = textarea.selectionEnd = lineStart;
-            autoSaveNote();
-            return;
-          }
-
-          textarea.value = val.substring(0, start) + nextBox + val.substring(end);
-          textarea.selectionStart = textarea.selectionEnd = start + nextBox.length;
-          autoSaveNote();
+        if (itemColor === 'red') {
+          colorIcon = '🔴';
+          textColor = '#e74c3c';
+        } else if (itemColor === 'blue') {
+          colorIcon = '🔵';
+          textColor = '#2980b9';
         }
+
+        const isEditing = (editingTodoIdx === idx);
+
+        let textHTML = '';
+        if (isEditing) {
+          textHTML = `<input type="text" id="edit-todo-input-${idx}" class="todo-text-input" value="${t.text.replace(/"/g, '&quot;')}" onkeydown="if(event.key==='Enter') saveEditedTodo(${idx})" onblur="saveEditedTodo(${idx})">`;
+        } else {
+          textHTML = `<span class="todo-text ${t.done ? 'completed' : ''}" style="color:${textColor};" onclick="startEditTodo(${idx})" title="클릭하여 수정">${t.text}</span>`;
+        }
+
+        listEl.innerHTML += `
+          <li class="todo-item" draggable="true" data-index="${idx}" ondragstart="handleDragStart(event, ${idx})" ondragover="handleDragOver(event)" ondrop="handleDrop(event, ${idx})" ondragend="handleDragEnd(event)">
+            <!-- 좌측: 체크박스 / 항목 -->
+            <div class="todo-item-left">
+              <input type="checkbox" class="todo-checkbox" ${t.done ? 'checked' : ''} onchange="toggleDetailTodo(${idx})">
+              ${textHTML}
+            </div>
+            <!-- 우측: 색깔 / 드래그 / 삭제버튼 -->
+            <div class="todo-item-right">
+              <span class="color-picker-btn" onclick="cycleTodoColor(${idx})" title="색상 변경 (검정▶빨강▶파랑)">${colorIcon}</span>
+              <span class="drag-handle" title="꾹 눌러서 위아래로 순서 변경">☰</span>
+              <button class="todo-delete-btn" onclick="deleteDetailTodo(${idx})" title="삭제">✕</button>
+            </div>
+          </li>
+        `;
+      });
+
+      if (editingTodoIdx !== -1) {
+        setTimeout(() => {
+          const editInput = document.getElementById(`edit-todo-input-${editingTodoIdx}`);
+          if (editInput) editInput.focus();
+        }, 50);
       }
     }
 
-    // 실시간 자동 저장 함수 (알림창 없이 조용히 저장)
-    function autoSaveNote() {
-      const noteContent = document.getElementById('study-note-area').value;
-      syncSave(`kuksi_study_note_${currentDetailDateStr}`, noteContent);
+    function handleDragStart(e, idx) {
+      draggedIdx = idx;
+      e.currentTarget.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+    }
+
+    function handleDragOver(e) {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+    }
+
+    function handleDrop(e, targetIdx) {
+      e.preventDefault();
+      if (draggedIdx === null || draggedIdx === targetIdx) return;
+
+      const todos = JSON.parse(localStorage.getItem(`daily_detail_${currentDetailDateStr}`)) || [];
+      const movedItem = todos.splice(draggedIdx, 1)[0];
+      todos.splice(targetIdx, 0, movedItem);
+
+      draggedIdx = null;
+      syncSave(`daily_detail_${currentDetailDateStr}`, todos);
+      renderDetailTodoList();
+    }
+
+    function handleDragEnd(e) {
+      e.currentTarget.classList.remove('dragging');
+      draggedIdx = null;
+    }
+
+    function addDetailTodo() {
+      const inputEl = document.getElementById('new-todo-input');
+      const text = inputEl.value.trim();
+      if (!text) return;
+
+      const todos = JSON.parse(localStorage.getItem(`daily_detail_${currentDetailDateStr}`)) || [];
+      todos.push({ text: text, done: false, color: 'black' });
+
+      syncSave(`daily_detail_${currentDetailDateStr}`, todos);
+      inputEl.value = '';
+      renderDetailTodoList();
+    }
+
+    function toggleDetailTodo(idx) {
+      const todos = JSON.parse(localStorage.getItem(`daily_detail_${currentDetailDateStr}`)) || [];
+      if (todos[idx]) {
+        todos[idx].done = !todos[idx].done;
+        syncSave(`daily_detail_${currentDetailDateStr}`, todos);
+        renderDetailTodoList();
+      }
+    }
+
+    function cycleTodoColor(idx) {
+      const todos = JSON.parse(localStorage.getItem(`daily_detail_${currentDetailDateStr}`)) || [];
+      if (todos[idx]) {
+        const currentColor = todos[idx].color || 'black';
+        let nextColor = 'red';
+        if (currentColor === 'red') nextColor = 'blue';
+        else if (currentColor === 'blue') nextColor = 'black';
+
+        todos[idx].color = nextColor;
+        syncSave(`daily_detail_${currentDetailDateStr}`, todos);
+        renderDetailTodoList();
+      }
+    }
+
+    function startEditTodo(idx) {
+      editingTodoIdx = idx;
+      renderDetailTodoList();
+    }
+
+    function saveEditedTodo(idx) {
+      if (editingTodoIdx !== idx) return;
+      const editInput = document.getElementById(`edit-todo-input-${idx}`);
+      if (!editInput) return;
+
+      const newText = editInput.value.trim();
+      const todos = JSON.parse(localStorage.getItem(`daily_detail_${currentDetailDateStr}`)) || [];
+
+      if (todos[idx]) {
+        if (newText) {
+          todos[idx].text = newText;
+        }
+        editingTodoIdx = -1;
+        syncSave(`daily_detail_${currentDetailDateStr}`, todos);
+        renderDetailTodoList();
+      }
+    }
+
+    function deleteDetailTodo(idx) {
+      const todos = JSON.parse(localStorage.getItem(`daily_detail_${currentDetailDateStr}`)) || [];
+      todos.splice(idx, 1);
+      editingTodoIdx = -1;
+      syncSave(`daily_detail_${currentDetailDateStr}`, todos);
+      renderDetailTodoList();
     }
 
     window.onload = function() {
@@ -906,13 +1129,13 @@
         const data = snapshot.val();
         if (data) {
           Object.keys(data).forEach(key => {
-            if (key.startsWith('todos_v2_') || key.startsWith('kuksi_study_note_')) {
+            if (key.startsWith('todos_v2_') || key.startsWith('daily_detail_')) {
               localStorage.setItem(key, typeof data[key] === 'object' ? JSON.stringify(data[key]) : data[key]);
             }
           });
         }
         renderCalendar();
-        loadNoteForDate(currentDetailDateStr);
+        renderDetailTodoList();
       });
 
       document.addEventListener('keydown', function(event) {
