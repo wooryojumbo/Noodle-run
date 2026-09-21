@@ -133,6 +133,7 @@
 
     .cal-date-header { display: flex; align-items: center; gap: 4px; margin-bottom: 2px; }
     .cal-date-num { font-size: 11px; font-weight: bold; }
+    /* 시험 명칭 텍스트 색상 (국시 D-Day 색상 지정) */
     .cal-exam-label { font-size: 11px; font-weight: bold; color: #d63031; }
 
     .cal-todo-list { list-style: none; padding: 0; margin: 0; flex: 1; overflow-y: auto; }
@@ -338,10 +339,8 @@
         <code>[]</code> 입력 후 Space 키를 누르면 <code>☐ </code> 네모 체크박스로 변환되며, Enter 입력 시 자동 연장됩니다. (Tab 키: 체크박스 포함 들여쓰기)
       </p>
 
-<textarea id="study-note-area" style="..." placeholder="선택한 날짜의 세부 일정을 입력하세요..." onkeydown="handleNoteShortcuts(event)" oninput="saveNote()"></textarea>
-      <div style="display:flex; justify-content:flex-end; margin-top:10px;">
-        <button class="btn-pink" onclick="saveNote()" style="padding:8px 20px; border-radius:6px;">💾 일정 저장</button>
-      </div>
+      <!-- oninput="autoSaveNote()" 추가로 타이핑 시 실시간 저장 -->
+      <textarea id="study-note-area" style="width:100%; height:380px; padding:20px; border:1px solid var(--border-color); border-radius:8px; font-size:16px; resize:vertical; font-family:'NanumSquare', sans-serif; line-height:1.6;" placeholder="선택한 날짜의 세부 일정을 입력하세요..." onkeydown="handleNoteShortcuts(event)" oninput="autoSaveNote()"></textarea>
     </div>
   </main>
 
@@ -398,15 +397,15 @@
 
     // 모의고사 및 국가고시 날짜 데이터 매핑
     const examSchedule = {
-      "2026-09-19": "1차 모의고사",
-      "2026-10-10": "2차 모의고사",
-      "2026-10-31": "3차 모의고사",
-      "2026-11-21": "4차 모의고사",
-      "2026-12-12": "5차 모의고사",
-      "2026-12-26": "6차 모의고사",
-      "2027-01-02": "7차 모의고사",
-      "2027-01-08": "8차 모의고사",
-      "2027-01-15": "82회 한의사 국가고시⭐"
+      "2026-09-19": "1차",
+      "2026-10-10": "2차",
+      "2026-10-31": "3차",
+      "2026-11-21": "4차",
+      "2026-12-12": "5차",
+      "2026-12-26": "6차",
+      "2027-01-02": "7차",
+      "2027-01-08": "8차",
+      "2027-01-15": "국가고시"
     };
 
     function syncSave(key, val) {
@@ -494,7 +493,7 @@
 
         let bgClass = '';
         if (examLabel) {
-          bgClass = 'exam-day'; // 모의고사/국시 날짜 강조 색상 (#fbfbb5)
+          bgClass = 'exam-day';
         } else if (allDone) {
           bgClass = 'all-completed';
         } else if (isToday) {
@@ -836,6 +835,7 @@
           e.preventDefault();
           textarea.value = val.substring(0, start - 2) + '☐ ' + val.substring(end);
           textarea.selectionStart = textarea.selectionEnd = start;
+          autoSaveNote();
           return;
         }
       }
@@ -853,6 +853,7 @@
           textarea.value = val.substring(0, lineStart) + '    ' + val.substring(lineStart);
           textarea.selectionStart = textarea.selectionEnd = start + 4;
         }
+        autoSaveNote();
         return;
       }
 
@@ -869,19 +870,21 @@
           if (currentLine.trim() === '☐' || currentLine.trim() === '☑' || currentLine.trim() === '[ ]' || currentLine.trim() === '[x]') {
             textarea.value = val.substring(0, lineStart) + val.substring(start);
             textarea.selectionStart = textarea.selectionEnd = lineStart;
+            autoSaveNote();
             return;
           }
 
           textarea.value = val.substring(0, start) + nextBox + val.substring(end);
           textarea.selectionStart = textarea.selectionEnd = start + nextBox.length;
+          autoSaveNote();
         }
       }
     }
 
-    function saveNote() {
+    // 실시간 자동 저장 함수 (알림창 없이 조용히 저장)
+    function autoSaveNote() {
       const noteContent = document.getElementById('study-note-area').value;
       syncSave(`kuksi_study_note_${currentDetailDateStr}`, noteContent);
-      alert(`${currentDetailDateStr} 일정 노트가 저장되었습니다!`);
     }
 
     window.onload = function() {
