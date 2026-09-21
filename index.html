@@ -126,10 +126,9 @@
     .cal-cell { background: #ffffff; min-height: 100px; padding: 4px; display: flex; flex-direction: column; cursor: pointer; }
     .cal-cell.other-month { background: #fafafa; opacity: 0.4; cursor: default; }
 
-    .cal-cell.is-today { background-color: #e3f2ce !important; }
-    .cal-cell.all-completed { background-color: #f1ddc0 !important; }
-    /* 모의고사 및 국시 날짜 배경색 */
-    .cal-cell.exam-day { background-color: #fbfbb5 !important; }
+    .cal-cell.is-today { background-color: #e3f2ce !important; }[cite: 10]
+.cal-cell.all-completed { background-color: #f1ddc0 !important; }[cite: 10]
+.cal-cell.exam-day { background-color: #fbfbb5 !important; } /* 시험날 배경색 최우선 적용 */[cite: 10]
 
     .cal-date-header { display: flex; align-items: center; gap: 4px; margin-bottom: 2px; }
     .cal-date-num { font-size: 11px; font-weight: bold; }
@@ -407,8 +406,8 @@
       "2026-12-26": "6차",
       "2027-01-02": "7차",
       "2027-01-08": "8차",
-      "2027-01-15": "국가고시"
-    };
+      "2027-01-15": "제 82회 한의사 국가고시"
+    };[cite: 10]
 
     function syncSave(key, val) {
       localStorage.setItem(key, typeof val === 'object' ? JSON.stringify(val) : val);
@@ -497,9 +496,9 @@
         if (examLabel) {
           bgClass = 'exam-day'; // 모의고사/국시 날짜 강조 색상 (#fbfbb5)
         } else if (allDone) {
-          bgClass = 'all-completed';
+          bgClass = 'all-completed';[cite: 10]
         } else if (isToday) {
-          bgClass = 'is-today';
+          bgClass = 'is-today';[cite: 10]
         }
 
         let todoHTML = todos.map((t, idx) => `
