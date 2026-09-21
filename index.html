@@ -180,6 +180,29 @@
       border: 2px solid var(--accent-color);
       overflow-y: auto;
     }
+
+    .schedule-date-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 12px;
+      background: #fff0f0;
+      padding: 10px 15px;
+      border-radius: 8px;
+    }
+    .schedule-date-picker {
+      padding: 6px 10px;
+      border: 1px solid var(--accent-color);
+      border-radius: 6px;
+      font-family: 'NanumSquare', sans-serif;
+      font-size: 15px;
+      font-weight: bold;
+      color: var(--primary-text);
+      outline: none;
+      background: #ffffff;
+    }
   </style>
 </head>
 <body>
@@ -292,17 +315,33 @@
       </div>
     </div>
 
-    <!-- 3페이지: 학습 노트 (추가 페이지) -->
-   <div id="tab3" class="page-content">
-  <h2 style="font-size:20px; margin-top:0; color:var(--primary-text);">📅 오늘의 세부 일정</h2>
-  <p style="color:#666; font-size:14px;"><code>[]</code> 입력 후 Space 키를 누르면 <code>[ ] </code> 체크박스로 변환되며, Enter 입력 시 자동 연장됩니다. (Tab 입력 시 4공백 들여쓰기)</p>
-  <textarea id="study-note-area" style="width:100%; height:350px; padding:12px; border:1px solid var(--border-color); border-radius:8px; font-size:14px; resize:vertical; font-family:'NanumSquare', sans-serif;" placeholder="일정을 기록하세요..." onkeydown="handleNoteShortcuts(event)"></textarea>
-  <div style="display:flex; justify-content:flex-end; margin-top:10px;">
-    <button class="btn-pink" onclick="saveNote()" style="padding:8px 20px; border-radius:6px;">💾 일정 저장</button>
-  </div>
-</div>
+    <!-- 3페이지: 오늘의 일정 -->
+    <div id="tab3" class="page-content">
+      <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; margin-bottom:10px;">
+        <h2 style="font-size:20px; margin:0; color:var(--primary-text);">📅 오늘의 세부 일정</h2>
+      </div>
+
+      <div class="schedule-date-bar">
+        <button class="btn-timer" onclick="shiftDetailDate(-1)">◀ 어제</button>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <input type="date" id="schedule-date-picker" class="schedule-date-picker" onchange="onDetailDateChange(this.value)">
+        </div>
+        <button class="btn-timer" onclick="shiftDetailDate(1)">내일 ▶</button>
+      </div>
+
+      <p style="color:#666; font-size:13px; margin-top:4px; margin-bottom:12px;">
+        <code>[]</code> 입력 후 Space 키를 누르면 <code>☐ </code> 네모 체크박스로 변환되며, Enter 입력 시 자동 연장됩니다. (Tab 키: 체크박스 포함 들여쓰기)
+      </p>
+
+      <textarea id="study-note-area" style="width:100%; height:360px; padding:12px; border:1px solid var(--border-color); border-radius:8px; font-size:16px; resize:vertical; font-family:'NanumSquare', sans-serif; line-height:1.7;" placeholder="선택한 날짜의 세부 일정을 입력하세요..." onkeydown="handleNoteShortcuts(event)"></textarea>
+
+      <div style="display:flex; justify-content:flex-end; margin-top:10px;">
+        <button class="btn-pink" onclick="saveNote()" style="padding:8px 20px; border-radius:6px;">💾 일정 저장</button>
+      </div>
+    </div>
   </main>
 
+  <!-- 암기 카드 추가 모달 -->
   <div id="card-add-modal" class="modal">
     <div class="modal-content">
       <button class="close-btn" onclick="closeCardAddModal()">✕</button>
@@ -322,16 +361,17 @@
       </div>
       <div style="margin-bottom:10px;">
         <label style="font-size:12px; font-weight:bold;">문제 (앞면)</label>
-        <textarea id="modal-new-q" style="width:100%; height:80px; padding:6px; border:1px solid var(--border-color); border-radius:6px; resize:vertical; margin-top:4px;"></textarea>
+        <textarea id="modal-new-q" style="width:100%; height:80px; padding:6px; border:1px solid var(--border-color); border-radius:6px; resize:none; margin-top:4px; font-family:'NanumSquare', sans-serif;"></textarea>
       </div>
       <div style="margin-bottom:14px;">
         <label style="font-size:12px; font-weight:bold;">정답 (뒷면)</label>
-        <textarea id="modal-new-a" style="width:100%; height:80px; padding:6px; border:1px solid var(--border-color); border-radius:6px; resize:vertical; margin-top:4px;"></textarea>
+        <textarea id="modal-new-a" style="width:100%; height:80px; padding:6px; border:1px solid var(--border-color); border-radius:6px; resize:none; margin-top:4px; font-family:'NanumSquare', sans-serif;"></textarea>
       </div>
       <button class="btn-pink" onclick="submitNewCardModal()" style="width:100%; padding:10px; border-radius:6px;">카드 저장하기</button>
     </div>
   </div>
 
+  <!-- 플래너 모달 -->
   <div id="planner-modal" class="modal">
     <div class="modal-content">
       <button class="close-btn" onclick="closePlannerModal()">✕</button>
@@ -478,54 +518,64 @@
       document.getElementById('planner-modal-date').innerText = `📅 ${dateKey} 체크리스트`;
       document.getElementById('planner-modal').style.display = 'flex';
       const todos = JSON.parse(localStorage.getItem(`todos_v2_${dateKey}`)) || [];
-      document.getElementById('planner-bulk-textarea').value = todos.map(t => `${t.done ? '[x]' : '[ ]'} ${t.text}`).join('\n');
+      document.getElementById('planner-bulk-textarea').value = todos.map(t => `${t.done ? '☑' : '☐'} ${t.text}`).join('\n');
     }
 
     function closePlannerModal() { document.getElementById('planner-modal').style.display = 'none'; renderCalendar(); }
 
     function handleCheckboxShortcut(e) {
-  const textarea = e.target;
-  const start = textarea.selectionStart;
-  const end = textarea.selectionEnd;
-  const val = textarea.value;
+      const textarea = e.target;
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+      const val = textarea.value;
 
-  if (e.key === ' ') {
-    if (start >= 2 && val.substring(start - 2, start) === '[]') {
-      e.preventDefault();
-      textarea.value = val.substring(0, start - 2) + '[ ] ' + val.substring(end);
-      textarea.selectionStart = textarea.selectionEnd = start + 2;
-      return;
-    }
-  }
+      if (e.key === ' ') {
+        if (start >= 2 && val.substring(start - 2, start) === '[]') {
+          e.preventDefault();
+          textarea.value = val.substring(0, start - 2) + '☐ ' + val.substring(end);
+          textarea.selectionStart = textarea.selectionEnd = start;
+          return;
+        }
+      }
 
-  if (e.key === 'Tab') {
-    e.preventDefault();
-    textarea.value = val.substring(0, start) + '    ' + val.substring(end);
-    textarea.selectionStart = textarea.selectionEnd = start + 4;
-    return;
-  }
-
-  if (e.key === 'Enter') {
-    const lineStart = val.lastIndexOf('\n', start - 1) + 1;
-    const currentLine = val.substring(lineStart, start);
-    const match = currentLine.match(/^(\s*)(\[\s*\]|\[[xX]\])\s*/);
-
-    if (match) {
-      e.preventDefault();
-      const indent = match[1];
-      const nextBox = '\n' + indent + '[ ] ';
-
-      if (currentLine.trim() === '[ ]' || currentLine.trim() === '[x]' || currentLine.trim() === '[X]') {
-        textarea.value = val.substring(0, lineStart) + val.substring(start);
-        textarea.selectionStart = textarea.selectionEnd = lineStart;
+      if (e.key === 'Tab') {
+        e.preventDefault();
+        const lineStart = val.lastIndexOf('\n', start - 1) + 1;
+        if (e.shiftKey) {
+          // Shift+Tab: 내어쓰기
+          if (val.substring(lineStart, lineStart + 4) === '    ') {
+            textarea.value = val.substring(0, lineStart) + val.substring(lineStart + 4);
+            textarea.selectionStart = textarea.selectionEnd = Math.max(lineStart, start - 4);
+          }
+        } else {
+          // Tab: 해당 줄 맨 앞에 들여쓰기 4칸 추가 (체크박스 통째로 이동)
+          textarea.value = val.substring(0, lineStart) + '    ' + val.substring(lineStart);
+          textarea.selectionStart = textarea.selectionEnd = start + 4;
+        }
         return;
       }
 
-      textarea.value = val.substring(0, start) + nextBox + val.substring(end);
-      textarea.selectionStart = textarea.selectionEnd = start + nextBox.length;
+      if (e.key === 'Enter') {
+        const lineStart = val.lastIndexOf('\n', start - 1) + 1;
+        const currentLine = val.substring(lineStart, start);
+        const match = currentLine.match(/^(\s*)(☐|☑|\[\s*\]|\[[xX]\])\s*/);
+
+        if (match) {
+          e.preventDefault();
+          const indent = match[1];
+          const nextBox = '\n' + indent + '☐ ';
+
+          if (currentLine.trim() === '☐' || currentLine.trim() === '☑' || currentLine.trim() === '[ ]' || currentLine.trim() === '[x]') {
+            textarea.value = val.substring(0, lineStart) + val.substring(start);
+            textarea.selectionStart = textarea.selectionEnd = lineStart;
+            return;
+          }
+
+          textarea.value = val.substring(0, start) + nextBox + val.substring(end);
+          textarea.selectionStart = textarea.selectionEnd = start + nextBox.length;
+        }
+      }
     }
-  }
-}
 
     function savePlannerBulkItems() {
       const lines = document.getElementById('planner-bulk-textarea').value.split('\n');
@@ -533,10 +583,10 @@
       lines.forEach(line => {
         const trimmed = line.trim();
         if (!trimmed) return;
-        if (trimmed.startsWith('[x]') || trimmed.startsWith('[X]')) {
-          todos.push({ text: trimmed.replace(/^\[[xX]\]\s*/, ''), done: true });
+        if (trimmed.startsWith('☑') || trimmed.startsWith('[x]') || trimmed.startsWith('[X]')) {
+          todos.push({ text: trimmed.replace(/^(☑|\[[xX]\])\s*/, ''), done: true });
         } else {
-          todos.push({ text: trimmed.replace(/^\[\s*\]\s*/, ''), done: false });
+          todos.push({ text: trimmed.replace(/^(☐|\[\s*\])\s*/, ''), done: false });
         }
       });
       syncSave(`todos_v2_${activePlannerDateKey}`, todos);
@@ -698,8 +748,8 @@
           <tr>
             <td style="text-align:center;">${starSelectHTML}</td>
             <td>${catSelectHTML}</td>
-            <td><textarea onchange="updateCardField(${idx}, 'q', this.value)" style="width:100%; height:40px; font-family:'NanumSquare', sans-serif;">${c.q}</textarea></td>
-            <td><textarea onchange="updateCardField(${idx}, 'a', this.value)" style="width:100%; height:40px; font-family:'NanumSquare', sans-serif;">${c.a}</textarea></td>
+            <td><textarea onchange="updateCardField(${idx}, 'q', this.value)" style="width:100%; height:42px; font-family:'NanumSquare', sans-serif; resize:none; padding:6px; border:1px solid var(--border-color); border-radius:4px; box-sizing:border-box;">${c.q}</textarea></td>
+            <td><textarea onchange="updateCardField(${idx}, 'a', this.value)" style="width:100%; height:42px; font-family:'NanumSquare', sans-serif; resize:none; padding:6px; border:1px solid var(--border-color); border-radius:4px; box-sizing:border-box;">${c.a}</textarea></td>
             <td style="text-align:center;"><button onclick="deleteCard(${idx})" style="background:#e74c3c; color:white; border:none; padding:4px 8px; border-radius:4px; cursor:pointer;">✕</button></td>
           </tr>
         `;
@@ -719,70 +769,108 @@
         filterQuizlet();
       }
     }
-function handleNoteShortcuts(e) {
-  const textarea = e.target;
-  const start = textarea.selectionStart;
-  const end = textarea.selectionEnd;
-  const val = textarea.value;
 
-  // 1. [] + Space -> [ ] 체크박스로 변환
-  if (e.key === ' ') {
-    if (start >= 2 && val.substring(start - 2, start) === '[]') {
-      e.preventDefault();
-      textarea.value = val.substring(0, start - 2) + '[ ] ' + val.substring(end);
-      textarea.selectionStart = textarea.selectionEnd = start + 2;
-      return;
+    /* --- 3페이지 오늘의 일정 날짜 제어 및 체크박스 로직 --- */
+    let currentDetailDateStr = getLocalDateKey(new Date());
+
+    function initScheduleDatePicker() {
+      const picker = document.getElementById('schedule-date-picker');
+      if (picker) {
+        picker.value = currentDetailDateStr;
+      }
+      loadNoteForDate(currentDetailDateStr);
     }
-  }
 
-  // 2. Tab 키 -> 스페이스바 4칸 들여쓰기
-  if (e.key === 'Tab') {
-    e.preventDefault();
-    const tabIndent = '    '; // 스페이스바 4번
-    textarea.value = val.substring(0, start) + tabIndent + val.substring(end);
-    textarea.selectionStart = textarea.selectionEnd = start + 4;
-    return;
-  }
+    function loadNoteForDate(dateStr) {
+      currentDetailDateStr = dateStr;
+      const savedNote = localStorage.getItem(`kuksi_study_note_${dateStr}`) || '';
+      document.getElementById('study-note-area').value = savedNote;
+    }
 
-  // 3. Enter 키 -> 다음 줄에 체크박스 유지를 자동 적용
-  if (e.key === 'Enter') {
-    // 현재 줄의 시작 지점 찾기
-    const lineStart = val.lastIndexOf('\n', start - 1) + 1;
-    const currentLine = val.substring(lineStart, start);
+    function onDetailDateChange(newDateStr) {
+      if (!newDateStr) return;
+      loadNoteForDate(newDateStr);
+    }
 
-    // [ ] 또는 [x] / [X] 로 시작하는지 확인 (앞쪽 공백 포함)
-    const match = currentLine.match(/^(\s*)(\[\s*\]|\[[xX]\])\s*/);
+    function shiftDetailDate(offsetDays) {
+      const parts = currentDetailDateStr.split('-');
+      const targetDate = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+      targetDate.setDate(targetDate.getDate() + offsetDays);
 
-    if (match) {
-      e.preventDefault();
-      const indent = match[1]; // 들여쓰기 공백 보존
-      const nextBox = '\n' + indent + '[ ] ';
+      const newDateStr = getLocalDateKey(targetDate);
+      document.getElementById('schedule-date-picker').value = newDateStr;
+      loadNoteForDate(newDateStr);
+    }
 
-      // 내용이 없는 빈 체크박스 줄에서 Enter를 누르면 체크박스 제거 후 줄바꿈
-      if (currentLine.trim() === '[ ]' || currentLine.trim() === '[x]' || currentLine.trim() === '[X]') {
-        textarea.value = val.substring(0, lineStart) + val.substring(start);
-        textarea.selectionStart = textarea.selectionEnd = lineStart;
+    function handleNoteShortcuts(e) {
+      const textarea = e.target;
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+      const val = textarea.value;
+
+      // 1. [] + Space -> ☐ 네모 체크박스로 변환
+      if (e.key === ' ') {
+        if (start >= 2 && val.substring(start - 2, start) === '[]') {
+          e.preventDefault();
+          textarea.value = val.substring(0, start - 2) + '☐ ' + val.substring(end);
+          textarea.selectionStart = textarea.selectionEnd = start;
+          return;
+        }
+      }
+
+      // 2. Tab 키 -> 체크박스 포함 줄 전체 들여쓰기 (하위 체크박스 만들기)
+      if (e.key === 'Tab') {
+        e.preventDefault();
+        const lineStart = val.lastIndexOf('\n', start - 1) + 1;
+        
+        if (e.shiftKey) {
+          // Shift+Tab: 내어쓰기
+          if (val.substring(lineStart, lineStart + 4) === '    ') {
+            textarea.value = val.substring(0, lineStart) + val.substring(lineStart + 4);
+            textarea.selectionStart = textarea.selectionEnd = Math.max(lineStart, start - 4);
+          }
+        } else {
+          // Tab: 줄 맨 앞에 4칸 공백 삽입하여 체크박스 통째로 들여쓰기
+          textarea.value = val.substring(0, lineStart) + '    ' + val.substring(lineStart);
+          textarea.selectionStart = textarea.selectionEnd = start + 4;
+        }
         return;
       }
 
-      textarea.value = val.substring(0, start) + nextBox + val.substring(end);
-      textarea.selectionStart = textarea.selectionEnd = start + nextBox.length;
+      // 3. Enter 키 -> 다음 줄에 ☐ 체크박스 자동 이어쓰기
+      if (e.key === 'Enter') {
+        const lineStart = val.lastIndexOf('\n', start - 1) + 1;
+        const currentLine = val.substring(lineStart, start);
+        const match = currentLine.match(/^(\s*)(☐|☑|\[\s*\]|\[[xX]\])\s*/);
+
+        if (match) {
+          e.preventDefault();
+          const indent = match[1];
+          const nextBox = '\n' + indent + '☐ ';
+
+          if (currentLine.trim() === '☐' || currentLine.trim() === '☑' || currentLine.trim() === '[ ]' || currentLine.trim() === '[x]') {
+            textarea.value = val.substring(0, lineStart) + val.substring(start);
+            textarea.selectionStart = textarea.selectionEnd = lineStart;
+            return;
+          }
+
+          textarea.value = val.substring(0, start) + nextBox + val.substring(end);
+          textarea.selectionStart = textarea.selectionEnd = start + nextBox.length;
+        }
+      }
     }
-  }
-}
+
     function saveNote() {
       const noteContent = document.getElementById('study-note-area').value;
-      syncSave('kuksi_study_note', noteContent);
-      alert('메모가 저장되었습니다!');
+      syncSave(`kuksi_study_note_${currentDetailDateStr}`, noteContent);
+      alert(`${currentDetailDateStr} 일정 노트가 저장되었습니다!`);
     }
 
     window.onload = function() {
       updateDday();
       initCategoryOptions();
       renderCalendar();
-
-      const savedNote = localStorage.getItem('kuksi_study_note') || '';
-      document.getElementById('study-note-area').value = savedNote;
+      initScheduleDatePicker();
 
       db.ref('quizlet_cards_v5').on('value', (snapshot) => {
         const val = snapshot.val();
@@ -797,12 +885,13 @@ function handleNoteShortcuts(e) {
         const data = snapshot.val();
         if (data) {
           Object.keys(data).forEach(key => {
-            if (key.startsWith('todos_v2_')) {
-              localStorage.setItem(key, JSON.stringify(data[key]));
+            if (key.startsWith('todos_v2_') || key.startsWith('kuksi_study_note_')) {
+              localStorage.setItem(key, typeof data[key] === 'object' ? JSON.stringify(data[key]) : data[key]);
             }
           });
         }
         renderCalendar();
+        loadNoteForDate(currentDetailDateStr);
       });
 
       document.addEventListener('keydown', function(event) {
