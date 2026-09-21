@@ -126,9 +126,10 @@
     .cal-cell { background: #ffffff; min-height: 100px; padding: 4px; display: flex; flex-direction: column; cursor: pointer; }
     .cal-cell.other-month { background: #fafafa; opacity: 0.4; cursor: default; }
 
-    .cal-cell.is-today { background-color: #e3f2ce !important; }[cite: 10]
-.cal-cell.all-completed { background-color: #f1ddc0 !important; }[cite: 10]
-.cal-cell.exam-day { background-color: #fdfdb8 !important; } /* 시험날 배경색 최우선 적용 */[cite: 10]
+    .cal-cell.is-today { background-color: #e3f2ce !important; }
+    .cal-cell.all-completed { background-color: #f1ddc0 !important; }
+    /* 모의고사 및 국시 날짜 배경색 */
+    .cal-cell.exam-day { background-color: #fbfbb5 !important; }
 
     .cal-date-header { display: flex; align-items: center; gap: 4px; margin-bottom: 2px; }
     .cal-date-num { font-size: 11px; font-weight: bold; }
@@ -406,8 +407,8 @@
       "2026-12-26": "6차",
       "2027-01-02": "7차",
       "2027-01-08": "8차",
-      "2027-01-15": "제 82회 한의사 국가고시"
-    };[cite: 10]
+      "2027-01-15": "국가고시"
+    };
 
     function syncSave(key, val) {
       localStorage.setItem(key, typeof val === 'object' ? JSON.stringify(val) : val);
@@ -460,66 +461,67 @@
 
     let currentCalDate = new Date();
 
-    // 1. 캘린더 성능 최적화 예시
-function renderCalendar() {
-  const year = currentCalDate.getFullYear();
-  const month = currentCalDate.getMonth();
-  document.getElementById('cal-month-title').innerText = `${year}년 ${month + 1}월`;
+    function renderCalendar() {
+      const year = currentCalDate.getFullYear();
+      const month = currentCalDate.getMonth();
+      document.getElementById('cal-month-title').innerText = `${year}년 ${month + 1}월`;
 
-  const firstDay = new Date(year, month, 1);
-  const lastDay = new Date(year, month + 1, 0);
+      const firstDay = new Date(year, month, 1);
+      const lastDay = new Date(year, month + 1, 0);
 
-  let startDay = firstDay.getDay() - 1;
-  if (startDay === -1) startDay = 6;
+      let startDay = firstDay.getDay() - 1;
+      if (startDay === -1) startDay = 6;
 
-  const grid = document.getElementById('cal-cells-grid');
-  if (!grid) return;
-  
-  let htmlBuffer = [];
-  const todayKey = getLocalDateKey(new Date());
+      const grid = document.getElementById('cal-cells-grid');
+      if (!grid) return;
+      grid.innerHTML = '';
 
-  for (let i = 0; i < startDay; i++) {
-    htmlBuffer.push(`<div class="cal-cell other-month"></div>`);
-  }
+      const todayKey = getLocalDateKey(new Date());
 
-  for (let day = 1; day <= lastDay.getDate(); day++) {
-    const dateObj = new Date(year, month, day);
-    const dateKey = getLocalDateKey(dateObj);
-    const todos = JSON.parse(localStorage.getItem(`todos_v2_${dateKey}`)) || [];
-    
-    const isToday = (dateKey === todayKey);
-    const hasTodos = todos.length > 0;
-    const allDone = hasTodos && todos.every(t => t.done);
-    const examLabel = examSchedule[dateKey] || '';
+      for (let i = 0; i < startDay; i++) {
+        grid.innerHTML += `<div class="cal-cell other-month"></div>`;
+      }
 
-    let bgClass = '';
-    if (examLabel) bgClass = 'exam-day';
-    else if (allDone) bgClass = 'all-completed';
-    else if (isToday) bgClass = 'is-today';
+      for (let day = 1; day <= lastDay.getDate(); day++) {
+        const dateObj = new Date(year, month, day);
+        const dateKey = getLocalDateKey(dateObj);
 
-    let todoHTML = todos.map((t, idx) => `
-      <li class="cal-todo-item" onclick="event.stopPropagation();">
-        <input type="checkbox" ${t.done ? 'checked' : ''} style="pointer-events: auto; cursor: pointer;" onchange="toggleTodo('${dateKey}', ${idx}, event)">
-        <span onclick="toggleTodo('${dateKey}', ${idx}, event)" style="cursor: pointer; ${t.done ? 'text-decoration:line-through; color:#aaa;' : ''}">${t.text}</span>
-      </li>
-    `).join('');
+        const todos = JSON.parse(localStorage.getItem(`todos_v2_${dateKey}`)) || [];
+        
+        const isToday = (dateKey === todayKey);
+        const hasTodos = todos.length > 0;
+        const allDone = hasTodos && todos.every(t => t.done);
+        const examLabel = examSchedule[dateKey] || '';
 
-    const examLabelHTML = examLabel ? `<span class="cal-exam-label">${examLabel}</span>` : '';
+        let bgClass = '';
+        if (examLabel) {
+          bgClass = 'exam-day'; // 모의고사/국시 날짜 강조 색상 (#fbfbb5)
+        } else if (allDone) {
+          bgClass = 'all-completed';
+        } else if (isToday) {
+          bgClass = 'is-today';
+        }
 
-    htmlBuffer.push(`
-      <div class="cal-cell ${bgClass}" onclick="openPlannerModal('${dateKey}')">
-        <div class="cal-date-header">
-          <span class="cal-date-num">${day}</span>
-          ${examLabelHTML}
-        </div>
-        <ul class="cal-todo-list">${todoHTML}</ul>
-      </div>
-    `);
-  }
+        let todoHTML = todos.map((t, idx) => `
+          <li class="cal-todo-item" onclick="event.stopPropagation();">
+            <input type="checkbox" ${t.done ? 'checked' : ''} style="pointer-events: auto; cursor: pointer;" onchange="toggleTodo('${dateKey}', ${idx}, event)">
+            <span onclick="toggleTodo('${dateKey}', ${idx}, event)" style="cursor: pointer; ${t.done ? 'text-decoration:line-through; color:#aaa;' : ''}">${t.text}</span>
+          </li>
+        `).join('');
 
-  // 한 번에 DOM에 반영
-  grid.innerHTML = htmlBuffer.join('');
-}
+        const examLabelHTML = examLabel ? `<span class="cal-exam-label">${examLabel}</span>` : '';
+
+        grid.innerHTML += `
+          <div class="cal-cell ${bgClass}" onclick="openPlannerModal('${dateKey}')">
+            <div class="cal-date-header">
+              <span class="cal-date-num">${day}</span>
+              ${examLabelHTML}
+            </div>
+            <ul class="cal-todo-list">${todoHTML}</ul>
+          </div>
+        `;
+      }
+    }
 
     function toggleTodo(dateKey, idx, evt) {
       if (evt) {
