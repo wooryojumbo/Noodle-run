@@ -81,7 +81,7 @@
       background: none;
       border: none;
       color: #777;
-      padding: 14px 28px;
+      padding: 14px 24px;
       font-size: 16px;
       cursor: pointer;
       white-space: nowrap;
@@ -175,7 +175,7 @@
     }
     .modal-content {
       background: white;
-      width: 520px;
+      width: 720px;
       max-width: 95%;
       max-height: 90vh;
       padding: 25px;
@@ -208,133 +208,48 @@
       background: #ffffff;
     }
 
-    /* 3페이지 세부 일정 전용 스타일 */
-    .todo-input-container {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 15px;
-    }
-    .todo-input {
-      flex: 1;
-      padding: 12px 15px;
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      font-size: 15px;
-      font-family: 'NanumSquare', sans-serif;
-      outline: none;
-    }
-    .todo-input:focus {
-      border-color: var(--accent-color);
-    }
-    .todo-list-box {
-      min-height: 320px;
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      padding: 10px;
-      background: #ffffff;
-      list-style: none;
-      margin: 0;
-    }
-    .todo-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between; /* 좌측(체크박스/항목) - 우측(색깔/드래그/삭제) 분리 */
-      padding: 10px;
-      margin-bottom: 6px;
-      background: #fff;
-      border: 1px solid var(--border-color);
-      border-radius: 6px;
-      font-size: 15px;
-      gap: 12px;
-      transition: background 0.2s, box-shadow 0.2s, opacity 0.2s;
-    }
-    .todo-item.dragging {
-      opacity: 0.4;
-      background: #fff0f0;
-      border-style: dashed;
-      border-color: var(--accent-color);
-    }
+    .todo-input-container { display: flex; gap: 10px; margin-bottom: 15px; }
+    .todo-input { flex: 1; padding: 12px 15px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 15px; font-family: 'NanumSquare', sans-serif; outline: none; }
+    .todo-input:focus { border-color: var(--accent-color); }
+    .todo-list-box { min-height: 320px; border: 1px solid var(--border-color); border-radius: 8px; padding: 10px; background: #ffffff; list-style: none; margin: 0; }
+    .todo-item { display: flex; align-items: center; justify-content: space-between; padding: 10px; margin-bottom: 6px; background: #fff; border: 1px solid var(--border-color); border-radius: 6px; font-size: 15px; gap: 12px; transition: background 0.2s, box-shadow 0.2s, opacity 0.2s; }
+    .todo-item.dragging { opacity: 0.4; background: #fff0f0; border-style: dashed; border-color: var(--accent-color); }
+    .todo-item-left { display: flex; align-items: center; gap: 10px; flex: 1; }
+    .todo-item-right { display: flex; align-items: center; gap: 10px; }
+    .todo-checkbox { width: 18px; height: 18px; cursor: pointer; accent-color: var(--accent-color); }
+    .color-picker-btn { cursor: pointer; font-size: 14px; user-select: none; padding: 2px 4px; border-radius: 4px; background: #f7f7f7; }
+    .color-picker-btn:hover { background: #eee; }
+    .drag-handle { cursor: grab; color: #aaa; font-size: 16px; padding: 0 4px; user-select: none; }
+    .drag-handle:active { cursor: grabbing; }
+    .todo-text { cursor: pointer; user-select: none; flex: 1; padding: 2px 4px; border-radius: 4px; }
+    .todo-text:hover { background: #fff0f0; }
+    .todo-text.completed { text-decoration: line-through; opacity: 0.5; }
+    .todo-text-input { flex: 1; font-size: 15px; font-family: 'NanumSquare', sans-serif; padding: 4px 8px; border: 1px solid var(--accent-color); border-radius: 4px; outline: none; }
+    .todo-delete-btn { background: none; border: none; color: #e74c3c; font-weight: bold; cursor: pointer; padding: 2px 6px; font-size: 16px; }
+    .empty-todo-msg { text-align: center; color: #999; padding: 40px 0; font-size: 14px; }
 
-    /* 좌측 영역: 체크박스 + 항목 */
-    .todo-item-left {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex: 1;
-    }
+    /* 성적 분석 테이블 전용 스타일 */
+    .score-table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 11px; text-align: center; word-break: keep-all; }
+    .score-table th, .score-table td { border: 1px solid var(--border-color); padding: 6px 4px; vertical-align: middle; }
+    .score-table th { background: #fff0f0; color: var(--primary-text); font-weight: bold; }
+    .score-table .th-group { font-size: 11px; white-space: nowrap; line-height: 1.4; padding: 6px 6px; }
+    .score-table .th-sub { font-size: 10px; white-space: nowrap; }
+    .score-input { width: 45px; text-align: center; padding: 4px; border: 1px solid var(--border-color); border-radius: 4px; font-family: 'NanumSquare', sans-serif; }
+    .badge-pass { background: #e3f2ce; color: #27ae60; padding: 3px 8px; border-radius: 4px; font-weight: bold; white-space: nowrap; display: inline-block; }
+    .badge-fail { background: #ffebee; color: #c0392b; padding: 3px 8px; border-radius: 4px; font-weight: bold; white-space: normal; word-break: keep-all; display: inline-block; line-height: 1.3; text-align: center; }
+    .feedback-text { text-align: left; font-size: 11px; color: #555; white-space: pre-wrap; word-break: break-all; min-width: 140px; }
 
-    /* 우측 영역: 색깔 + 드래그 + 삭제버튼 */
-    .todo-item-right {
-      display: flex;
-      align-items: center;
-      gap: 10px;
+    /* AI 조언 카드 스타일 */
+    .ai-advice-card {
+      background: linear-gradient(135deg, #fff5f5 0%, #ffffff 100%);
+      border: 2px solid var(--accent-color);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 25px;
+      box-shadow: 0 4px 12px rgba(248, 175, 175, 0.2);
     }
-
-    .todo-checkbox {
-      width: 18px;
-      height: 18px;
-      cursor: pointer;
-      accent-color: var(--accent-color);
-    }
-    .color-picker-btn {
-      cursor: pointer;
-      font-size: 14px;
-      user-select: none;
-      padding: 2px 4px;
-      border-radius: 4px;
-      background: #f7f7f7;
-    }
-    .color-picker-btn:hover {
-      background: #eee;
-    }
-    .drag-handle {
-      cursor: grab;
-      color: #aaa;
-      font-size: 16px;
-      padding: 0 4px;
-      user-select: none;
-    }
-    .drag-handle:active {
-      cursor: grabbing;
-    }
-    .todo-text {
-      cursor: pointer;
-      user-select: none;
-      flex: 1;
-      padding: 2px 4px;
-      border-radius: 4px;
-    }
-    .todo-text:hover {
-      background: #fff0f0;
-    }
-    .todo-text.completed {
-      text-decoration: line-through;
-      opacity: 0.5;
-    }
-    .todo-text-input {
-      flex: 1;
-      font-size: 15px;
-      font-family: 'NanumSquare', sans-serif;
-      padding: 4px 8px;
-      border: 1px solid var(--accent-color);
-      border-radius: 4px;
-      outline: none;
-    }
-    .todo-delete-btn {
-      background: none;
-      border: none;
-      color: #e74c3c;
-      font-weight: bold;
-      cursor: pointer;
-      padding: 2px 6px;
-      font-size: 16px;
-    }
-    .empty-todo-msg {
-      text-align: center;
-      color: #999;
-      padding: 40px 0;
-      font-size: 14px;
-    }
+    .ai-advice-title { font-weight: bold; font-size: 16px; color: var(--primary-text); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+    .ai-advice-body { font-size: 14px; color: #444; line-height: 1.6; }
   </style>
 </head>
 <body>
@@ -356,6 +271,7 @@
       <button class="tab-btn active" onclick="openTab(event, 'tab1')"><b>나의 플래너</b></button>
       <button class="tab-btn" onclick="openTab(event, 'tab2')"><b>나의 퀴즐렛</b></button>
       <button class="tab-btn" onclick="openTab(event, 'tab3')"><b>오늘의 일정</b></button>
+      <button class="tab-btn" onclick="openTab(event, 'tab4')"><b>성적 분석</b></button>
     </nav>
   </header>
 
@@ -461,14 +377,33 @@
         <button class="btn-timer" onclick="shiftDetailDate(1)">내일 ▶</button>
       </div>
 
-      <!-- 새 할 일 입력 -->
       <div class="todo-input-container">
         <input type="text" id="new-todo-input" class="todo-input" placeholder="오늘 세울 자유 일정을 입력하세요..." onkeydown="if(event.key==='Enter') addDetailTodo()">
         <button class="btn-pink" onclick="addDetailTodo()" style="padding:0 20px; border-radius:8px; font-size:15px;">추가</button>
       </div>
 
-      <!-- 세부 일정 체크리스트 목록 -->
       <ul id="detail-todo-list" class="todo-list-box"></ul>
+    </div>
+
+    <!-- 4페이지: 성적 분석 -->
+    <div id="tab4" class="page-content">
+      <h2 style="font-size:20px; margin-top:0; color:var(--primary-text);">📊 모의고사 성적 분석</h2>
+      <p style="font-size:13px; color:#666;">회차별 점수(340점 만점, 평락 204점 이상), 6개 그룹별 총합 및 과락 여부, 백분율 추이 및 AI 맞춤 보완 조언을 확인하세요.</p>
+
+      <div style="margin-bottom: 20px;">
+        <button class="btn-pink" onclick="openScoreModal()" style="padding: 8px 16px; border-radius: 6px;">➕ 모의고사 성적 입력/수정</button>
+      </div>
+
+      <!-- AI 분석 및 조언 카드 -->
+      <div id="ai-advice-section"></div>
+
+      <!-- 성적 추이 그래프 영역 -->
+      <div style="background:#fff; border:1px solid var(--border-color); border-radius:10px; padding:15px; margin-bottom:20px;">
+        <h3 style="font-size:15px; color:var(--primary-text); margin-top:0; margin-bottom:10px;">📈 회차별 총점 추이 그래프 (만점 340점 / 평락기준 204점)</h3>
+        <div id="score-chart-container" style="width:100%; height:180px; display:flex; align-items:center; justify-content:center;"></div>
+      </div>
+
+      <div id="score-analysis-container" style="overflow-x: auto;"></div>
     </div>
   </main>
 
@@ -512,6 +447,49 @@
       <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:12px;">
         <button onclick="closePlannerModal()" style="padding:6px 14px; border:1px solid #ccc; background:#fff; border-radius:6px; cursor:pointer;">취소</button>
         <button class="btn-pink" onclick="savePlannerBulkItems()" style="padding:6px 18px; border-radius:6px;">💾 저장</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 성적 입력/수정 모달 -->
+  <div id="score-modal" class="modal">
+    <div class="modal-content">
+      <button class="close-btn" onclick="closeScoreModal()">✕</button>
+      <h3 style="color:var(--primary-text); margin-top:0;">📊 모의고사 회차별 성적 입력 (총 340점 만점)</h3>
+      <div style="display:flex; gap:15px; margin-bottom: 12px; flex-wrap:wrap;">
+        <div>
+          <label style="font-size: 13px; font-weight: bold;">회차 선택: </label>
+          <select id="score-round-select" onchange="loadScoreRoundData()" style="padding: 6px; border-radius: 6px; border: 1px solid var(--border-color);">
+            <option value="1">1회차</option>
+            <option value="2">2회차</option>
+            <option value="3">3회차</option>
+            <option value="4">4회차</option>
+            <option value="5">5회차</option>
+            <option value="6">6회차</option>
+            <option value="7">7회차</option>
+            <option value="8">8회차</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-size: 13px; font-weight: bold;">교내 백분율 (%): </label>
+          <input type="number" id="score-school-pct" step="0.1" placeholder="예: 92.3" style="width:80px; padding:5px; border:1px solid var(--border-color); border-radius:4px; text-align:center;">
+        </div>
+        <div>
+          <label style="font-size: 13px; font-weight: bold;">교외(전국) 백분율 (%): </label>
+          <input type="number" id="score-nat-pct" step="0.1" placeholder="예: 85.0" style="width:80px; padding:5px; border:1px solid var(--border-color); border-radius:4px; text-align:center;">
+        </div>
+      </div>
+
+      <div id="score-inputs-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 15px; max-height: 320px; overflow-y: auto; padding: 5px;"></div>
+
+      <div style="margin-bottom: 15px;">
+        <label style="font-size: 12px; font-weight: bold; color: var(--primary-text); display: block; margin-bottom: 4px;">📝 회차별 피드백 / 총평 메모</label>
+        <textarea id="score-feedback-input" placeholder="이번 모의고사 피드백이나 복습할 과목 메모..." style="width: 100%; height: 60px; padding: 8px; border: 1px solid var(--border-color); border-radius: 6px; resize: vertical; font-family: 'NanumSquare', sans-serif; font-size: 13px; outline: none;"></textarea>
+      </div>
+
+      <div style="display:flex; justify-content:flex-end; gap:8px;">
+        <button onclick="closeScoreModal()" style="padding:6px 14px; border:1px solid #ccc; background:#fff; border-radius:6px; cursor:pointer;">취소</button>
+        <button class="btn-pink" onclick="saveScoreRoundData()" style="padding:6px 18px; border-radius:6px;">💾 성적 및 피드백 저장하기</button>
       </div>
     </div>
   </div>
@@ -575,14 +553,36 @@
       if (evt && evt.currentTarget) {
         evt.currentTarget.classList.add('active');
       }
+      if (tabId === 'tab4') {
+        renderScoreAnalysis();
+      }
     }
 
+    // 17개 과목 리스트
     const subjectList = [
       "간계내과", "심계내과", "비계내과", "폐계내과", "신계내과",
-      "상한론", "사상의학", "침구학", "의료법규", "한방외과",
-      "신경정신과", "안이비인후과", "한방소아과",
-      "예방의학", "한방생리학", "본초학"
+      "상한론", "사상의학", "의료법규", "침구학",
+      "한방외과", "신경정신과", "안이비인후과", "부인과학",
+      "한방소아과", "한방생리학", "예방의학", "본초학"
     ];
+
+    // 정확한 과목별 만점(문항 수) 정의 (총 340문제 만점)
+    const subjectMaxScores = {
+      "간계내과": 16, "심계내과": 16, "비계내과": 16, "폐계내과": 16, "신계내과": 16,
+      "상한론": 16, "사상의학": 16, "의료법규": 20, "침구학": 48,
+      "한방외과": 16, "신경정신과": 16, "안이비인후과": 16, "부인과학": 32,
+      "한방소아과": 24, "한방생리학": 16, "예방의학": 24, "본초학": 16
+    };
+
+    // 이미지 규정 기준 6개 그룹 정의 (만점 및 40% 과락점수 반영)
+    const examGroups = {
+      "Group 1": { subs: ["간계내과", "심계내과", "비계내과", "폐계내과", "신계내과", "상한론", "사상의학"], max: 112, minPass: 45, label: "내과학1+2" },
+      "Group 2": { subs: ["의료법규"], max: 20, minPass: 8, label: "보건의약관계법규" },
+      "Group 3": { subs: ["침구학"], max: 48, minPass: 20, label: "침구학" },
+      "Group 4": { subs: ["한방외과", "신경정신과", "안이비인후과"], max: 48, minPass: 20, label: "외과·신정·안이비" },
+      "Group 5": { subs: ["부인과학", "한방소아과"], max: 56, minPass: 23, label: "부인·소아" },
+      "Group 6": { subs: ["한방생리학", "예방의학", "본초학"], max: 56, minPass: 23, label: "생리·예방·본초" }
+    };
 
     let currentCalDate = new Date();
 
@@ -651,9 +651,7 @@
     }
 
     function toggleTodo(dateKey, idx, evt) {
-      if (evt) {
-        evt.stopPropagation();
-      }
+      if (evt) { evt.stopPropagation(); }
       const todos = JSON.parse(localStorage.getItem(`todos_v2_${dateKey}`)) || [];
       if (todos[idx]) {
         todos[idx].done = !todos[idx].done;
@@ -711,7 +709,7 @@
       if (e.key === 'Enter') {
         const lineStart = val.lastIndexOf('\n', start - 1) + 1;
         const currentLine = val.substring(lineStart, start);
-        const match = currentLine.match(/^(\s*)(☐|☑|\[\s*\]|\[[xX]\])\s*/);
+        const match = currentLine.match(/^(\s*)(☐|☑|\[\s*\]|[[xX]])\s*/);
 
         if (match) {
           e.preventDefault();
@@ -737,7 +735,7 @@
         const trimmed = line.trim();
         if (!trimmed) return;
         if (trimmed.startsWith('☑') || trimmed.startsWith('[x]') || trimmed.startsWith('[X]')) {
-          todos.push({ text: trimmed.replace(/^(☑|\[[xX]\])\s*/, ''), done: true, color: 'black' });
+          todos.push({ text: trimmed.replace(/^(☑|[[xX]])\s*/, ''), done: true, color: 'black' });
         } else {
           todos.push({ text: trimmed.replace(/^(☐|\[\s*\])\s*/, ''), done: false, color: 'black' });
         }
@@ -787,21 +785,14 @@
     }
 
     function handleCardTouch(evt, el) {
-      if (evt.target.classList.contains('star-badge') || evt.target.closest('.star-badge')) {
-        return;
-      }
-      
+      if (evt.target.classList.contains('star-badge') || evt.target.closest('.star-badge')) { return; }
       const rect = el.getBoundingClientRect();
       const clickX = evt.clientX - rect.left;
       const width = rect.width;
 
-      if (clickX < width * 0.25) {
-        prevCard();
-      } else if (clickX > width * 0.75) {
-        nextCard();
-      } else {
-        el.classList.toggle('flipped');
-      }
+      if (clickX < width * 0.25) { prevCard(); }
+      else if (clickX > width * 0.75) { nextCard(); }
+      else { el.classList.toggle('flipped'); }
     }
 
     function updateCard() {
@@ -816,20 +807,14 @@
       document.getElementById('card-a').innerText = c.a;
       
       const starEl = document.getElementById('card-star');
-      if (starEl) {
-        starEl.innerText = c.star || "❤️";
-      }
+      if (starEl) { starEl.innerText = c.star || "❤️"; }
 
       document.getElementById('card-indicator').innerText = `${cardIdx + 1} / ${filteredCards.length}`;
       document.getElementById('main-flashcard').classList.remove('flipped');
     }
 
     function cycleStar(evt) {
-      if (evt) {
-        evt.stopPropagation();
-        evt.preventDefault();
-      }
-
+      if (evt) { evt.stopPropagation(); evt.preventDefault(); }
       if (!filteredCards || filteredCards.length === 0) return;
 
       const currentCard = filteredCards[cardIdx];
@@ -847,9 +832,7 @@
 
       syncSave('quizlet_cards_v5', cards);
       updateCard();
-      if (typeof renderCardTable === 'function') {
-        renderCardTable();
-      }
+      renderCardTable();
     }
 
     function prevCard() { if (cardIdx > 0) { cardIdx--; updateCard(); } }
@@ -923,16 +906,14 @@
       }
     }
 
-    /* --- 3페이지 독립형 세부 일정 모듈 --- */
+    /* --- 3페이지 오늘의 일정 모듈 --- */
     let currentDetailDateStr = getLocalDateKey(new Date());
     let editingTodoIdx = -1;
     let draggedIdx = null;
 
     function initScheduleDatePicker() {
       const picker = document.getElementById('schedule-date-picker');
-      if (picker) {
-        picker.value = currentDetailDateStr;
-      }
+      if (picker) { picker.value = currentDetailDateStr; }
       renderDetailTodoList();
     }
 
@@ -954,7 +935,6 @@
       renderDetailTodoList();
     }
 
-    /* 레이아웃 변경: [체크박스][항목] (좌측) | [색깔][드래그앤드롭][삭제버튼] (우측) */
     function renderDetailTodoList() {
       const listEl = document.getElementById('detail-todo-list');
       if (!listEl) return;
@@ -972,34 +952,23 @@
         let colorIcon = '🖤';
         let textColor = '#333333';
 
-        if (itemColor === 'red') {
-          colorIcon = '❤️';
-          textColor = '#e74c3c';
-        } else if (itemColor === 'blue') {
-          colorIcon = '💙';
-          textColor = '#2980b9';
-        }
+        if (itemColor === 'red') { colorIcon = '❤️'; textColor = '#e74c3c'; }
+        else if (itemColor === 'blue') { colorIcon = '💙'; textColor = '#2980b9'; }
 
         const isEditing = (editingTodoIdx === idx);
-
-        let textHTML = '';
-        if (isEditing) {
-          textHTML = `<input type="text" id="edit-todo-input-${idx}" class="todo-text-input" value="${t.text.replace(/"/g, '&quot;')}" onkeydown="if(event.key==='Enter') saveEditedTodo(${idx})" onblur="saveEditedTodo(${idx})">`;
-        } else {
-          textHTML = `<span class="todo-text ${t.done ? 'completed' : ''}" style="color:${textColor};" onclick="startEditTodo(${idx})" title="클릭하여 수정">${t.text}</span>`;
-        }
+        let textHTML = isEditing ? 
+          `<input type="text" id="edit-todo-input-${idx}" class="todo-text-input" value="${t.text.replace(/"/g, '&quot;')}" onkeydown="if(event.key==='Enter') saveEditedTodo(${idx})" onblur="saveEditedTodo(${idx})">` :
+          `<span class="todo-text ${t.done ? 'completed' : ''}" style="color:${textColor};" onclick="startEditTodo(${idx})" title="클릭하여 수정">${t.text}</span>`;
 
         listEl.innerHTML += `
           <li class="todo-item" draggable="true" data-index="${idx}" ondragstart="handleDragStart(event, ${idx})" ondragover="handleDragOver(event)" ondrop="handleDrop(event, ${idx})" ondragend="handleDragEnd(event)">
-            <!-- 좌측: 체크박스 / 항목 -->
             <div class="todo-item-left">
               <input type="checkbox" class="todo-checkbox" ${t.done ? 'checked' : ''} onchange="toggleDetailTodo(${idx})">
               ${textHTML}
             </div>
-            <!-- 우측: 색깔 / 드래그 / 삭제버튼 -->
             <div class="todo-item-right">
-              <span class="color-picker-btn" onclick="cycleTodoColor(${idx})" title="색상 변경 (검정▶빨강▶파랑)">${colorIcon}</span>
-              <span class="drag-handle" title="꾹 눌러서 위아래로 순서 변경">☰</span>
+              <span class="color-picker-btn" onclick="cycleTodoColor(${idx})" title="색상 변경">${colorIcon}</span>
+              <span class="drag-handle" title="순서 변경">☰</span>
               <button class="todo-delete-btn" onclick="deleteDetailTodo(${idx})" title="삭제">✕</button>
             </div>
           </li>
@@ -1014,43 +983,26 @@
       }
     }
 
-    function handleDragStart(e, idx) {
-      draggedIdx = idx;
-      e.currentTarget.classList.add('dragging');
-      e.dataTransfer.effectAllowed = 'move';
-    }
-
-    function handleDragOver(e) {
-      e.preventDefault();
-      e.dataTransfer.dropEffect = 'move';
-    }
-
+    function handleDragStart(e, idx) { draggedIdx = idx; e.currentTarget.classList.add('dragging'); e.dataTransfer.effectAllowed = 'move'; }
+    function handleDragOver(e) { e.preventDefault(); e.dataTransfer.dropEffect = 'move'; }
     function handleDrop(e, targetIdx) {
       e.preventDefault();
       if (draggedIdx === null || draggedIdx === targetIdx) return;
-
       const todos = JSON.parse(localStorage.getItem(`daily_detail_${currentDetailDateStr}`)) || [];
       const movedItem = todos.splice(draggedIdx, 1)[0];
       todos.splice(targetIdx, 0, movedItem);
-
       draggedIdx = null;
       syncSave(`daily_detail_${currentDetailDateStr}`, todos);
       renderDetailTodoList();
     }
-
-    function handleDragEnd(e) {
-      e.currentTarget.classList.remove('dragging');
-      draggedIdx = null;
-    }
+    function handleDragEnd(e) { e.currentTarget.classList.remove('dragging'); draggedIdx = null; }
 
     function addDetailTodo() {
       const inputEl = document.getElementById('new-todo-input');
       const text = inputEl.value.trim();
       if (!text) return;
-
       const todos = JSON.parse(localStorage.getItem(`daily_detail_${currentDetailDateStr}`)) || [];
       todos.push({ text: text, done: false, color: 'black' });
-
       syncSave(`daily_detail_${currentDetailDateStr}`, todos);
       inputEl.value = '';
       renderDetailTodoList();
@@ -1069,45 +1021,292 @@
       const todos = JSON.parse(localStorage.getItem(`daily_detail_${currentDetailDateStr}`)) || [];
       if (todos[idx]) {
         const currentColor = todos[idx].color || 'black';
-        let nextColor = 'red';
-        if (currentColor === 'red') nextColor = 'blue';
-        else if (currentColor === 'blue') nextColor = 'black';
-
+        let nextColor = currentColor === 'red' ? 'blue' : (currentColor === 'blue' ? 'black' : 'red');
         todos[idx].color = nextColor;
         syncSave(`daily_detail_${currentDetailDateStr}`, todos);
         renderDetailTodoList();
       }
     }
 
-    function startEditTodo(idx) {
-      editingTodoIdx = idx;
-      renderDetailTodoList();
-    }
-
+    function startEditTodo(idx) { editingTodoIdx = idx; renderDetailTodoList(); }
     function saveEditedTodo(idx) {
       if (editingTodoIdx !== idx) return;
       const editInput = document.getElementById(`edit-todo-input-${idx}`);
       if (!editInput) return;
-
       const newText = editInput.value.trim();
       const todos = JSON.parse(localStorage.getItem(`daily_detail_${currentDetailDateStr}`)) || [];
-
       if (todos[idx]) {
-        if (newText) {
-          todos[idx].text = newText;
-        }
+        if (newText) todos[idx].text = newText;
         editingTodoIdx = -1;
         syncSave(`daily_detail_${currentDetailDateStr}`, todos);
         renderDetailTodoList();
       }
     }
-
     function deleteDetailTodo(idx) {
       const todos = JSON.parse(localStorage.getItem(`daily_detail_${currentDetailDateStr}`)) || [];
       todos.splice(idx, 1);
       editingTodoIdx = -1;
       syncSave(`daily_detail_${currentDetailDateStr}`, todos);
       renderDetailTodoList();
+    }
+
+    /* --- 4페이지 성적 분석 모듈 --- */
+    function openScoreModal() {
+      document.getElementById('score-modal').style.display = 'flex';
+      loadScoreRoundData();
+    }
+    function closeScoreModal() {
+      document.getElementById('score-modal').style.display = 'none';
+      renderScoreAnalysis();
+    }
+
+    function loadScoreRoundData() {
+      const round = document.getElementById('score-round-select').value;
+      const roundData = JSON.parse(localStorage.getItem(`mock_exam_score_${round}`)) || {};
+      const scores = roundData.scores || {};
+      const feedback = roundData.feedback || '';
+      const schoolPct = roundData.schoolPct !== undefined ? roundData.schoolPct : '';
+      const natPct = roundData.natPct !== undefined ? roundData.natPct : '';
+
+      document.getElementById('score-school-pct').value = schoolPct;
+      document.getElementById('score-nat-pct').value = natPct;
+      document.getElementById('score-feedback-input').value = feedback;
+
+      const grid = document.getElementById('score-inputs-grid');
+      grid.innerHTML = '';
+
+      subjectList.forEach(sub => {
+        const val = scores[sub] !== undefined ? scores[sub] : '';
+        const max = subjectMaxScores[sub];
+        grid.innerHTML += `
+          <div style="background:#fff9f9; padding:8px; border-radius:6px; border:1px solid var(--border-color); text-align:center;">
+            <label style="font-size:11px; font-weight:bold; display:block; margin-bottom:4px; color:var(--primary-text);">${sub} (${max}점)</label>
+            <input type="number" class="score-input" id="score-input-${sub}" value="${val}" min="0" max="${max}" placeholder="0">
+          </div>
+        `;
+      });
+    }
+
+    function saveScoreRoundData() {
+      const round = document.getElementById('score-round-select').value;
+      const scores = {};
+      subjectList.forEach(sub => {
+        const inputVal = document.getElementById(`score-input-${sub}`).value;
+        scores[sub] = inputVal === '' ? 0 : Number(inputVal);
+      });
+      const feedback = document.getElementById('score-feedback-input').value.trim();
+      const schoolPct = document.getElementById('score-school-pct').value !== '' ? Number(document.getElementById('score-school-pct').value) : '';
+      const natPct = document.getElementById('score-nat-pct').value !== '' ? Number(document.getElementById('score-nat-pct').value) : '';
+
+      const roundData = { scores, feedback, schoolPct, natPct };
+      syncSave(`mock_exam_score_${round}`, roundData);
+      alert(`${round}회차 성적 및 피드백이 저장되었습니다!`);
+      closeScoreModal();
+    }
+
+    function renderScoreAnalysis() {
+      const container = document.getElementById('score-analysis-container');
+      const chartContainer = document.getElementById('score-chart-container');
+      const aiAdviceContainer = document.getElementById('ai-advice-section');
+      if (!container) return;
+
+      let allData = [];
+      let totalMaxScore = 340; // 총점 만점 340점
+
+      for (let r = 1; r <= 8; r++) {
+        const rawData = JSON.parse(localStorage.getItem(`mock_exam_score_${r}`));
+        if (rawData) {
+          const scores = rawData.scores || rawData;
+          let totalScore = 0;
+          let failGroups = [];
+          let groupScores = {};
+
+          // 6개 Group별 점수 및 과락 판단 (이미지 규정: 40% 미만 시 과락)
+          Object.keys(examGroups).forEach(gKey => {
+            const gInfo = examGroups[gKey];
+            let gScore = 0;
+            gInfo.subs.forEach(sub => {
+              gScore += (scores[sub] || 0);
+            });
+            groupScores[gKey] = { score: gScore, max: gInfo.max, minPass: gInfo.minPass };
+            if (gScore < gInfo.minPass) {
+              failGroups.push(`${gKey}(${gInfo.label})`);
+            }
+          });
+
+          subjectList.forEach(sub => {
+            totalScore += (scores[sub] || 0);
+          });
+
+          allData.push({
+            round: r,
+            scores: scores,
+            totalScore: totalScore,
+            failGroups: failGroups,
+            groupScores: groupScores,
+            feedback: rawData.feedback || '',
+            schoolPct: rawData.schoolPct !== undefined ? rawData.schoolPct : '-',
+            natPct: rawData.natPct !== undefined ? rawData.natPct : '-'
+          });
+        }
+      }
+
+      // 1. AI 조언 생성
+      if (aiAdviceContainer) {
+        if (allData.length === 0) {
+          aiAdviceContainer.innerHTML = `
+            <div class="ai-advice-card">
+              <div class="ai-advice-title">🤖 AI 맞춤형 학습 피드백</div>
+              <div class="ai-advice-body">아직 입력된 모의고사 성적이 없습니다. 성적을 입력하시면 총점 평락(204점) 및 6개 Group별 과락 여부를 정밀 분석하여 조언을 제공해 드립니다!</div>
+            </div>
+          `;
+        } else {
+          const latest = allData[allData.length - 1];
+          let adviceHtml = `<b>[${latest.round}회차 성적 분석 리포트]</b> 총점 ${latest.totalScore}점 / 340점 (평락 기준: 204점 이상). `;
+          
+          const isPyeonglak = latest.totalScore < 204;
+          if (isPyeonglak) {
+            adviceHtml += `<br>⚠️ <span style="color:#c0392b; font-weight:bold;">총점 평락 위험 (${latest.totalScore}점 / 204점 미만)</span>입니다. 전반적인 핵심 개념 회독과 실전 문제 풀이 속도를 높여야 합니다.`;
+          } else {
+            adviceHtml += `<br>🎉 총점 평락 기준(204점)을 안정적으로 통과하셨습니다! `;
+          }
+
+          if (latest.failGroups.length > 0) {
+            adviceHtml += `<br>🚨 <span style="color:#c0392b; font-weight:bold;">과락 발생 그룹 (${latest.failGroups.join(', ')})</span>이 있습니다! 해당 그룹에 속한 과목들을 집중 보완해 주세요.`;
+          } else {
+            adviceHtml += `<br>🛡️ 6개 Group 모두 40% 이상을 득점하여 과락 위험 없이 안정적으로 방어 중입니다.`;
+          }
+
+          if (allData.length > 1) {
+            const prev = allData[allData.length - 2];
+            const diff = latest.totalScore - prev.totalScore;
+            if (diff > 0) {
+              adviceHtml += `<br>📈 이전 회차 대비 총점이 <b>+${diff}점</b> 상승했습니다! 이 기세를 몰아 끝까지 달려봐요 화이팅!`;
+            } else if (diff < 0) {
+              adviceHtml += `<br>📉 이전 회차 대비 총점이 ${diff}점 변동되었습니다. 어느 파트에서 실수가 있었는지 오답 노트를 통해 점검해 봅시다.`;
+            }
+          }
+
+          aiAdviceContainer.innerHTML = `
+            <div class="ai-advice-card">
+              <div class="ai-advice-title">🤖 은서님을 위한 AI 학습 조언 & 분석</div>
+              <div class="ai-advice-body">${adviceHtml}</div>
+            </div>
+          `;
+        }
+      }
+
+      // 2. 총점 추이 SVG 그래프 생성 (기준선 204점 표시)
+      if (chartContainer) {
+        if (allData.length === 0) {
+          chartContainer.innerHTML = `<span style="color:#999; font-size:13px;">등록된 성적 데이터가 없습니다.</span>`;
+        } else {
+          let svgWidth = 600, svgHeight = 150;
+          let points = [];
+          allData.forEach((d, idx) => {
+            let x = 50 + (idx * (500 / Math.max(1, allData.length - 1)));
+            let y = 130 - (d.totalScore / totalMaxScore) * 110;
+            points.push({x, y, round: d.round, score: d.totalScore});
+          });
+
+          let polylinePoints = points.map(p => `${p.x},${p.y}`).join(' ');
+          let passLineY = 130 - (204 / totalMaxScore) * 110;
+          let circlesHtml = points.map(p => `<circle cx="${p.x}" cy="${p.y}" r="5" fill="#f8afaf" stroke="#5a3d3d" stroke-width="2"/><text x="${p.x}" y="${p.y - 10}" text-anchor="middle" font-size="11" font-weight="bold" fill="#5a3d3d">${p.score}점</text><text x="${p.x}" y="145" text-anchor="middle" font-size="10" fill="#666">${p.round}회차</text>`).join('');
+
+          chartContainer.innerHTML = `
+            <svg viewBox="0 0 ${svgWidth} ${svgHeight}" style="width:100%; height:100%; overflow:visible;">
+              <line x1="40" y1="130" x2="560" y2="130" stroke="#f2d6d6" stroke-width="1"/>
+              <line x1="40" y1="${passLineY}" x2="560" y2="${passLineY}" stroke="#e74c3c" stroke-dasharray="4" stroke-width="1.5"/>
+              <text x="45" y="${passLineY - 5}" font-size="10" fill="#e74c3c" font-weight="bold">평락 기준선 (204점)</text>
+              <polyline fill="none" stroke="#f8afaf" stroke-width="3" points="${polylinePoints}"/>
+              ${circlesHtml}
+            </svg>
+          `;
+        }
+      }
+
+      // 3. 성적 테이블 렌더링 (각 그룹별 합계 열 포함)
+      let html = `
+        <table class="score-table">
+          <thead>
+            <tr>
+              <th rowspan="2" style="white-space:nowrap;">회차</th>
+              <th colspan="8" class="th-group">Group 1 (내과1+2)<br><span style="font-weight:normal; color:#666;">만점 112점 (과락 <45)</span></th>
+              <th colspan="2" class="th-group">Group 2<br><span style="font-weight:normal; color:#666;">만점 20 (과락 <8)</span></th>
+              <th colspan="2" class="th-group">Group 3<br><span style="font-weight:normal; color:#666;">만점 48 (과락 <20)</span></th>
+              <th colspan="4" class="th-group">Group 4 (외과·신정·안이비)<br><span style="font-weight:normal; color:#666;">만점 48 (과락 <20)</span></th>
+              <th colspan="3" class="th-group">Group 5 (부인·소아)<br><span style="font-weight:normal; color:#666;">만점 56 (과락 <23)</span></th>
+              <th colspan="4" class="th-group">Group 6 (생리·예방·본초)<br><span style="font-weight:normal; color:#666;">만점 56 (과락 <23)</span></th>
+              <th rowspan="2" style="white-space:nowrap;">총점<br><span style="font-size:10px; font-weight:normal;">(340점)</span></th>
+              <th rowspan="2" style="white-space:nowrap;">교내<br>백분율</th>
+              <th rowspan="2" style="white-space:nowrap;">전국<br>백분율</th>
+              <th rowspan="2" style="white-space:nowrap;">합격 여부</th>
+              <th rowspan="2" style="width: 150px; white-space:nowrap;">피드백 / 메모</th>
+            </tr>
+            <tr>
+              <!-- Group 1: 7과목 + 1합계 -->
+              <th class="th-sub">간<br>(16)</th><th class="th-sub">심<br>(16)</th><th class="th-sub">비<br>(16)</th><th class="th-sub">폐<br>(16)</th><th class="th-sub">신<br>(16)</th><th class="th-sub">상한<br>(16)</th><th class="th-sub">사상<br>(16)</th><th class="th-sub" style="background:#fff5f5; font-weight:bold;">G1합계</th>
+              <!-- Group 2: 1과목 + 1합계 -->
+              <th class="th-sub">법규<br>(20)</th><th class="th-sub" style="background:#fff5f5; font-weight:bold;">G2합계</th>
+              <!-- Group 3: 1과목 + 1합계 -->
+              <th class="th-sub">침구<br>(48)</th><th class="th-sub" style="background:#fff5f5; font-weight:bold;">G3합계</th>
+              <!-- Group 4: 3과목 + 1합계 -->
+              <th class="th-sub">외과<br>(16)</th><th class="th-sub">신정<br>(16)</th><th class="th-sub">안이비<br>(16)</th><th class="th-sub" style="background:#fff5f5; font-weight:bold;">G4합계</th>
+              <!-- Group 5: 2과목 + 1합계 -->
+              <th class="th-sub">부인<br>(32)</th><th class="th-sub">소아<br>(24)</th><th class="th-sub" style="background:#fff5f5; font-weight:bold;">G5합계</th>
+              <!-- Group 6: 3과목 + 1합계 -->
+              <th class="th-sub">생리<br>(16)</th><th class="th-sub">예방<br>(24)</th><th class="th-sub">본초<br>(16)</th><th class="th-sub" style="background:#fff5f5; font-weight:bold;">G6합계</th>
+            </tr>
+          </thead>
+          <tbody>
+      `;
+
+      if (allData.length === 0) {
+        html += `<tr><td colspan="28" style="padding:30px; color:#888;">입력된 모의고사 성적이 없습니다. 상단 버튼을 눌러 성적을 추가해 보세요!</td></tr>`;
+      } else {
+        allData.forEach(d => {
+          const isPyeonglak = d.totalScore < 204;
+          const isGwarak = d.failGroups.length > 0;
+          const passStatus = (!isPyeonglak && !isGwarak);
+
+          html += `
+            <tr>
+              <td style="font-weight:bold; white-space:nowrap;">${d.round}회차</td>
+          `;
+
+          // 각 그룹별 과목 점수 출력 및 그룹 합계 컬럼 추가 (과락 시 빨간색 표시)
+          Object.keys(examGroups).forEach(gKey => {
+            const gInfo = examGroups[gKey];
+            gInfo.subs.forEach(sub => {
+              const s = d.scores[sub] || 0;
+              html += `<td>${s}</td>`;
+            });
+            const gScore = d.groupScores[gKey].score;
+            const isGroupGwarak = gScore < gInfo.minPass;
+            html += `<td style="font-weight:bold; background:#fff9f9; color:${isGroupGwarak ? '#c0392b' : '#333'};">${gScore}</td>`;
+          });
+
+          let failDetails = [];
+          if (isPyeonglak) failDetails.push("총점 평락(<204점)");
+          if (isGwarak) {
+            failDetails.push(`과락(${d.failGroups.join(', ')})`);
+          }
+
+          html += `
+              <td style="font-weight:bold; color:${passStatus ? '#27ae60' : '#c0392b'}; white-space:nowrap;">${d.totalScore}점</td>
+              <td style="white-space:nowrap;">${d.schoolPct !== '-' ? d.schoolPct + '%' : '-'}</td>
+              <td style="white-space:nowrap;">${d.natPct !== '-' ? d.natPct + '%' : '-'}</td>
+              <td>
+                ${passStatus ? '<span class="badge-pass">합격</span>' : `<span class="badge-fail">불합격<br><span style="font-size:9px; font-weight:normal;">(${failDetails.join(', ')})</span></span>`}
+              </td>
+              <td class="feedback-text">${d.feedback ? d.feedback : '<span style="color:#ccc;">-</span>'}</td>
+            </tr>
+          `;
+        });
+      }
+
+      html += `</tbody></table>`;
+      container.innerHTML = html;
     }
 
     window.onload = function() {
@@ -1129,13 +1328,16 @@
         const data = snapshot.val();
         if (data) {
           Object.keys(data).forEach(key => {
-            if (key.startsWith('todos_v2_') || key.startsWith('daily_detail_')) {
+            if (key.startsWith('todos_v2_') || key.startsWith('daily_detail_') || key.startsWith('mock_exam_score_')) {
               localStorage.setItem(key, typeof data[key] === 'object' ? JSON.stringify(data[key]) : data[key]);
             }
           });
         }
         renderCalendar();
         renderDetailTodoList();
+        if (document.getElementById('tab4').classList.contains('active')) {
+          renderScoreAnalysis();
+        }
       });
 
       document.addEventListener('keydown', function(event) {
